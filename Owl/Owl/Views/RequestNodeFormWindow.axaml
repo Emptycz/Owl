@@ -1,0 +1,24 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Owl.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="150"
+        MinWidth="200" MinHeight="150"
+        Width="600" Height="150"
+        x:Class="Owl.Views.RequestNodeFormWindow"
+        x:DataType="vm:RequestNodeFormWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Owl">
+    <StackPanel Orientation="Vertical">
+        <Grid ColumnDefinitions="*, 100" RowDefinitions="*, *" Margin="20">
+            <DockPanel Grid.ColumnSpan="2" Margin="0 10">
+                <ColorPicker Width="100" Height="50" />
+                <TextBox Watermark="Name of the request" Text="{Binding CurrentNode.Name, Mode=TwoWay}" />
+            </DockPanel>
+            <Button Command="{Binding UpdateSubmitCommand}" Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Content="Save" Width="100" />
+        </Grid>
+    </StackPanel>
+</Window>

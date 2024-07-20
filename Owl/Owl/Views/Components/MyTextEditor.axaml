@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Owl.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Owl.Views.Components.MyTextEditor"
+             x:DataType="vm:TextEditorViewModel">
+    <ScrollViewer>  
+        <Grid ColumnDefinitions="Auto,*">
+            <ListBox Grid.Column="0" Name="LinesBox" SelectionMode="Single"
+                     ItemsSource="{Binding LineNumbers}"
+                     SelectedItem="{Binding SelectedLineNumber, Mode=TwoWay}"
+                     SelectionChanged="ListBox_SelectionChanged"
+                                    Padding="0 12"
+                     Width="50">
+                <ListBox.Styles>
+                    <Style Selector="ListBoxItem">
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="HorizontalAlignment" Value="Left" />
+                        <Setter Property="VerticalContentAlignment" Value="Top" />
+                        <Setter Property="Padding" Value="10 0" />
+                        <Setter Property="Height" Value="20" />
+                        <Setter Property="Width" Value="50" />
+                    </Style>
+                </ListBox.Styles>
+            </ListBox>
+            <TextBox Grid.Column="1"
+                     Name="TextBox" HorizontalAlignment="Stretch" FontSize="14" Padding="10" LineHeight="20"
+                     AcceptsReturn="True"
+                     CaretIndex="{Binding CaretIndex, Mode=TwoWay}"
+                     TextWrapping="Wrap" Text="{Binding TextContent, Mode=TwoWay}" />
+        </Grid>
+    </ScrollViewer>
+</UserControl>
