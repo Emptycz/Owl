@@ -22,7 +22,8 @@
             <Panel>
                 <Grid ColumnDefinitions="*" RowDefinitions="30, *">
                     <StackPanel Orientation="Horizontal">
-                        <Button Command="{Binding RefreshDataCommand}" CommandParameter="{Binding SelectedRequest.Id}" Content="🙂‍↔️" />
+                        <Button Command="{Binding RefreshDataCommand}" CommandParameter="{Binding SelectedRequest.Id}"
+                                Content="🙂‍↔️" />
                         <Button Command="{Binding AddNodeCommand}" Background="Red"
                                 Content="New node!" />
                     </StackPanel>
@@ -45,11 +46,13 @@
                                     </Border.ContextMenu>
                                     <StackPanel Orientation="Horizontal">
                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                Height="30"
-                                                Background="Chocolate" CornerRadius="10">
+                                                Height="20" Width="40"
+                                                Background="{Binding TagColor}" CornerRadius="5">
                                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
                                                        Padding="2"
-                                                       Text="{Binding Method}" Margin="10 0" />
+                                                       FontSize="8"
+                                                       Foreground="Azure"
+                                                       Text="{Binding Method}" />
                                         </Border>
                                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
                                                    Text="{Binding Name}" Padding="5">

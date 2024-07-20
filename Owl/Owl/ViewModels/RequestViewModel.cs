@@ -97,21 +97,15 @@ public partial class RequestViewModel : ViewModelBase
     [RelayCommand]
     private void SelectedRequestPropertyHasChanged()
     {
-        Console.WriteLine("SelectedRequestPropertyHasChanged, {0}", SelectedRequest?.Method);
         if (SelectedRequest == null) return;
 
         _repository.Update(SelectedRequest);
         
         var request = Requests.FirstOrDefault(x => x.Id == SelectedRequest.Id);
-        Console.WriteLine("Found request with id: {0} and method: {1}", request?.Id, request?.Method);
         if (request is null) return;
         
         request.Method = SelectedRequest.Method;
-        
-        var t = Requests.FirstOrDefault(x => x.Id == SelectedRequest.Id);
-        Console.WriteLine("Found request with id: {0} and method: {1}", t?.Id, t?.Method);
-
-    }
+        }
 
     [RelayCommand]
     private void SetBody(string value)
