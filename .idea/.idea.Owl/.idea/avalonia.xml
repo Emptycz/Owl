@@ -4,6 +4,10 @@
     <option name="projectPerEditor">
       <map>
         <entry key="Owl/Owl/App.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Components/BodyFormView.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Components/MyTextEditor.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Components/TabControlMenu.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Components/TabControlMenuItem.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/MainView.axaml" value="Owl/Owl.Desktop/Owl.Desktop.csproj" />
         <entry key="Owl/Owl/Views/MainWindow.axaml" value="Owl/Owl.Desktop/Owl.Desktop.csproj" />
         <entry key="Owl/Owl/Views/RequestNodeFormWindow.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />

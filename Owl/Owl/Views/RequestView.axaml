@@ -7,6 +7,8 @@
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:behaviors="clr-namespace:Owl.Behaviors"
              xmlns:converters="clr-namespace:Owl.Converters"
+             xmlns:components="clr-namespace:Owl.Views.Components"
+             xmlns:avaloniaObjects="clr-namespace:Owl.AvaloniaObjects"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Owl.Views.RequestView"
              x:DataType="vm:RequestViewModel"
@@ -91,6 +93,42 @@
             </Button>
         </Grid>
         <!-- /RequestPanel -->
+        <!-- RequestContent -->
+        <Border CornerRadius="20" Grid.Row="1" Grid.Column="2" Background="#362F44">
+            <Grid ColumnDefinitions="10, *, 10" RowDefinitions="10, 50, 10, *">
+                <Border Padding="10 5" Grid.Column="1" Grid.Row="1" Background="#27232E" CornerRadius="15">
+                    <components:TabControlMenu>
+                        <components:TabControlMenu.MenuItems>
+                            <avaloniaObjects:TabControlMenuItem Key="Item1" Text="Item 1" />
+                            <avaloniaObjects:TabControlMenuItem Key="Item2" Text="Item 2" />
+                        </components:TabControlMenu.MenuItems>
+                    </components:TabControlMenu>
+                </Border>
+                <Border Padding="5" Grid.Column="1" Grid.Row="3" Background="#27232E" CornerRadius="15 15 20 20">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <avaloniaEdit:TextEditor
+                            Name="Editor"
+                            FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
+                            Margin="10"
+                            ShowLineNumbers="True"
+                            HorizontalScrollBarVisibility="Auto"
+                            VerticalScrollBarVisibility="Visible"
+                            FontWeight="Light"
+                            IsReadOnly="True"
+                            FontSize="14">
+                            <i:Interaction.Behaviors>
+                                <behaviors:DocumentTextBindingBehavior
+                                    Text="{Binding SelectedRequest.Body, Mode=TwoWay}">
+                                </behaviors:DocumentTextBindingBehavior>
+                            </i:Interaction.Behaviors>
+                        </avaloniaEdit:TextEditor>
+                    </ScrollViewer>
+                </Border>
+                <!-- <ContentControl Grid.Row="1" Content="" /> -->
+            </Grid>
+        </Border>
+        <GridSplitter Background="#27232E" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" ResizeDirection="Columns"
+                      ResizeBehavior="BasedOnAlignment" />
         <!-- ResponsePanel -->
         <StackPanel Grid.Row="0" Grid.Column="4" Orientation="Horizontal">
             <TextBlock FontSize="16" Margin="10" TextWrapping="Wrap" Text="{Binding ResponseStatus}" />
@@ -103,29 +141,6 @@
             </TextBlock>
         </StackPanel>
         <!-- /ResponsePanel -->
-        <!-- RequestContent -->
-        <Border CornerRadius="20" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Background="#362F44">
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <avaloniaEdit:TextEditor
-                    Name="Editor"
-                    FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
-                    Margin="10"
-                    ShowLineNumbers="True"
-                    HorizontalScrollBarVisibility="Auto"
-                    VerticalScrollBarVisibility="Visible"
-                    FontWeight="Light"
-                    IsReadOnly="True"
-                    FontSize="14">
-                    <i:Interaction.Behaviors>
-                        <behaviors:DocumentTextBindingBehavior
-                            Text="{Binding SelectedRequest.Body, Mode=TwoWay}">
-                        </behaviors:DocumentTextBindingBehavior>
-                    </i:Interaction.Behaviors>
-                </avaloniaEdit:TextEditor>
-            </ScrollViewer>
-        </Border>
-        <GridSplitter Background="#27232E" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" ResizeDirection="Columns"
-                      ResizeBehavior="BasedOnAlignment" />
         <!-- ResponseEditor -->
         <Grid Grid.Row="1" Grid.Column="4" Background="#362F44">
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
