@@ -4,10 +4,10 @@
     <option name="projectPerEditor">
       <map>
         <entry key="Owl/Owl/App.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
-        <entry key="Owl/Owl/Views/MainView.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
-        <entry key="Owl/Owl/Views/MainWindow.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/MainView.axaml" value="Owl/Owl.Desktop/Owl.Desktop.csproj" />
+        <entry key="Owl/Owl/Views/MainWindow.axaml" value="Owl/Owl.Desktop/Owl.Desktop.csproj" />
         <entry key="Owl/Owl/Views/RequestNodeFormWindow.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
-        <entry key="Owl/Owl/Views/RequestView.axaml" value="Owl/Owl.Desktop/Owl.Desktop.csproj" />
+        <entry key="Owl/Owl/Views/RequestView.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
       </map>
     </option>
   </component>
