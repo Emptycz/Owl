@@ -21,7 +21,7 @@
                     <Button
                         Click="SelectItemClick"
                         CommandParameter="{Binding}"
-                        Background="Transparent" BorderThickness="0">
+                        Background="Red" BorderThickness="0">
                         <Button.Template>
                             <ControlTemplate>
                                 <Border Width="100" Height="35" CornerRadius="10" Margin="5 0"

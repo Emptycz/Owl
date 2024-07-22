@@ -31,6 +31,8 @@ public partial class RequestViewModel : ViewModelBase
     [ObservableProperty] private string _response = string.Empty;
     [ObservableProperty] private HttpStatusCode? _responseStatus;
     [ObservableProperty] private float _responseTime;
+    
+    [ObservableProperty] private string _selectedTab;
 
     private readonly HttpClientService _httpClientService = new();
     private readonly IRequestNodeRepository _repository;

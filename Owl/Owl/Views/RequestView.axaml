@@ -97,12 +97,25 @@
         <Border CornerRadius="20" Grid.Row="1" Grid.Column="2" Background="#362F44">
             <Grid ColumnDefinitions="10, *, 10" RowDefinitions="10, 50, 10, *">
                 <Border Padding="10 5" Grid.Column="1" Grid.Row="1" Background="#27232E" CornerRadius="15">
-                    <components:TabControlMenu>
-                        <components:TabControlMenu.MenuItems>
-                            <avaloniaObjects:TabControlMenuItem Key="Item1" Text="Item 1" />
-                            <avaloniaObjects:TabControlMenuItem Key="Item2" Text="Item 2" />
-                        </components:TabControlMenu.MenuItems>
-                    </components:TabControlMenu>
+                    <TabControl x:Name="TabHeaders">
+                        <TabControl.Styles>
+                            <Style Selector="TabItem">
+                                <Setter Property="Padding" Value="5" />
+                                <Setter Property="FontSize" Value="12" />
+                                <Setter Property="Background" Value="Red" />
+                                <Setter Property="CornerRadius" Value="15" />
+                                <Setter Property="Margin" Value="10 0" />
+                            </Style>
+                        </TabControl.Styles>
+                        <TabItem Header="Params" />
+                        <TabItem Header="Body" />
+                        <TabItem Header="Auth" />
+                        <TabItem Header="Headers" />
+                    </TabControl>
+                </Border>
+                <Border>
+                    <!-- <components:TabControlContent IsSelected={}> -->
+                    <!-- </components:TabControlContent> -->
                 </Border>
                 <Border Padding="5" Grid.Column="1" Grid.Row="3" Background="#27232E" CornerRadius="15 15 20 20">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
