@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -31,8 +32,17 @@ public partial class RequestViewModel : ViewModelBase
     [ObservableProperty] private string _response = string.Empty;
     [ObservableProperty] private HttpStatusCode? _responseStatus;
     [ObservableProperty] private float _responseTime;
-    
-    [ObservableProperty] private string _selectedTab;
+
+    private int _selectedTab;
+    public int SelectedTab
+    {
+        get => _selectedTab;
+        set
+        {
+            SetProperty(ref _selectedTab, value);
+            Console.WriteLine("TAB HAS BEEN SCHANGED: " + value);
+        }
+    }
 
     private readonly HttpClientService _httpClientService = new();
     private readonly IRequestNodeRepository _repository;
@@ -43,8 +53,8 @@ public partial class RequestViewModel : ViewModelBase
         _repository = nodeRepository;
         _requests = new ObservableCollection<RequestNode>(_repository.GetAll());
         _selectedRequest = _requests.FirstOrDefault() ?? new RequestNode { Name = "New Request" };
-        _selectedRequest.Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } };
     }
+
 
     // public void LoadHeadersIntoCollection()
     // {
@@ -54,6 +64,12 @@ public partial class RequestViewModel : ViewModelBase
     //     {
     //         HeadersCollection.Add(header);
     //     }
+    // }
+
+
+    // partial void OnSelectedTabChanged(int value)
+    // {
+    //     Console.WriteLine(value);
     // }
 
     [RelayCommand]
@@ -67,17 +83,8 @@ public partial class RequestViewModel : ViewModelBase
     [RelayCommand]
     private void AddHeader()
     {
-        var newHeader = new KeyValuePair<string, string>("NewKey", "NewValue");
         if (SelectedRequest is null) return;
-        SelectedRequest.Headers ??= new Dictionary<string, string>();
-
-        if (SelectedRequest.Headers.ContainsKey(newHeader.Key))
-        {
-            Console.WriteLine("Header already exists! {0}", newHeader.Key);
-            return;
-        }
-
-        Console.WriteLine("Adding header: {0}", newHeader.Key);
+        SelectedRequest.Headers.Add(new RequestHeader());
         // SelectedRequest.Headers.Add(newHeader.Key, newHeader.Value);
         // HeadersCollection.Add(newHeader);
     }

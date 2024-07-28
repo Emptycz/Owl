@@ -18,11 +18,11 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Panel>
-            <ListBox Padding="10">
-                <ListBoxItem>Item 1</ListBoxItem>
-                <ListBoxItem>Item 2</ListBoxItem>
-                <ListBoxItem>Item 3</ListBoxItem>
-            </ListBox>
+            <TabControl SelectionChanged="SelectingItemsControl_OnSelectionChanged" SelectedItem="{Binding Item}" Padding="10">
+                <TabItem Header="Item 1"/>
+                <TabItem Header="Item 2"/>
+                <TabItem Header="Item 3"/>
+            </TabControl>
         </Panel>
         <component:MyTextEditor Grid.Column="1" />
     </Grid>

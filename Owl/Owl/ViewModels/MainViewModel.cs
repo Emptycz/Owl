@@ -1,6 +1,14 @@
-﻿namespace Owl.ViewModels;
+﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 
-public class MainViewModel : ViewModelBase
+namespace Owl.ViewModels;
+
+public partial class MainViewModel : ViewModelBase
 {
-    
+    [ObservableProperty] private object? _item;
+
+    partial void OnItemChanged(object? value)
+    {
+        Console.WriteLine(value);
+    }
 }

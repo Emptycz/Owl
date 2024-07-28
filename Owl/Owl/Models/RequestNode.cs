@@ -24,7 +24,7 @@ public class RequestNode : INotifyPropertyChanged
 
     public string? Url { get; set; }
     public string Body { get; set; } = string.Empty;
-    public Dictionary<string, string> Headers { get; set; } = new();
+    public List<RequestHeader> Headers { get; set; } = [];
     public HttpStatusCode? StatusCode { get; set; }
 
     public IEnumerable<RequestNode> Children { get; set; } = new List<RequestNode>();
@@ -51,6 +51,8 @@ public class RequestNode : INotifyPropertyChanged
             OnPropertyChanged(nameof(Method));
         }
     }
+
+    public string Response { get; set; }
 
     public RequestNode()
     {

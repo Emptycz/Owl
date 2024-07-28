@@ -1,7 +1,6 @@
     <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:Owl"
-             xmlns:sty="using:FluentAvalonia.Styling"
              x:Class="Owl.App"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
@@ -11,8 +10,15 @@
     </Application.DataTemplates>
 
     <Application.Styles>
-        <FluentTheme />
-        <!-- <sty:FluentAvaloniaTheme PreferUserAccentColor="True" /> -->
         <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+        <FluentTheme>
+            <FluentTheme.Palettes>
+                <!-- Palette for Light theme variant -->
+                <ColorPaletteResources x:Key="Light" Accent="Green" RegionColor="White" ErrorText="Red" />
+                <!-- Palette for Dark theme variant -->
+                <ColorPaletteResources x:Key="Dark" Accent="#362F44" RegionColor="#27232E" ErrorText="Yellow" />
+            </FluentTheme.Palettes>
+        </FluentTheme>
+        <!-- <sty:FluentAvaloniaTheme PreferUserAccentColor="True" /> -->
     </Application.Styles>
 </Application>          

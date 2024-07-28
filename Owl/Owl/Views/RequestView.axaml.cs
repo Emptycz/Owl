@@ -129,4 +129,9 @@ public partial class RequestView : UserControl
 
         // viewModel.RemoveHeaderCommand.Execute(headerKey);
     }
+
+    private void TabHeaders_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        Console.WriteLine("SDADSADSADasd");
+    }
 }
