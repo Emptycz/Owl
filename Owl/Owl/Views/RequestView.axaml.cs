@@ -133,5 +133,6 @@ public partial class RequestView : UserControl
     private void TabHeaders_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         Console.WriteLine("SDADSADSADasd");
+        throw new NotImplementedException();
     }
 }

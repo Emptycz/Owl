@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Owl.ViewModels"
-             xmlns:component="clr-namespace:Owl.Views.Components;assembly=Owl"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Owl.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -12,18 +11,9 @@
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainViewModel />
     </Design.DataContext>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Panel>
-            <TabControl SelectionChanged="SelectingItemsControl_OnSelectionChanged" SelectedItem="{Binding Item}" Padding="10">
-                <TabItem Header="Item 1"/>
-                <TabItem Header="Item 2"/>
-                <TabItem Header="Item 3"/>
-            </TabControl>
-        </Panel>
-        <component:MyTextEditor Grid.Column="1" />
-    </Grid>
+    <TabStrip SelectionChanged="SelectingItemsControl_OnSelectionChanged" SelectedItem="{Binding Item, Mode=TwoWay}" Padding="10">
+        <TabStripItem> Item 1 </TabStripItem>
+        <TabStripItem> Item 2 </TabStripItem>
+        <TabStripItem> Item 3 </TabStripItem>
+    </TabStrip>
 </UserControl>

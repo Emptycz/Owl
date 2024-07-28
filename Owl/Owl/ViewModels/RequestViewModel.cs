@@ -33,16 +33,7 @@ public partial class RequestViewModel : ViewModelBase
     [ObservableProperty] private HttpStatusCode? _responseStatus;
     [ObservableProperty] private float _responseTime;
 
-    private int _selectedTab;
-    public int SelectedTab
-    {
-        get => _selectedTab;
-        set
-        {
-            SetProperty(ref _selectedTab, value);
-            Console.WriteLine("TAB HAS BEEN SCHANGED: " + value);
-        }
-    }
+    [ObservableProperty] private int _selectedTabIndex;
 
     private readonly HttpClientService _httpClientService = new();
     private readonly IRequestNodeRepository _repository;
@@ -55,7 +46,6 @@ public partial class RequestViewModel : ViewModelBase
         _selectedRequest = _requests.FirstOrDefault() ?? new RequestNode { Name = "New Request" };
     }
 
-
     // public void LoadHeadersIntoCollection()
     // {
     //     HeadersCollection.Clear();
@@ -67,10 +57,10 @@ public partial class RequestViewModel : ViewModelBase
     // }
 
 
-    // partial void OnSelectedTabChanged(int value)
-    // {
-    //     Console.WriteLine(value);
-    // }
+    partial void OnSelectedTabIndexChanged(int value)
+    {
+        Console.WriteLine("Tab selection just changed {0}!", value);
+    }
 
     [RelayCommand]
     private void RefreshData(Guid? keepSelected)
