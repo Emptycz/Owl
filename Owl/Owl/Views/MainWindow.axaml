@@ -7,6 +7,6 @@
         x:Class="Owl.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Owl">
-        <!-- <ContentControl x:Name="RequestViewHost" /> -->
-        <views:MainView />
+        <ContentControl x:Name="RequestViewHost" />
+        <!-- <views:MainView /> -->
 </Window>
