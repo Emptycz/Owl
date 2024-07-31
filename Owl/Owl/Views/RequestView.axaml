@@ -27,6 +27,7 @@
                                 Content="🙂‍↔️" />
                         <Button Command="{Binding AddNodeCommand}" Background="Red"
                                 Content="New node!" />
+                        <TextBox Text="{Binding Search}" Watermark="Search..." />
                     </StackPanel>
                     <Line />
                 </StackPanel>
@@ -103,12 +104,12 @@
                                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                                 <Setter Property="VerticalContentAlignment" Value="Center" />
                                 <Setter Property="FontSize" Value="12" />
-                                <Setter Property="Background" Value="#27232E"/>
+                                <Setter Property="Background" Value="#27232E" />
                                 <Setter Property="MinWidth" Value="100" />
                             </Style>
                             <Style Selector="TabStripItem:selected">
                                 <Setter Property="CornerRadius" Value="10" />
-                                <Setter Property="Background" Value="#362F44"/>
+                                <Setter Property="Background" Value="#362F44" />
                                 <Setter Property="MinWidth" Value="100" />
                                 <Setter Property="MinHeight" Value="35" />
                                 <Setter Property="Padding" Value="0" />
@@ -117,7 +118,7 @@
                             </Style>
                             <Style Selector="TabStripItem:selected:pointerover /template/ Border#PART_LayoutRoot">
                                 <Setter Property="CornerRadius" Value="10" />
-                                <Setter Property="Background" Value="#362F44"/>
+                                <Setter Property="Background" Value="#362F44" />
                                 <Setter Property="MinWidth" Value="100" />
                                 <Setter Property="MinHeight" Value="35" />
                                 <Setter Property="Padding" Value="0" />
@@ -128,10 +129,10 @@
                                 <Setter Property="IsVisible" Value="False" />
                             </Style>
                         </TabStrip.Styles>
-                        <TabStripItem TabIndex="1"> Params </TabStripItem>
-                        <TabStripItem TabIndex="2"> Body </TabStripItem>
-                        <TabStripItem TabIndex="3"> Auth </TabStripItem>
-                        <TabStripItem TabIndex="4"> Headers </TabStripItem>
+                        <TabStripItem> Params </TabStripItem>
+                        <TabStripItem> Body </TabStripItem>
+                        <TabStripItem> Auth </TabStripItem>
+                        <TabStripItem> Headers </TabStripItem>
                     </TabStrip>
                 </Border>
                 <Border Padding="5" Grid.Column="1" Grid.Row="3" Background="#27232E" CornerRadius="15 15 20 20">

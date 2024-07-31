@@ -33,11 +33,13 @@ public partial class RequestViewModel : ViewModelBase
     [ObservableProperty] private HttpStatusCode? _responseStatus;
     [ObservableProperty] private float _responseTime;
 
+    [ObservableProperty] private string _search = string.Empty;
+    
     [ObservableProperty] private int _selectedTabIndex;
 
     private readonly HttpClientService _httpClientService = new();
     private readonly IRequestNodeRepository _repository;
-
+    
 
     public RequestViewModel(IRequestNodeRepository nodeRepository)
     {
@@ -56,10 +58,14 @@ public partial class RequestViewModel : ViewModelBase
     //     }
     // }
 
-
     partial void OnSelectedTabIndexChanged(int value)
     {
         Console.WriteLine("Tab selection just changed {0}!", value);
+    }
+    
+    partial void OnSearchChanging(string value)
+    {
+        Requests = new ObservableCollection<RequestNode>(_repository.Find((x) => x.Name.Contains(value)));
     }
 
     [RelayCommand]

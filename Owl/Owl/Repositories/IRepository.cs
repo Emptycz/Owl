@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Owl.Repositories;
@@ -7,6 +8,7 @@ namespace Owl.Repositories;
 public interface IRepository<in TType, TResult>
 {
     IEnumerable<TResult> GetAll();
+    IEnumerable<TResult> Find(Expression<Func<TResult, bool>> predicate);
     TResult Get(Guid id);
     TResult Add(TType entity);
     TResult Update(TType entity);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Owl.Contexts;
 using Owl.Models;
@@ -11,6 +12,11 @@ public class LiteDbRequestNodeRepository(IDbContext context) : IRequestNodeRepos
     public IEnumerable<RequestNode> GetAll()
     {
         return context.RequestNodes.FindAll();
+    }
+
+    public IEnumerable<RequestNode> Find(Expression<Func<RequestNode, bool>> predicate)
+    {
+        return context.RequestNodes.Find(predicate);
     }
 
     public RequestNode Get(Guid id)
@@ -47,7 +53,7 @@ public class LiteDbRequestNodeRepository(IDbContext context) : IRequestNodeRepos
     {
         return Task.FromResult(context.RequestNodes.FindAll());
     }
-
+    
     public Task<RequestNode> GetAsync(Guid id)
     {
         return Task.FromResult(context.RequestNodes.FindOne((x) => x.Id == id));
