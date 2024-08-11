@@ -36,6 +36,7 @@ public partial class RequestView : UserControl
         responseEditor.ShowLineNumbers = true;
         responseEditor.Options.HighlightCurrentLine = true;
         responseEditor.Options.EnableHyperlinks = false;
+        responseEditor.Options.EnableEmailHyperlinks = false;
         // responseEditor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("JavaScript");
         responseEditor.Options.IndentationSize = 4;         
 
