@@ -1,16 +1,22 @@
-    <Application xmlns="https://github.com/avaloniaui"
+<Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:Owl"
              x:Class="Owl.App"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             RequestedThemeVariant="Dark">
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <local:ViewLocator />
     </Application.DataTemplates>
 
     <Application.Styles>
         <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="Azure" />
+        </Style>
+        <Style Selector="Button">
+            <Setter Property="Foreground" Value="Azure" />
+        </Style>
         <FluentTheme>
             <FluentTheme.Palettes>
                 <!-- Palette for Light theme variant -->
@@ -21,4 +27,4 @@
         </FluentTheme>
         <!-- <sty:FluentAvaloniaTheme PreferUserAccentColor="True" /> -->
     </Application.Styles>
-</Application>          
+</Application>

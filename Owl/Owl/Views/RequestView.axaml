@@ -18,69 +18,20 @@
         <converters:EnumToIntConverter x:Key="EnumToIntConverter" />
     </UserControl.Resources>
     <Grid Background="#27232E" RowDefinitions="55, *" ColumnDefinitions="*, 1, 3*, 1, 2*">
-        <!-- Sidebar -->
-        <Panel Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
-            <Grid ColumnDefinitions="*" RowDefinitions="50, 30, *">
-                <StackPanel Grid.Row="1" Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal">
-                        <Button Command="{Binding RefreshDataCommand}" CommandParameter="{Binding SelectedRequest.Id}"
-                                Content="🙂‍↔️" />
-                        <Button Command="{Binding AddNodeCommand}" Background="Red"
-                                Content="New node!" />
-                        <TextBox Text="{Binding Search}" Watermark="Search..." />
-                    </StackPanel>
-                    <Line />
-                </StackPanel>
-                <ListBox Grid.Row="2" Background="#27232E" ItemsSource="{Binding Requests}"
-                         SelectedItem="{Binding SelectedRequest}"
-                         Padding="5">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border Background="Transparent">
-                                <Border.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem
-                                            Header="Edit"
-                                            Click="OpenRequestEditWindow"
-                                            CommandParameter="{Binding}" />
-                                        <MenuItem
-                                            Header="Remove"
-                                            Click="OnRemoveMenuItemClick"
-                                            CommandParameter="{Binding}" />
-                                    </ContextMenu>
-                                </Border.ContextMenu>
-                                <StackPanel Orientation="Horizontal">
-                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center"
-                                            Height="20" Width="40"
-                                            Background="{Binding TagColor}" CornerRadius="5">
-                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                   Padding="2"
-                                                   FontSize="8"
-                                                   Foreground="Azure"
-                                                   Text="{Binding Method}" />
-                                    </Border>
-                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                                               Text="{Binding Name}" Padding="5">
-                                    </TextBlock>
-                                </StackPanel>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Grid>
-        </Panel>
-        <!-- /Sidebar -->
+        <Panel x:Name="SidebarWrapper" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
+            <!-- Sidebar component is added here in the behind-code -->
+        </Panel>    
         <GridSplitter Background="#27232E" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" ResizeDirection="Columns"
                       ResizeBehavior="BasedOnAlignment" />
         <!-- RequestPanel -->
         <Grid Grid.Column="2" Margin="10 0" Grid.Row="0" ColumnDefinitions="Auto,*,Auto">
             <ComboBox ItemsSource="{Binding Methods}"
                       SelectionChanged="SelectingItemsControl_OnSelectionChanged"
-                      SelectedItem="{Binding SelectedRequest.Method}"
-                      MinWidth="120"
+                      SelectedItem="{Binding RequestState.Current.Method}"
+                      MinWidth="120"                
                       VerticalAlignment="Center"
                       Margin="5 0" Grid.Row="0" />
-            <TextBox Text="{Binding SelectedRequest.Url}" Grid.Row="0" Height="30" Margin="5 0"
+            <TextBox Text="{Binding RequestState.Current.Url}" Grid.Row="0" Height="30" Margin="5 0"
                      VerticalAlignment="Center"
                      Grid.Column="1"
                      TextChanged="TextBox_UrlChanged"
@@ -136,24 +87,7 @@
                     </TabStrip>
                 </Border>
                 <Border Padding="5" Grid.Column="1" Grid.Row="3" Background="#27232E" CornerRadius="15 15 20 20">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <avaloniaEdit:TextEditor
-                            Name="Editor"
-                            FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
-                            Margin="10"
-                            ShowLineNumbers="True"
-                            HorizontalScrollBarVisibility="Auto"
-                            VerticalScrollBarVisibility="Visible"
-                            FontWeight="Light"
-                            IsReadOnly="True"
-                            FontSize="14">
-                            <i:Interaction.Behaviors>
-                                <behaviors:DocumentTextBindingBehavior
-                                    Text="{Binding SelectedRequest.Body, Mode=TwoWay}">
-                                </behaviors:DocumentTextBindingBehavior>
-                            </i:Interaction.Behaviors>
-                        </avaloniaEdit:TextEditor>
-                    </ScrollViewer>
+                    <ContentControl Content="{Binding TabContentControl}" />
                 </Border>
             </Grid>
         </Border>

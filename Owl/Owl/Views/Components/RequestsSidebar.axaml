@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Owl.ViewModels.Components"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Owl.Views.Components.RequestsSidebar"
+             x:DataType="vm:RequestsSidebarViewModel">
+            <Grid ColumnDefinitions="*" RowDefinitions="50, 30, *">
+                <StackPanel Grid.Row="1" Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Command="{Binding RefreshDataCommand}" CommandParameter="{Binding State.Current.Id}"
+                                Content="🙂‍↔️" />
+                        <Button Command="{Binding AddNodeCommand}" Background="Red"
+                                Content="New node!" />
+                        <TextBox Text="{Binding Search}" Watermark="Search..." />
+                    </StackPanel>
+                    <Line />
+                </StackPanel>
+                <ListBox Grid.Row="2" Background="#27232E" ItemsSource="{Binding Requests}"
+                         SelectedItem="{Binding State.Current}"
+                         Padding="5">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="Transparent">
+                                <Border.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem
+                                            Header="Edit"
+                                            Click="OpenRequestEditWindow"
+                                            CommandParameter="{Binding}" />
+                                        <MenuItem
+                                            Header="Remove"
+                                            Click="OnRemoveMenuItemClick"
+                                            CommandParameter="{Binding}" />
+                                    </ContextMenu>
+                                </Border.ContextMenu>
+                                <StackPanel Orientation="Horizontal">
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center"
+                                            Height="20" Width="40"
+                                            Background="{Binding TagColor}" CornerRadius="5">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                   Padding="2"
+                                                   FontSize="8"
+                                                   Foreground="Azure"
+                                                   Text="{Binding Method}" />
+                                    </Border>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               Text="{Binding Name}" Padding="5">
+                                    </TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+</UserControl>

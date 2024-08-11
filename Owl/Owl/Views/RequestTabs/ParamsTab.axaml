@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Owl.ViewModels.RequestTabs"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:ParamsTabViewModel"
+             x:Class="Owl.Views.RequestTabs.ParamsTab">
+    <StackPanel Margin="10" Orientation="Vertical">
+        <Button Content="TODO: +" Click="OnAddParameterClick" />
+        <ItemsRepeater Height="1000" ItemsSource="{Binding Parameters}">
+            <ItemsRepeater.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0 5" ColumnDefinitions="*, 5, *, 50">
+                        <TextBox TextChanged="ParamHasChanged" Text="{Binding Key, Mode=TwoWay}" Grid.Column="0"
+                                 Watermark="Param key" />
+                        <TextBox TextChanged="ParamHasChanged" Text="{Binding Value, Mode=TwoWay}" Grid.Column="2"
+                                 Watermark="Value" />
+                        <StackPanel Orientation="Horizontal" Grid.Column="3" Margin="10 0">
+                            <CheckBox ToolTip.Tip="Is param enabled" x:Name="IsEnabledCheckBox" IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
+                            <Button Content="❌" Click="OnRemoveParameterClick" CommandParameter="{Binding }" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+    </StackPanel>
+</UserControl>

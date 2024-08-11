@@ -1,8 +1,9 @@
 using System;
+using System.Linq;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Owl.Models;
 
 namespace Owl.Services;
 
@@ -10,12 +11,13 @@ public class HttpClientService
 {
     private readonly HttpClient _httpClient = new();
 
-    public async Task<HttpResponseMessage> GetAsync(string url, CancellationToken cancellationToken = default)
+    public async Task<HttpResponseMessage> GetAsync(RequestNode node, CancellationToken cancellationToken = default)
     {
         try
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", "token");
-            
+            // _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", "token");
+            string url = node.Url + HttpClientParamsBuilder.BuildParams(node.Parameters.Where(p => p.IsEnabled));
+    
             var res = await _httpClient.GetAsync(url, cancellationToken);
             return res;
         }

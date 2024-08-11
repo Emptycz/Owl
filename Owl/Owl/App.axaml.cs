@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using Owl.Contexts;
 using Owl.Repositories.RequestNodeRepository;
+using Owl.States;
 using Owl.ViewModels;
 using Owl.Views;
 
@@ -52,6 +53,7 @@ public static class ServiceCollectionExtensions
     {
         collection.AddSingleton<IDbContext, LiteDbContext>();
         collection.AddSingleton<IRequestNodeRepository, LiteDbRequestNodeRepository>();
+        collection.AddSingleton<ISelectedNodeState, SelectedNodeState>();
         collection.AddTransient<RequestNodeFormWindowViewModel>();
         collection.AddTransient<MainWindow>();
         collection.AddTransient<RequestViewModel>();
