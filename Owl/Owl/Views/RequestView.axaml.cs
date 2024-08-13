@@ -18,8 +18,8 @@ public partial class RequestView : UserControl
     {
         InitializeComponent();
         InitializeResponseEditor();
-        
-        AddSidebarPanel(state, nodeRepository);             
+
+        AddSidebarPanel(state, nodeRepository);
         DataContext = new RequestViewModel(nodeRepository, state);
     }
 
@@ -38,7 +38,9 @@ public partial class RequestView : UserControl
         responseEditor.Options.EnableHyperlinks = false;
         responseEditor.Options.EnableEmailHyperlinks = false;
         // responseEditor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("JavaScript");
-        responseEditor.Options.IndentationSize = 4;         
+        responseEditor.Options.IndentationSize = 4;
+        responseEditor.WordWrap = true;
+        responseEditor.Options.ConvertTabsToSpaces = true;
 
         responseEditor.TextArea.IndentationStrategy = new CSharpIndentationStrategy(responseEditor.Options);
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Owl.Models;
@@ -13,11 +14,14 @@ public class HttpClientService
 
     public async Task<HttpResponseMessage> GetAsync(RequestNode node, CancellationToken cancellationToken = default)
     {
+        if (node.Auth is not null)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(node.Auth.Scheme, node.Auth.Token);
+        }
+
         try
         {
-            // _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", "token");
             string url = node.Url + HttpClientParamsBuilder.BuildParams(node.Parameters.Where(p => p.IsEnabled));
-    
             var res = await _httpClient.GetAsync(url, cancellationToken);
             return res;
         }
@@ -38,10 +42,18 @@ public class HttpClientService
         }
     }
 
-    public async Task<HttpResponseMessage> PostAsync(string url, HttpContent content, CancellationToken cancellationToken = default)
+    public async Task<HttpResponseMessage> PostAsync(RequestNode node, CancellationToken cancellationToken = default)
     {
+        var content = new StringContent(node.Body, Encoding.UTF8, "application/json");
+
+        if (node.Auth is not null)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(node.Auth.Scheme, node.Auth.Token);
+        }
+
         try
         {
+            string url = node.Url + HttpClientParamsBuilder.BuildParams(node.Parameters.Where(p => p.IsEnabled));
             return await _httpClient.PostAsync(url, content, cancellationToken);
         }
         catch (HttpRequestException ex)

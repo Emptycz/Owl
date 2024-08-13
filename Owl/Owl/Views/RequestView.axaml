@@ -20,7 +20,7 @@
     <Grid Background="#27232E" RowDefinitions="55, *" ColumnDefinitions="*, 1, 3*, 1, 2*">
         <Panel x:Name="SidebarWrapper" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
             <!-- Sidebar component is added here in the behind-code -->
-        </Panel>    
+        </Panel>
         <GridSplitter Background="#27232E" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" ResizeDirection="Columns"
                       ResizeBehavior="BasedOnAlignment" />
         <!-- RequestPanel -->
@@ -28,7 +28,7 @@
             <ComboBox ItemsSource="{Binding Methods}"
                       SelectionChanged="SelectingItemsControl_OnSelectionChanged"
                       SelectedItem="{Binding RequestState.Current.Method}"
-                      MinWidth="120"                
+                      MinWidth="120"
                       VerticalAlignment="Center"
                       Margin="5 0" Grid.Row="0" />
             <TextBox Text="{Binding RequestState.Current.Url}" Grid.Row="0" Height="30" Margin="5 0"
@@ -107,24 +107,22 @@
         <!-- /ResponsePanel -->
         <!-- ResponseEditor -->
         <Grid Grid.Row="1" Grid.Column="4" Background="#362F44">
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <avaloniaEdit:TextEditor
-                    Name="ResponseEditor"
-                    FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
-                    Margin="10"
-                    ShowLineNumbers="True"
-                    HorizontalScrollBarVisibility="Auto"
-                    VerticalScrollBarVisibility="Visible"
-                    FontWeight="Light"
-                    IsReadOnly="True"
-                    FontSize="14">
-                    <i:Interaction.Behaviors>
-                        <behaviors:DocumentTextBindingBehavior
-                            Text="{Binding Response, Mode=TwoWay}">
-                        </behaviors:DocumentTextBindingBehavior>
-                    </i:Interaction.Behaviors>
-                </avaloniaEdit:TextEditor>
-            </ScrollViewer>
+            <avaloniaEdit:TextEditor
+                Name="ResponseEditor"
+                FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
+                Margin="10"
+                ShowLineNumbers="True"
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Visible"
+                FontWeight="Light"
+                IsReadOnly="True"
+                FontSize="14">
+                <i:Interaction.Behaviors>
+                    <behaviors:DocumentTextBindingBehavior
+                        Text="{Binding Response, Mode=TwoWay}">
+                    </behaviors:DocumentTextBindingBehavior>
+                </i:Interaction.Behaviors>
+            </avaloniaEdit:TextEditor>
         </Grid>
         <!-- /ResponseEditor -->
     </Grid>

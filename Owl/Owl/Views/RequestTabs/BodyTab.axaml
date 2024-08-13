@@ -20,8 +20,8 @@
             FontSize="14">
             <Interaction.Behaviors>
                 <behaviors:DocumentTextBindingBehavior
-                    Text="{Binding State.Current.Body, Mode=TwoWay}">
-                </behaviors:DocumentTextBindingBehavior>        
+                    Text="{Binding Body, Mode=TwoWay}">
+                </behaviors:DocumentTextBindingBehavior>
             </Interaction.Behaviors>
         </avaloniaEdit:TextEditor>
     </ScrollViewer>

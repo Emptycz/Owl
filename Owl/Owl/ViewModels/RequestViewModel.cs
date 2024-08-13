@@ -62,7 +62,11 @@ public partial class RequestViewModel : ViewModelBase
                 break;
 
             case 1:
-                TabContentControl = new BodyTab(RequestState);
+                TabContentControl = new BodyTab(RequestState, _nodeRepository);
+                break;
+
+            case 2:
+                TabContentControl = new AuthTab(RequestState, _nodeRepository);
                 break;
         }
     }
@@ -70,7 +74,7 @@ public partial class RequestViewModel : ViewModelBase
     partial void OnSearchChanging(string value)
     {
         Requests = new ObservableCollection<RequestNode>(_nodeRepository.Find((x) => x.Name.Contains(value)));
-    }   
+    }
 
     [RelayCommand]
     private void AddHeader()
@@ -80,7 +84,7 @@ public partial class RequestViewModel : ViewModelBase
         // SelectedRequest.Headers.Add(newHeader.Key, newHeader.Value);
         // HeadersCollection.Add(newHeader);
     }
-    
+
     [RelayCommand]
     private void SelectedRequestPropertyHasChanged()
     {
@@ -97,7 +101,7 @@ public partial class RequestViewModel : ViewModelBase
     [RelayCommand]
     private void SetBody(string value)
     {
-        // FIXME: Custom behavior that added Text Binding support re-triggers the setter and it causes two triggers instead of one  
+        // FIXME: Custom behavior that added Text Binding support re-triggers the setter and it causes two triggers instead of one
         if (RequestState.Current is null ||
             (RequestState.Current.Body == value && !string.IsNullOrEmpty(value))) return;
 
@@ -130,8 +134,7 @@ public partial class RequestViewModel : ViewModelBase
                     break;
 
                 case "POST":
-                    var content = new StringContent(RequestState.Current.Body, Encoding.UTF8, "application/json");
-                    responseMessage = await _httpClientService.PostAsync(RequestState.Current.Url, content);
+                    responseMessage = await _httpClientService.PostAsync(RequestState.Current);
                     break;
 
                 // Add other cases for PUT, DELETE, etc., as needed

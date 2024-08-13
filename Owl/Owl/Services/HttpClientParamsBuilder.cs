@@ -15,7 +15,8 @@ public static class HttpClientParamsBuilder
             builder.Append($"{parameter.Key}={parameter.Value}&");
         }
 
-        string encodedUrl = HttpUtility.UrlEncode(builder.ToString().TrimEnd('&'));
-        return "?" + encodedUrl;
+        // string encodedUrl = HttpUtility.UrlEncode(builder.ToString().TrimEnd('&'));
+        string encodedUrl = builder.ToString();
+        return string.IsNullOrEmpty(encodedUrl) ? string.Empty : "?" + encodedUrl;
     }
 }

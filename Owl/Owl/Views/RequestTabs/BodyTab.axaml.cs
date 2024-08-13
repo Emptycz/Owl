@@ -5,6 +5,7 @@ using Avalonia.Input;
 using AvaloniaEdit;
 using AvaloniaEdit.Indentation.CSharp;
 using AvaloniaEdit.TextMate;
+using Owl.Repositories.RequestNodeRepository;
 using Owl.States;
 using Owl.ViewModels.RequestTabs;
 using TextMateSharp.Grammars;
@@ -16,9 +17,9 @@ public partial class BodyTab : UserControl
     private TextEditor? _editor;
     private RegistryOptions? _registryOptions;
 
-    public BodyTab(ISelectedNodeState selectedNodeState)
+    public BodyTab(ISelectedNodeState selectedNodeState, IRequestNodeRepository repo)
     {
-        DataContext = new BodyTabViewModel(selectedNodeState);
+        DataContext = new BodyTabViewModel(selectedNodeState, repo);
         InitializeComponent();
         InitializeEditor();
     }
@@ -32,7 +33,6 @@ public partial class BodyTab : UserControl
         _editor.Options.EnableHyperlinks = false;
         _editor.Options.EnableEmailHyperlinks = false;
         _editor.Options.CutCopyWholeLine = true;
-        _editor.Options.ConvertTabsToSpaces = true;
 
         // _editor.Options.ColumnRulerPositions = new List<int>() { 80, 100 };
         _editor.TextArea.IndentationStrategy = new CSharpIndentationStrategy(_editor.Options);
