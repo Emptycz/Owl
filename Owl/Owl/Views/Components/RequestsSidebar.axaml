@@ -36,6 +36,31 @@
                                     </ContextMenu>
                                 </Border.ContextMenu>
                                 <StackPanel Orientation="Horizontal">
+                                    <!-- <Expander> -->
+                                    <!--     <Expander.Header> -->
+                                    <!--         <TextBlock Text="{Binding Name}" /> -->
+                                    <!--     </Expander.Header> -->
+                                    <!--     <ItemsRepeater ItemsSource="{Binding Children}"> -->
+                                    <!--         <ItemsRepeater.ItemTemplate> -->
+                                    <!--             <DataTemplate> -->
+                                    <!--                 <StackPanel Orientation="Horizontal"> -->
+                                    <!--                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" -->
+                                    <!--                             Height="20" Width="40" -->
+                                    <!--                             Background="{Binding TagColor}" CornerRadius="5"> -->
+                                    <!--                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" -->
+                                    <!--                                    Padding="2" -->
+                                    <!--                                    FontSize="8" -->
+                                    <!--                                    Foreground="Azure" -->
+                                    <!--                                    Text="{Binding Method}" /> -->
+                                    <!--                     </Border> -->
+                                    <!--                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" -->
+                                    <!--                                Text="{Binding Name}" Padding="5"> -->
+                                    <!--                     </TextBlock> -->
+                                    <!--                 </StackPanel> -->
+                                    <!--             </DataTemplate> -->
+                                    <!--         </ItemsRepeater.ItemTemplate> -->
+                                    <!--     </ItemsRepeater> -->
+                                    <!-- </Expander> -->
                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center"
                                             Height="20" Width="40"
                                             Background="{Binding TagColor}" CornerRadius="5">

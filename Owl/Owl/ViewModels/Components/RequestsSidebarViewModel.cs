@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Owl.Models;
@@ -12,7 +13,7 @@ public partial class RequestsSidebarViewModel : ViewModelBase
     [ObservableProperty] private string _search = string.Empty;
     [ObservableProperty] private ObservableCollection<RequestNode> _requests;
     [ObservableProperty] private ISelectedNodeState _state;
- 
+
     private readonly IRequestNodeRepository _repository;
 
     public RequestsSidebarViewModel(ISelectedNodeState state, IRequestNodeRepository repository)
@@ -20,6 +21,8 @@ public partial class RequestsSidebarViewModel : ViewModelBase
         _state = state;
         _repository = repository;
         _requests = new ObservableCollection<RequestNode>(repository.GetAll());
+        // TODO: Remove this, it's just for a test purposes
+        _requests.First().Children = [new RequestNode{ Name = "Child!" }];
     }
 
     [RelayCommand]
@@ -27,7 +30,7 @@ public partial class RequestsSidebarViewModel : ViewModelBase
     {
         State.Current = _repository.Get(requestNodeId);
     }
-    
+
     [RelayCommand]
     private void RemoveRequest(RequestNode node)
     {
@@ -54,7 +57,7 @@ public partial class RequestsSidebarViewModel : ViewModelBase
         _repository.Delete(node.Id);
         Requests.Remove(node);
     }
-    
+
     partial void OnSearchChanging(string value)
     {
         Requests = new ObservableCollection<RequestNode>(_repository.Find((x) => x.Name.Contains(value)));
