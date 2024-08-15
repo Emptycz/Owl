@@ -12,7 +12,8 @@ public class LiteDbContext : IDbContext
     {
         string dbPath = databasePath ?? Directory.GetCurrentDirectory() + "/Owl.db";
         _database = new LiteDatabase(dbPath);
-    }       
+    }
 
     public ILiteCollection<RequestNode> RequestNodes => _database.GetCollection<RequestNode>("request_nodes");
+    public ILiteCollection<OwlVariable> GlobalVariables => _database.GetCollection<OwlVariable>("global_variables");
 }

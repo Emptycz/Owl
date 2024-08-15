@@ -22,12 +22,11 @@ public class RequestNode : INotifyPropertyChanged
         }
     }
 
-    public string? Url { get; set; }
+    public string Url { get; set; } = string.Empty;
     public string Body { get; set; } = string.Empty;
     public List<RequestHeader> Headers { get; set; } = [];
     public List<RequestParameter> Parameters { get; set; } = [];
     public RequestAuth? Auth { get; set; }
-
     public HttpStatusCode? StatusCode { get; set; }
 
     public IEnumerable<RequestNode> Children { get; set; } = new List<RequestNode>();
