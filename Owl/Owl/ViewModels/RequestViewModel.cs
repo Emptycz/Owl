@@ -4,18 +4,20 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Owl.Contexts;
 using Owl.Models;
-using Owl.Repositories.RequestNodeRepository;
+using Owl.Repositories.RequestNode;
+using Owl.Repositories.Variable;
 using Owl.Services;
 using Owl.States;
 using Owl.Views.RequestTabs;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Owl.ViewModels;
 
@@ -25,7 +27,7 @@ public partial class RequestViewModel : ViewModelBase
     [ObservableProperty] private string _selectedRequestUrl = string.Empty;
     [ObservableProperty] private string _selectedRequestMethod = "GET";
 
-    [ObservableProperty] private ObservableCollection<RequestNode> _requests;
+    [ObservableProperty] private ObservableCollection<RequestNode> _requests = [];
     [ObservableProperty] private string[] _methods = ["GET", "POST", "PUT", "UPDATE", "DELETE"];
 
     [ObservableProperty] private string _response = string.Empty;
@@ -45,30 +47,33 @@ public partial class RequestViewModel : ViewModelBase
     {
         _nodeRepository = nodeNodeRepository;
         _requests = new ObservableCollection<RequestNode>(_nodeRepository.GetAll());
-        RequestState = state;
-        RequestState.Current = _requests.FirstOrDefault() ?? new RequestNode { Name = "New Request" };
 
-        TabContentControl = new ParamsTab(RequestState, _nodeRepository);
+        state.Current = _requests.FirstOrDefault();
+        RequestState = state;
+        state.CurrentHasChanged += OnRequestHasChanged;
+
+        SelectedTabIndex = state.Current is not null ? 0 : -1;
+        TabContentControl = GetTabControl(SelectedTabIndex);
+    }
+
+    private void OnRequestHasChanged(object? e, RequestNode? node)
+    {
+        if (node is null)
+        {
+            SelectedTabIndex = -1;
+            TabContentControl = GetTabControl(SelectedTabIndex);
+            return;
+        }
+
+        if (SelectedTabIndex != -1) return;
+
+        SelectedTabIndex = 0;
+        TabContentControl = GetTabControl(SelectedTabIndex);
     }
 
     partial void OnSelectedTabIndexChanged(int value)
     {
-        Console.WriteLine("Tab selection just changed {0}!", value);
-        switch (value)
-        {
-            default:
-            case 0:
-                TabContentControl = new ParamsTab(RequestState, _nodeRepository);
-                break;
-
-            case 1:
-                TabContentControl = new BodyTab(RequestState, _nodeRepository);
-                break;
-
-            case 2:
-                TabContentControl = new AuthTab(RequestState, _nodeRepository);
-                break;
-        }
+        TabContentControl = GetTabControl(value);
     }
 
     partial void OnSearchChanging(string value)
@@ -122,6 +127,13 @@ public partial class RequestViewModel : ViewModelBase
         Console.WriteLine(
             $"Sending request to {RequestState.Current.Url} with method: {RequestState.Current.Method} with body: {RequestState.Current.Body}");
 
+        // TOOD: This is only for testing purposes, pass this via DI container
+        IVariableResolver resolver = new DbVariableResolver(new LiteDbVariableRepository(new LiteDbContext()));
+
+        Console.WriteLine("Body {0} has var: {1}", RequestState.Current.Body,
+            resolver.HasVariable(RequestState.Current.Body));
+        Console.WriteLine("Body has variables: {0}",
+            JsonSerializer.Serialize(resolver.ExtractVariables(RequestState.Current.Body)));
         try
         {
             stopwatch.Start();
@@ -160,6 +172,25 @@ public partial class RequestViewModel : ViewModelBase
             Console.WriteLine($"Error sending request: {ex.Message}");
             ResponseStatus = HttpStatusCode.InternalServerError;
             Response = ex.Message;
+        }
+    }
+
+    private UserControl GetTabControl(int tabIndex)
+    {
+        switch (tabIndex)
+        {
+            default:
+            case -1:
+                return new NoRequestSelectedTab();
+
+            case 0:
+                return new ParamsTab(RequestState, _nodeRepository);
+
+            case 1:
+                return new BodyTab(RequestState, _nodeRepository);
+
+            case 2:
+                return new AuthTab(RequestState, _nodeRepository);
         }
     }
 }

@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Owl.Models;
-using Owl.Repositories.RequestNodeRepository;
+using Owl.Repositories.RequestNode;
 using Owl.States;
 
 namespace Owl.ViewModels.RequestTabs;

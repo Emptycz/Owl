@@ -1,5 +1,5 @@
 using Avalonia.Controls;
-using Owl.Repositories.RequestNodeRepository;
+using Owl.Repositories.RequestNode;
 using Owl.States;
 using Owl.ViewModels.RequestTabs;
 

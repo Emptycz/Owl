@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 using Owl.Models;
-using Owl.Repositories.RequestNodeRepository;
+using Owl.Repositories.RequestNode;
 using Owl.ViewModels;
 
 namespace Owl.Views;

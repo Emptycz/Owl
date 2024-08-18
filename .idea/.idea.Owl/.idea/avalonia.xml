@@ -7,6 +7,7 @@
         <entry key="Owl/Owl/Views/Components/BodyFormView.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/Components/MyTextEditor.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/Components/RequestsSidebar.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Components/Spotlight.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/Components/TabControlMenu.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/Components/TabControlMenuItem.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/MainView.axaml" value="Owl/Owl.Desktop/Owl.Desktop.csproj" />
@@ -14,6 +15,7 @@
         <entry key="Owl/Owl/Views/RequestNodeFormWindow.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/RequestTabs/AuthTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/RequestTabs/BodyTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/RequestTabs/NoRequestSelectedTab).axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/RequestTabs/ParamsTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/RequestView.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
       </map>

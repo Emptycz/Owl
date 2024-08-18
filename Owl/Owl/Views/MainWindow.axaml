@@ -2,11 +2,33 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:views="using:Owl.Views"
+        xmlns:vm="using:Owl.ViewModels"
+        xmlns:components="using:Owl.Views.Components"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Owl.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Owl">
-        <ContentControl x:Name="RequestViewHost" />
-        <!-- <views:MainView /> -->
+        Title="Owl"
+        x:Name="MainWindowInstance"
+        x:DataType="vm:MainWindowViewModel">
+    <Window.KeyBindings>
+        <KeyBinding Gesture="ctrl+j" Command="{Binding ToggleSpotlightCommand}" />
+    </Window.KeyBindings>
+    <Grid RowDefinitions="*">
+        <!-- Dark overlay to indicate spotlight is open -->
+        <Rectangle Fill="#000000" Opacity="1"
+                   IsVisible="True"
+                   IsHitTestVisible="False"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch" />
+        <ContentControl x:Name="RequestViewHost" Focusable="{Binding !SpotlightViewModel.IsOpen}" />
+        <components:Spotlight VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              VerticalContentAlignment="Center"
+                              HorizontalContentAlignment="Center"
+                              x:Name="GlobalSpotlight"
+                              IsFocused="{Binding IsOpen}"
+                              IsKeyboardFocusWithin="{Binding IsOpen}"
+                              IsOpen="{Binding IsOpen, Mode=TwoWay}"
+                              DataContext="{Binding SpotlightViewModel}" />
+    </Grid>
 </Window>

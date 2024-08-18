@@ -9,6 +9,8 @@ namespace Owl.Repositories.Variable;
 
 public class LiteDbVariableRepository(IDbContext context) : IVariableRepository
 {
+    public event EventHandler<OwlVariable>? RepositoryHasChanged;
+
     public IEnumerable<OwlVariable> GetAll()
     {
         return context.GlobalVariables.FindAll();
@@ -27,23 +29,30 @@ public class LiteDbVariableRepository(IDbContext context) : IVariableRepository
     public OwlVariable Add(OwlVariable entity)
     {
         context.GlobalVariables.Insert(entity);
+        NotifyChange(entity);
         return entity;
     }
 
     public OwlVariable Update(OwlVariable entity)
     {
         context.GlobalVariables.Update(entity);
+        NotifyChange(entity);
         return entity;
     }
 
     public bool Delete(Guid id)
     {
-        return context.GlobalVariables.Delete(id);
+        bool res = context.GlobalVariables.Delete(id);
+        if (!res) return false;
+
+        NotifyChange(new OwlVariable{ Id = id });
+        return true;
     }
 
     public OwlVariable Upsert(OwlVariable entity)
     {
         context.GlobalVariables.Upsert(entity);
+        NotifyChange(entity);
         return entity;
     }
 
@@ -60,17 +69,24 @@ public class LiteDbVariableRepository(IDbContext context) : IVariableRepository
     public Task<OwlVariable> AddAsync(OwlVariable entity)
     {
         context.GlobalVariables.Insert(entity);
+        NotifyChange(entity);
         return Task.FromResult(entity);
     }
 
     public Task<OwlVariable> UpdateAsync(OwlVariable entity)
     {
         context.GlobalVariables.Update(entity);
+        NotifyChange(entity);
         return Task.FromResult(entity);
     }
 
     public Task<bool> DeleteAsync(Guid id)
     {
-       return Task.FromResult(context.GlobalVariables.Delete(id));
+        return Task.FromResult(context.GlobalVariables.Delete(id));
+    }
+
+    private void NotifyChange(OwlVariable entity)
+    {
+        RepositoryHasChanged?.Invoke(this, entity);
     }
 }

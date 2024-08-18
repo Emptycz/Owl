@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -10,20 +9,20 @@ namespace Owl.Services;
 public interface IVariableResolver
 {
     bool HasVariable(RequestNode node);
-    bool HasVariable(string content);
+    bool HasVariable(string? content);
     void ResolveVariables(ref string content);
     RequestNode ResolveVariables(RequestNode node);
-    string ResolveVariables(string content);
-    IEnumerable<string> ExtractVariables(string content);
+    string ResolveVariables(string? content);
+    IEnumerable<string> ExtractVariables(string? content);
 }
 
-public partial class VariableResolver : IVariableResolver
+public partial class DbVariableResolver : IVariableResolver
 {
     private const string VariablePattern = @"\{\{\s*\.(\w+)\s*\}\}";
     private static readonly Regex VariableRegex = CompiledVariableRegex();
     private readonly IVariableRepository _repository;
 
-    public VariableResolver(IVariableRepository repo)
+    public DbVariableResolver(IVariableRepository repo)
     {
         _repository = repo;
     }
@@ -36,10 +35,12 @@ public partial class VariableResolver : IVariableResolver
                node.Parameters.Any(p => VariableRegex.IsMatch(p.Key) || VariableRegex.IsMatch(p.Value));
     }
 
-    public bool HasVariable(string content) => VariableRegex.IsMatch(content);
+    public bool HasVariable(string? content) => !string.IsNullOrEmpty(content) && VariableRegex.IsMatch(content);
 
-    public IEnumerable<string> ExtractVariables(string content)
+    public IEnumerable<string> ExtractVariables(string? content)
     {
+        if (string.IsNullOrEmpty(content)) yield break;
+
         var matches = VariableRegex.Matches(content);
         foreach (Match match in matches)
         {
@@ -47,8 +48,10 @@ public partial class VariableResolver : IVariableResolver
         }
     }
 
-    public string ResolveVariables(string content)
+    public string ResolveVariables(string? content)
     {
+        if (string.IsNullOrEmpty(content)) return string.Empty;
+
         var variables = ExtractVariables(content);
         var variableValues = _repository.Find(x => variables.Contains(x.Key));
 

@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using AvaloniaEdit;
 using AvaloniaEdit.Indentation.CSharp;
-using Owl.Repositories.RequestNodeRepository;
+using Owl.Repositories.RequestNode;
 using Owl.States;
 using Owl.ViewModels;
 using Owl.Views.Components;

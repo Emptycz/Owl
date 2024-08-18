@@ -3,7 +3,7 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Owl.Models;
-using Owl.Repositories.RequestNodeRepository;
+using Owl.Repositories.RequestNode;
 using Owl.States;
 
 namespace Owl.ViewModels.Components;
@@ -20,9 +20,10 @@ public partial class RequestsSidebarViewModel : ViewModelBase
     {
         _state = state;
         _repository = repository;
+
         _requests = new ObservableCollection<RequestNode>(repository.GetAll());
         // TODO: Remove this, it's just for a test purposes
-        _requests.First().Children = [new RequestNode{ Name = "Child!" }];
+        // _requests.FirstOrDefault().Children = [new RequestNode{ Name = "Child!" }];
     }
 
     [RelayCommand]

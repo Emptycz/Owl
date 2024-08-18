@@ -5,7 +5,7 @@ using Avalonia.Input;
 using AvaloniaEdit;
 using AvaloniaEdit.Indentation.CSharp;
 using AvaloniaEdit.TextMate;
-using Owl.Repositories.RequestNodeRepository;
+using Owl.Repositories.RequestNode;
 using Owl.States;
 using Owl.ViewModels.RequestTabs;
 using TextMateSharp.Grammars;

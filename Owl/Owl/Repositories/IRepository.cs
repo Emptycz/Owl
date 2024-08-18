@@ -7,6 +7,9 @@ namespace Owl.Repositories;
 
 public interface IRepository<in TType, TResult>
 {
+    // TODO: Design this properly, maybe we should not pass the boolean (forceRefetch) but the changed entity instead
+    event EventHandler<TResult> RepositoryHasChanged;
+
     IEnumerable<TResult> GetAll();
     IEnumerable<TResult> Find(Expression<Func<TResult, bool>> predicate);
     TResult Get(Guid id);

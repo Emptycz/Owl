@@ -1,6 +1,11 @@
 using System;
 using Avalonia.Controls;
 using Microsoft.Extensions.DependencyInjection;
+using Owl.Repositories.RequestNode;
+using Owl.Repositories.Spotlight;
+using Owl.States;
+using Owl.ViewModels;
+using Owl.Views.Components;
 
 namespace Owl.Views;
 
@@ -9,6 +14,11 @@ public partial class MainWindow : Window
     public MainWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
+        DataContext = new MainWindowViewModel(
+            serviceProvider.GetRequiredService<ISpotlightRepository>(),
+            serviceProvider.GetRequiredService<IRequestNodeRepository>(),
+            serviceProvider.GetRequiredService<ISelectedNodeState>()
+        );
 
         // Resolve RequestView from the DI container
         var requestView = (RequestView)serviceProvider.GetRequiredService(typeof(RequestView));

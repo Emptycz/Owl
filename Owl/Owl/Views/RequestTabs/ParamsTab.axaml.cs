@@ -1,8 +1,8 @@
 using System;
-using Avalonia.Controls;    
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Owl.Models;
-using Owl.Repositories.RequestNodeRepository;
+using Owl.Repositories.RequestNode;
 using Owl.States;
 using Owl.ViewModels.RequestTabs;
 
@@ -13,7 +13,7 @@ public partial class ParamsTab : UserControl
     public ParamsTab(ISelectedNodeState state, IRequestNodeRepository repo)
     {
         InitializeComponent();
-        DataContext = new ParamsTabViewModel(state, repo);              
+        DataContext = new ParamsTabViewModel(state, repo);
     }
 
     private void OnAddParameterClick(object? sender, RoutedEventArgs e)
@@ -26,7 +26,7 @@ public partial class ParamsTab : UserControl
             viewModel.AddParameterCommand.Execute(null);
         }
     }
-    
+
     private void OnRemoveParameterClick(object sender, RoutedEventArgs e)
     {
         if (sender is not Button menuItem || menuItem.DataContext is not RequestParameter nodeToRemove) return;
@@ -37,7 +37,7 @@ public partial class ParamsTab : UserControl
             viewModel.RemoveParameterCommand.Execute(nodeToRemove);
         }
     }
-    
+
     private void ParamHasChanged(object? sender, TextChangedEventArgs e)
     {
         if (sender is not TextBox) return;

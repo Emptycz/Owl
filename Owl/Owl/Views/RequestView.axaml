@@ -11,9 +11,9 @@
              x:Class="Owl.Views.RequestView"
              x:DataType="vm:RequestViewModel"
              x:Name="RequestViewXaml">
-    <Design.DataContext>
-        <vm:RequestViewModel />
-    </Design.DataContext>
+    <UserControl.KeyBindings>
+        <KeyBinding Gesture="ctrl+enter" Command="{Binding SendRequestCommand}" />
+    </UserControl.KeyBindings>
     <UserControl.Resources>
         <converters:EnumToIntConverter x:Key="EnumToIntConverter" />
     </UserControl.Resources>
@@ -29,14 +29,17 @@
                       SelectionChanged="SelectingItemsControl_OnSelectionChanged"
                       SelectedItem="{Binding RequestState.Current.Method}"
                       MinWidth="120"
+                      IsEnabled="{Binding !!RequestState.Current}"
                       VerticalAlignment="Center"
                       Margin="5 0" Grid.Row="0" />
             <TextBox Text="{Binding RequestState.Current.Url}" Grid.Row="0" Height="30" Margin="5 0"
                      VerticalAlignment="Center"
                      Grid.Column="1"
+                     IsEnabled="{Binding !!RequestState.Current}"
                      TextChanged="TextBox_UrlChanged"
                      Watermark="https://localhost" />
             <Button Command="{Binding SendRequestCommand}" Grid.Row="0" Width="100" HorizontalContentAlignment="Center"
+                    IsEnabled="{Binding !!RequestState.Current}"
                     VerticalContentAlignment="Center" Height="30" VerticalAlignment="Center" Margin="5 0"
                     Grid.Column="2">
                 Send
@@ -47,7 +50,11 @@
         <Border CornerRadius="20" Grid.Row="1" Grid.Column="2" Background="#362F44">
             <Grid ColumnDefinitions="10, *, 10" RowDefinitions="10, 50, 10, *">
                 <Border Padding="10 5" Grid.Column="1" Height="50" Grid.Row="1" Background="#27232E" CornerRadius="15">
-                    <TabStrip UseLayoutRounding="false" SelectedIndex="{Binding SelectedTabIndex}" Height="50">
+                    <TabStrip
+                        IsEnabled="{Binding !!RequestState.Current}"
+                        UseLayoutRounding="false"
+                        SelectedIndex="{Binding SelectedTabIndex}"
+                        Height="50">
                         <TabStrip.Styles>
                             <Style Selector="TabStripItem">
                                 <Setter Property="Padding" Value="10" />
