@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using Avalonia.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Owl.Models;
@@ -20,6 +20,8 @@ public partial class SpotlightViewModel : ViewModelBase
     private readonly IRequestNodeRepository _nodeRepository;
     private readonly ISelectedNodeState _nodeState;
 
+    public event EventHandler<bool>? IsOpenChanged;
+
     public SpotlightViewModel(
         ISpotlightRepository spotlightRepository,
         IRequestNodeRepository nodeRepository,
@@ -36,18 +38,19 @@ public partial class SpotlightViewModel : ViewModelBase
         IsOpen = false;
     }
 
-    partial void OnIsOpenChanged(bool value)
+    [RelayCommand]
+    private void UseSelectedItem()
     {
-        if (!value) return;
-        ResetComponent();
+        if (SelectedItem is null) return;
+        _nodeState.Current = _nodeRepository.Get(SelectedItem!.Id);
+        Close();
     }
 
-    partial void OnSelectedItemChanged(SpotlightNode? value)
+    partial void OnIsOpenChanged(bool value)
     {
-        if (value is null) return;
-
-        _nodeState.Current = _nodeRepository.Get(value!.Id);
-        IsOpen = false;
+        IsOpenChanged?.Invoke(this, value);
+        if (!value) return;
+        ResetComponent();
     }
 
     partial void OnFilterTextChanged(string value)

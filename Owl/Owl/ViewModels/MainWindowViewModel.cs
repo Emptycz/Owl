@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Owl.Repositories.RequestNode;
 using Owl.Repositories.Spotlight;
 using Owl.States;
