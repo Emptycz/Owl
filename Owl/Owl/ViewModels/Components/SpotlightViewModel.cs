@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Avalonia.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Owl.Models;
@@ -30,9 +31,9 @@ public partial class SpotlightViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void ToggleOpen()
+    private void Close()
     {
-        IsOpen = !IsOpen;
+        IsOpen = false;
     }
 
     partial void OnIsOpenChanged(bool value)

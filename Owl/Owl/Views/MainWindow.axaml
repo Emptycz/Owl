@@ -20,13 +20,14 @@
                    IsHitTestVisible="False"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch" />
-        <ContentControl x:Name="RequestViewHost" Focusable="{Binding !SpotlightViewModel.IsOpen}" />
+        <ContentControl
+            x:Name="RequestViewHost"
+            Focusable="{Binding !SpotlightViewModel.IsOpen}" />
         <components:Spotlight VerticalAlignment="Center"
                               HorizontalAlignment="Center"
                               VerticalContentAlignment="Center"
                               HorizontalContentAlignment="Center"
                               x:Name="GlobalSpotlight"
-                              IsFocused="{Binding IsOpen}"
                               IsKeyboardFocusWithin="{Binding IsOpen}"
                               IsOpen="{Binding IsOpen, Mode=TwoWay}"
                               DataContext="{Binding SpotlightViewModel}" />

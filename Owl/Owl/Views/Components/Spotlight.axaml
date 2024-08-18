@@ -7,17 +7,21 @@
              x:Class="Owl.Views.Components.Spotlight"
              x:DataType="vm:SpotlightViewModel">
     <UserControl.KeyBindings>
-        <KeyBinding Gesture="escape" Command="{Binding Path=ToggleOpenCommand}"></KeyBinding>
+        <KeyBinding Gesture="escape" Command="{Binding Path=CloseCommand}"></KeyBinding>
     </UserControl.KeyBindings>
     <StackPanel Orientation="Vertical">
         <TextBox x:Name="SpotlightBox"
                  MinWidth="500"
                  Text="{Binding FilterText, Mode=TwoWay}"
-                 Watermark="What do you wanna do..." />
-        <ListBox MinWidth="500"
-                 ItemsSource="{Binding Items}"
-                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                 Margin="0 10">
+                 Focusable="True"
+                 Watermark="What do you wanna do..."
+                 KeyDown="SpotlightBox_OnKeyDown" />
+        <ListBox
+            x:Name="SpotlightListBox"
+            MinWidth="500"
+            ItemsSource="{Binding Items}"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+            Margin="0 10">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
