@@ -116,6 +116,12 @@ public partial class RequestViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private void SwitchTab(string tabIndex)
+    {
+        SelectedTabIndex = int.Parse(tabIndex);
+    }
+
+    [RelayCommand]
     private async Task SendRequest()
     {
         if (RequestState.Current is null) return;

@@ -13,6 +13,10 @@
              x:Name="RequestViewXaml">
     <UserControl.KeyBindings>
         <KeyBinding Gesture="ctrl+enter" Command="{Binding SendRequestCommand}" />
+        <KeyBinding Gesture="alt+d1" Command="{Binding SwitchTabCommand}" CommandParameter="0"/>
+        <KeyBinding Gesture="alt+d2" Command="{Binding SwitchTabCommand}" CommandParameter="1"/>
+        <KeyBinding Gesture="alt+d3" Command="{Binding SwitchTabCommand}" CommandParameter="2"/>
+        <KeyBinding Gesture="alt+d4" Command="{Binding SwitchTabCommand}" CommandParameter="3"/>
     </UserControl.KeyBindings>
     <UserControl.Resources>
         <converters:EnumToIntConverter x:Key="EnumToIntConverter" />
