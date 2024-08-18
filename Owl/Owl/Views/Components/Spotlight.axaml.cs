@@ -4,7 +4,6 @@ using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Threading;
-using Owl.Models;
 using Owl.ViewModels.Components;
 
 namespace Owl.Views.Components;
@@ -71,12 +70,11 @@ public partial class Spotlight : UserControl
         if (firstItem is ListBoxItem listBoxItem) listBoxItem.Focus();
     }
 
-    private void ItemElementOnPointerPressed(object? sender, PointerPressedEventArgs e)
+    private void ItemElementOnPointerPressed(object? sender, TappedEventArgs e)
     {
-        if (sender is not ListBoxItem listBoxItem) return;
+        if (sender is not ListBox) return;
         if (DataContext is not SpotlightViewModel viewModel) return;
 
-        viewModel.SelectedItem = listBoxItem.DataContext as SpotlightNode;
         viewModel.UseSelectedItemCommand.Execute(null);
     }
 }

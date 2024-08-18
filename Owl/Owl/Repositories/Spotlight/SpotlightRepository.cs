@@ -17,24 +17,24 @@ public class SpotlightRepository : ISpotlightRepository
         _context = context;
     }
 
-    public IEnumerable<SpotlightNode> FindDbItems(Expression<Func<SpotlightNode, bool>> predicate)
+    public IEnumerable<SpotlightNode> FindDbItems(Expression<Func<SpotlightNode, bool>>? predicate)
     {
         throw new NotImplementedException();
     }
 
-    public IEnumerable<SpotlightNode> FindSettings(Expression<Func<SpotlightNode, bool>> predicate)
+    public IEnumerable<SpotlightNode> FindSettings(Expression<Func<SpotlightNode, bool>>? predicate)
     {
         throw new NotImplementedException();
     }
 
-    public IEnumerable<SpotlightNode> FindEnvironments(Expression<Func<SpotlightNode, bool>> predicate)
+    public IEnumerable<SpotlightNode> FindEnvironments(Expression<Func<SpotlightNode, bool>>? predicate)
     {
         throw new NotImplementedException();
     }
 
-    public IEnumerable<SpotlightNode> FindRequests(Expression<Func<Models.RequestNode, bool>> predicate)
+    public IEnumerable<SpotlightNode> FindRequests(Expression<Func<Models.RequestNode, bool>>? predicate)
     {
-        var res = _context.RequestNodes.Find(predicate);
+        var res = predicate is null ? _context.RequestNodes.FindAll() : _context.RequestNodes.Find(predicate);
         return res.Select(x => new SpotlightNode(x));
     }
 }

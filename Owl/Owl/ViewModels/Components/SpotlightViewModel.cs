@@ -62,6 +62,6 @@ public partial class SpotlightViewModel : ViewModelBase
     {
         FilterText = string.Empty;
         SelectedItem = null;
-        Items = [];
+        Items = _spotlightRepository.FindRequests();
     }
 }

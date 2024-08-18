@@ -8,8 +8,8 @@ namespace Owl.Repositories.Spotlight;
 public interface ISpotlightRepository
 {
     //TODO: Come up with defined structure
-    IEnumerable<SpotlightNode> FindDbItems(Expression<Func<SpotlightNode, bool>> predicate);
-    IEnumerable<SpotlightNode> FindSettings(Expression<Func<SpotlightNode, bool>> predicate);
-    IEnumerable<SpotlightNode> FindEnvironments(Expression<Func<SpotlightNode, bool>> predicate);
-    IEnumerable<SpotlightNode> FindRequests(Expression<Func<Models.RequestNode, bool>> predicate);
+    IEnumerable<SpotlightNode> FindDbItems(Expression<Func<SpotlightNode, bool>>? predicate = null);
+    IEnumerable<SpotlightNode> FindSettings(Expression<Func<SpotlightNode, bool>>? predicate = null);
+    IEnumerable<SpotlightNode> FindEnvironments(Expression<Func<SpotlightNode, bool>>? predicate = null);
+    IEnumerable<SpotlightNode> FindRequests(Expression<Func<Models.RequestNode, bool>>? predicate = null);
 }
