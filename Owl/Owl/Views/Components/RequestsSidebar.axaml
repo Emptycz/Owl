@@ -30,6 +30,10 @@
                                             Click="OpenRequestEditWindow"
                                             CommandParameter="{Binding}" />
                                         <MenuItem
+                                            Header="Duplicate"
+                                            Click="OnDuplicateMenuItemClick"
+                                            CommandParameter="{Binding}" />
+                                        <MenuItem
                                             Header="Remove"
                                             Click="OnRemoveMenuItemClick"
                                             CommandParameter="{Binding}" />

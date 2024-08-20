@@ -4,14 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Owl.Contexts;
 using Owl.Models;
 using Owl.Repositories.RequestNode;
@@ -34,7 +32,6 @@ public partial class RequestViewModel : ViewModelBase
     [ObservableProperty] private ObservableCollection<RequestNode> _requests = [];
     [ObservableProperty] private string[] _methods = ["GET", "POST", "PUT", "UPDATE", "DELETE"];
 
-    [ObservableProperty] private string _response = string.Empty;
     [ObservableProperty] private string _responseSize = string.Empty;
     [ObservableProperty] private HttpStatusCode? _responseStatus;
     [ObservableProperty] private string _responseTime;
@@ -44,6 +41,8 @@ public partial class RequestViewModel : ViewModelBase
     [ObservableProperty] private int _selectedTabIndex;
     [ObservableProperty] private UserControl _tabContentControl;
     [ObservableProperty] private UserControl _responseContent;
+
+    private CancellationTokenSource _cancellationTokenSource = new();
 
     private readonly IRequestNodeRepository _nodeRepository;
     private readonly HttpClientService _httpClientService = new();
@@ -66,8 +65,6 @@ public partial class RequestViewModel : ViewModelBase
 
     private void OnRequestHasChanged(object? e, RequestNode? node)
     {
-        // SetResponse(node?.Response);
-
         if (node is null)
         {
             SelectedTabIndex = -1;
@@ -151,17 +148,21 @@ public partial class RequestViewModel : ViewModelBase
             JsonSerializer.Serialize(resolver.ExtractVariables(RequestState.Current.Body)));
         try
         {
+            _cancellationTokenSource = new CancellationTokenSource();
             stopwatch.Start();
+            ResponseContent = new ProcessingResponseTab(_cancellationTokenSource);
 
             HttpResponseMessage? responseMessage;
             switch (RequestState.Current.Method)
             {
                 case "GET":
-                    responseMessage = await _httpClientService.GetAsync(RequestState.Current);
+                    responseMessage =
+                        await _httpClientService.GetAsync(RequestState.Current, _cancellationTokenSource.Token);
                     break;
 
                 case "POST":
-                    responseMessage = await _httpClientService.PostAsync(RequestState.Current);
+                    responseMessage =
+                        await _httpClientService.PostAsync(RequestState.Current, _cancellationTokenSource.Token);
                     break;
 
                 // Add other cases for PUT, DELETE, etc., as needed
@@ -181,6 +182,13 @@ public partial class RequestViewModel : ViewModelBase
             ResponseTime = TimeCalc.CalculateTime(responseTime);
             ResponseStatus = responseMessage.StatusCode;
         }
+        catch (OperationCanceledException ex)
+        {
+            stopwatch.Stop();
+            ResponseTime = TimeCalc.CalculateTime(responseTime);
+            ResponseStatus = HttpStatusCode.RequestTimeout;
+            ResponseContent = new ErrorResponseTab(ex.Message);
+        }
         catch (Exception ex)
         {
             stopwatch.Stop();
@@ -190,14 +198,13 @@ public partial class RequestViewModel : ViewModelBase
             Console.WriteLine($"Error sending request: {ex.Message}");
             ResponseTime = TimeCalc.CalculateTime(responseTime);
             ResponseStatus = HttpStatusCode.InternalServerError;
-            Response = ex.Message;
+            ResponseContent = new ErrorResponseTab(ex.Message);
         }
     }
 
     private void SetResponse(HttpResponseMessage response)
     {
-        Response = response.Content.ReadAsStringAsync().Result;
-        ResponseSize = SizeCalc.CalculateSize(Response, Encoding.ASCII).ToString();
+        ResponseSize = SizeCalc.CalculateSize(response.Content.ReadAsStringAsync().Result, Encoding.ASCII).ToString();
         if (RequestState.Current is null) return;
 
         RequestState.Current.Response = response;
@@ -213,20 +220,12 @@ public partial class RequestViewModel : ViewModelBase
 
     private UserControl GetTabControl(int tabIndex)
     {
-        switch (tabIndex)
+        return tabIndex switch
         {
-            default:
-            case -1:
-                return new NoRequestSelectedTab();
-
-            case 0:
-                return new ParamsTab(RequestState, _nodeRepository);
-
-            case 1:
-                return new BodyTab(RequestState, _nodeRepository);
-
-            case 2:
-                return new AuthTab(RequestState, _nodeRepository);
-        }
+            0 => new ParamsTab(RequestState, _nodeRepository),
+            1 => new BodyTab(RequestState, _nodeRepository),
+            2 => new AuthTab(RequestState, _nodeRepository),
+            _ => new NoRequestSelectedTab()
+        };
     }
 }

@@ -19,7 +19,9 @@
         <entry key="Owl/Owl/Views/RequestTabs/NoRequestSelectedTab).axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/RequestTabs/ParamsTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/RequestView.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/ResponseTabs/ErrorResponseTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/ResponseTabs/JsonResponseTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/ResponseTabs/ProcessingResponseTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/ResponseTabs/RawResponseTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
       </map>
     </option>

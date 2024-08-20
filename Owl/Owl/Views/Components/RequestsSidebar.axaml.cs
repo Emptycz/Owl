@@ -11,7 +11,7 @@ namespace Owl.Views.Components;
 public partial class RequestsSidebar : UserControl
 {
     private readonly IRequestNodeRepository _nodeRepository;
-    
+
     public RequestsSidebar(ISelectedNodeState state, IRequestNodeRepository nodeRepository)
     {
         InitializeComponent();
@@ -37,6 +37,17 @@ public partial class RequestsSidebar : UserControl
         if (DataContext is RequestsSidebarViewModel viewModel)
         {
             viewModel.RemoveRequestCommand.Execute(nodeToRemove);
+        }
+    }
+
+    private void OnDuplicateMenuItemClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender is not MenuItem menuItem || menuItem.DataContext is not RequestNode node) return;
+
+        // Access the RequestViewModel instance from DataContext of UserControl
+        if (DataContext is RequestsSidebarViewModel viewModel)
+        {
+            viewModel.DuplicateRequestCommand.Execute(node);
         }
     }
 }

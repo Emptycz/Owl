@@ -106,9 +106,9 @@
                       ResizeBehavior="BasedOnAlignment" />
         <!-- ResponsePanel -->
         <StackPanel Grid.Row="0" Grid.Column="4" Orientation="Horizontal">
-            <TextBlock FontSize="16" Margin="10" TextWrapping="Wrap" Text="{Binding ResponseStatus}" />
-            <TextBlock FontSize="16" Margin="10" Text="{Binding ResponseTime}" />
-            <TextBlock FontSize="16" Margin="10" Text="{Binding ResponseSize}" />
+            <TextBlock FontSize="12" Margin="10" TextWrapping="Wrap" Text="{Binding ResponseStatus}" />
+            <TextBlock FontSize="12" Margin="10" Text="{Binding ResponseTime}" />
+            <TextBlock FontSize="12" Margin="10" Text="{Binding ResponseSize}" />
         </StackPanel>
         <!-- /ResponsePanel -->
         <!-- ResponseEditor -->

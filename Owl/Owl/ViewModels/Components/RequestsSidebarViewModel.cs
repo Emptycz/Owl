@@ -1,5 +1,5 @@
+using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Owl.Models;
@@ -57,6 +57,21 @@ public partial class RequestsSidebarViewModel : ViewModelBase
     {
         _repository.Delete(node.Id);
         Requests.Remove(node);
+    }
+
+    [RelayCommand]
+    private void DuplicateRequest(RequestNode node)
+    {
+        var newNode = new RequestNode
+        {
+            Name = node.Name,
+            Method = node.Method,
+            Body = node.Body,
+            Url = node.Url,
+            Headers = node.Headers,
+            Children = node.Children,
+        };
+        Requests.Add(_repository.Add(newNode));
     }
 
     partial void OnSearchChanging(string value)
