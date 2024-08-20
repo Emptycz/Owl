@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
+using System.Net.Http;
+using LiteDB;
 
 namespace Owl.Models;
 
@@ -24,6 +26,9 @@ public class RequestNode : INotifyPropertyChanged
 
     public string? Url { get; set; } = string.Empty;
     public string? Body { get; set; } = string.Empty;
+
+    [BsonIgnore]
+    public HttpResponseMessage? Response { get; set; }
     public List<RequestHeader> Headers { get; set; } = [];
     public List<RequestParameter> Parameters { get; set; } = [];
     public RequestAuth? Auth { get; set; }
@@ -53,8 +58,6 @@ public class RequestNode : INotifyPropertyChanged
             OnPropertyChanged(nameof(Method));
         }
     }
-
-    public string Response { get; set; }
 
     public RequestNode()
     {

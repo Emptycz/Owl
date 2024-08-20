@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using AvaloniaEdit;
-using AvaloniaEdit.Indentation.CSharp;
 using Owl.Repositories.RequestNode;
 using Owl.States;
 using Owl.ViewModels;
@@ -17,7 +16,6 @@ public partial class RequestView : UserControl
     public RequestView(IRequestNodeRepository nodeRepository, ISelectedNodeState state)
     {
         InitializeComponent();
-        InitializeResponseEditor();
 
         AddSidebarPanel(state, nodeRepository);
         DataContext = new RequestViewModel(nodeRepository, state);
@@ -27,22 +25,6 @@ public partial class RequestView : UserControl
     {
         var sidebarWrapper = this.FindControl<Panel>("SidebarWrapper");
         sidebarWrapper?.Children.Add(new RequestsSidebar(state, nodeRepository));
-    }
-
-    private void InitializeResponseEditor()
-    {
-        var responseEditor = this.FindControl<TextEditor>("ResponseEditor")!;
-
-        responseEditor.ShowLineNumbers = true;
-        responseEditor.Options.HighlightCurrentLine = true;
-        responseEditor.Options.EnableHyperlinks = false;
-        responseEditor.Options.EnableEmailHyperlinks = false;
-        // responseEditor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("JavaScript");
-        responseEditor.Options.IndentationSize = 4;
-        responseEditor.WordWrap = true;
-        responseEditor.Options.ConvertTabsToSpaces = true;
-
-        responseEditor.TextArea.IndentationStrategy = new CSharpIndentationStrategy(responseEditor.Options);
     }
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)

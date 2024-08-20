@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -17,6 +19,8 @@ using Owl.Repositories.Variable;
 using Owl.Services;
 using Owl.States;
 using Owl.Views.RequestTabs;
+using Owl.Views.ResponseTabs;
+using Utils;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Owl.ViewModels;
@@ -31,13 +35,15 @@ public partial class RequestViewModel : ViewModelBase
     [ObservableProperty] private string[] _methods = ["GET", "POST", "PUT", "UPDATE", "DELETE"];
 
     [ObservableProperty] private string _response = string.Empty;
+    [ObservableProperty] private string _responseSize = string.Empty;
     [ObservableProperty] private HttpStatusCode? _responseStatus;
-    [ObservableProperty] private float _responseTime;
+    [ObservableProperty] private string _responseTime;
 
     [ObservableProperty] private string _search = string.Empty;
 
     [ObservableProperty] private int _selectedTabIndex;
     [ObservableProperty] private UserControl _tabContentControl;
+    [ObservableProperty] private UserControl _responseContent;
 
     private readonly IRequestNodeRepository _nodeRepository;
     private readonly HttpClientService _httpClientService = new();
@@ -46,18 +52,22 @@ public partial class RequestViewModel : ViewModelBase
     public RequestViewModel(IRequestNodeRepository nodeNodeRepository, ISelectedNodeState state)
     {
         _nodeRepository = nodeNodeRepository;
-        _requests = new ObservableCollection<RequestNode>(_nodeRepository.GetAll());
-
-        state.Current = _requests.FirstOrDefault();
+        ResponseTime = "0 ms";
         RequestState = state;
+
+        Requests = new ObservableCollection<RequestNode>(_nodeRepository.GetAll());
+        state.Current = Requests.FirstOrDefault();
         state.CurrentHasChanged += OnRequestHasChanged;
 
         SelectedTabIndex = state.Current is not null ? 0 : -1;
         TabContentControl = GetTabControl(SelectedTabIndex);
+        ResponseContent = GetResponseControl(state.Current?.Response);
     }
 
     private void OnRequestHasChanged(object? e, RequestNode? node)
     {
+        // SetResponse(node?.Response);
+
         if (node is null)
         {
             SelectedTabIndex = -1;
@@ -126,8 +136,7 @@ public partial class RequestViewModel : ViewModelBase
     {
         if (RequestState.Current is null) return;
 
-        ResponseTime = 0;
-
+        float responseTime = 0;
         var stopwatch = new Stopwatch();
 
         Console.WriteLine(
@@ -158,28 +167,49 @@ public partial class RequestViewModel : ViewModelBase
                 // Add other cases for PUT, DELETE, etc., as needed
 
                 default:
-                    ResponseTime = 0;
+                    responseTime = 0;
                     throw new ArgumentOutOfRangeException(nameof(RequestState.Current.Method),
                         $"Unsupported method type: {RequestState.Current.Method}");
             }
 
             stopwatch.Stop();
-            ResponseTime = (float)stopwatch.Elapsed.TotalMilliseconds;
+            responseTime = (float)stopwatch.Elapsed.TotalMilliseconds;
 
-            Response = JToken.Parse(await responseMessage.Content.ReadAsStringAsync()).ToString(Formatting.Indented);
+            SetResponse(responseMessage);
+
+            ResponseContent = GetResponseControl(RequestState.Current.Response);
+            ResponseTime = TimeCalc.CalculateTime(responseTime);
             ResponseStatus = responseMessage.StatusCode;
         }
         catch (Exception ex)
         {
             stopwatch.Stop();
-            ResponseTime = 0;
+            ResponseTime = string.Empty;
 
             // Handle any exceptions, such as network errors or JSON parsing errors
             Console.WriteLine($"Error sending request: {ex.Message}");
+            ResponseTime = TimeCalc.CalculateTime(responseTime);
             ResponseStatus = HttpStatusCode.InternalServerError;
             Response = ex.Message;
         }
     }
+
+    private void SetResponse(HttpResponseMessage response)
+    {
+        Response = response.Content.ReadAsStringAsync().Result;
+        ResponseSize = SizeCalc.CalculateSize(Response, Encoding.ASCII).ToString();
+        if (RequestState.Current is null) return;
+
+        RequestState.Current.Response = response;
+    }
+
+    private UserControl GetResponseControl(HttpResponseMessage? response) =>
+        response?.Content.Headers.ContentType?.MediaType switch
+        {
+            "application/xml" => new RawResponseTab(RequestState),
+            "application/json" => new JsonResponseTab(RequestState),
+            _ => new RawResponseTab(RequestState),
+        };
 
     private UserControl GetTabControl(int tabIndex)
     {

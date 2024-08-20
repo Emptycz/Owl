@@ -48,6 +48,15 @@ public partial class ParamsTabViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private void SetParamEnabled(string value)
+    {
+        foreach (var param in Parameters)
+        {
+            param.IsEnabled = value == "true";
+        }
+    }
+
+    [RelayCommand]
     private void ParamHasChanged()
     {
         if (RequestState.Current == null) return;

@@ -13,10 +13,10 @@
              x:Name="RequestViewXaml">
     <UserControl.KeyBindings>
         <KeyBinding Gesture="ctrl+enter" Command="{Binding SendRequestCommand}" />
-        <KeyBinding Gesture="alt+d1" Command="{Binding SwitchTabCommand}" CommandParameter="0"/>
-        <KeyBinding Gesture="alt+d2" Command="{Binding SwitchTabCommand}" CommandParameter="1"/>
-        <KeyBinding Gesture="alt+d3" Command="{Binding SwitchTabCommand}" CommandParameter="2"/>
-        <KeyBinding Gesture="alt+d4" Command="{Binding SwitchTabCommand}" CommandParameter="3"/>
+        <KeyBinding Gesture="alt+d1" Command="{Binding SwitchTabCommand}" CommandParameter="0" />
+        <KeyBinding Gesture="alt+d2" Command="{Binding SwitchTabCommand}" CommandParameter="1" />
+        <KeyBinding Gesture="alt+d3" Command="{Binding SwitchTabCommand}" CommandParameter="2" />
+        <KeyBinding Gesture="alt+d4" Command="{Binding SwitchTabCommand}" CommandParameter="3" />
     </UserControl.KeyBindings>
     <UserControl.Resources>
         <converters:EnumToIntConverter x:Key="EnumToIntConverter" />
@@ -107,33 +107,13 @@
         <!-- ResponsePanel -->
         <StackPanel Grid.Row="0" Grid.Column="4" Orientation="Horizontal">
             <TextBlock FontSize="16" Margin="10" TextWrapping="Wrap" Text="{Binding ResponseStatus}" />
-            <TextBlock FontSize="16" Margin="10">
-                <TextBlock.Text>
-                    <MultiBinding StringFormat="{}{0} ms">
-                        <Binding Path="ResponseTime" StringFormat="{}{0:F2}" />
-                    </MultiBinding>
-                </TextBlock.Text>
-            </TextBlock>
+            <TextBlock FontSize="16" Margin="10" Text="{Binding ResponseTime}" />
+            <TextBlock FontSize="16" Margin="10" Text="{Binding ResponseSize}" />
         </StackPanel>
         <!-- /ResponsePanel -->
         <!-- ResponseEditor -->
         <Grid Grid.Row="1" Grid.Column="4" Background="#362F44">
-            <avaloniaEdit:TextEditor
-                Name="ResponseEditor"
-                FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
-                Margin="10"
-                ShowLineNumbers="True"
-                HorizontalScrollBarVisibility="Disabled"
-                VerticalScrollBarVisibility="Visible"
-                FontWeight="Light"
-                IsReadOnly="True"
-                FontSize="14">
-                <i:Interaction.Behaviors>
-                    <behaviors:DocumentTextBindingBehavior
-                        Text="{Binding Response, Mode=TwoWay}">
-                    </behaviors:DocumentTextBindingBehavior>
-                </i:Interaction.Behaviors>
-            </avaloniaEdit:TextEditor>
+            <ContentControl Content="{Binding ResponseContent}" />
         </Grid>
         <!-- /ResponseEditor -->
     </Grid>

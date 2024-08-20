@@ -7,7 +7,13 @@
              x:DataType="vm:ParamsTabViewModel"
              x:Class="Owl.Views.RequestTabs.ParamsTab">
     <StackPanel Margin="10" Orientation="Vertical">
-        <Button Content="TODO: +" Click="OnAddParameterClick" />
+        <Grid Margin="0 5" ColumnDefinitions="*, 50">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Add +" Command="{Binding AddParameterCommand}" />
+                <Button Margin="5 0" Content="Enable all" Command="{Binding SetParamEnabledCommand}" CommandParameter="true" />
+                <Button Content="Disable all" Command="{Binding SetParamEnabledCommand}" CommandParameter="false" />
+            </StackPanel>
+        </Grid>
         <ItemsRepeater Height="1000" ItemsSource="{Binding Parameters}">
             <ItemsRepeater.ItemTemplate>
                 <DataTemplate>
@@ -17,7 +23,8 @@
                         <TextBox TextChanged="ParamHasChanged" Text="{Binding Value, Mode=TwoWay}" Grid.Column="2"
                                  Watermark="Value" />
                         <StackPanel Orientation="Horizontal" Grid.Column="3" Margin="10 0">
-                            <CheckBox ToolTip.Tip="Is param enabled" x:Name="IsEnabledCheckBox" IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
+                            <CheckBox ToolTip.Tip="Is param enabled" x:Name="IsEnabledCheckBox"
+                                      IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
                             <Button Content="❌" Click="OnRemoveParameterClick" CommandParameter="{Binding }" />
                         </StackPanel>
                     </Grid>

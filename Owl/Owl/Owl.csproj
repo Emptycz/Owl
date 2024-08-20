@@ -36,4 +36,8 @@
         <DependentUpon>RequestNodeFormWindow.axaml</DependentUpon>
       </Compile>
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Utils\Utils.csproj" />
+    </ItemGroup>
 </Project>

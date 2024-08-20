@@ -6,8 +6,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="vm:AuthTabViewModel"
              x:Class="Owl.Views.RequestTabs.AuthTab">
-    <Grid ColumnDefinitions="100, *">
-        <ComboBox ItemsSource="{Binding SchemeOptions}" SelectedItem="{Binding Scheme, Mode=TwoWay}" />
-        <TextBox Grid.Column="1" Text="{Binding Token}" Watermark="Token" />
-    </Grid>
+    <StackPanel Margin="10">
+        <ComboBox ItemsSource="{Binding SchemeOptions}" Width="200" SelectedItem="{Binding Scheme, Mode=TwoWay}" />
+        <TextBox Text="{Binding Token}" MinHeight="80" Margin="0 10" Watermark="Token" />
+    </StackPanel>
 </UserControl>

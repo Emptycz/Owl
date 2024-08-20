@@ -4,6 +4,7 @@
     <option name="projectPerEditor">
       <map>
         <entry key="Owl/Owl/App.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/ViewModels/ResponseTabs/RawResponseTabViewModel.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/Components/BodyFormView.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/Components/MyTextEditor.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/Components/RequestsSidebar.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
@@ -18,6 +19,8 @@
         <entry key="Owl/Owl/Views/RequestTabs/NoRequestSelectedTab).axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/RequestTabs/ParamsTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/RequestView.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/ResponseTabs/JsonResponseTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/ResponseTabs/RawResponseTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
       </map>
     </option>
   </component>
