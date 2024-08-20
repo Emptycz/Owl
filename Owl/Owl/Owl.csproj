@@ -35,6 +35,10 @@
       <Compile Update="Views\RequestNodeFormWindow.axaml.cs">
         <DependentUpon>RequestNodeFormWindow.axaml</DependentUpon>
       </Compile>
+      <Compile Update="Views\ResponseTabs\ErrorResponseTab.axaml.cs">
+        <DependentUpon>ErrorResponseTab.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>

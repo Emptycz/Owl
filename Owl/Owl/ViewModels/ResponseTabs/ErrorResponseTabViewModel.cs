@@ -6,8 +6,8 @@ public partial class ErrorResponseTabViewModel : ViewModelBase
 {
     [ObservableProperty] private string? _response;
 
-    public ErrorResponseTabViewModel(string response)
+    public ErrorResponseTabViewModel(string error)
     {
-        Response = response;
+        Response = error;
     }
 }
