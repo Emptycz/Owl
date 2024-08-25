@@ -16,4 +16,5 @@ public class LiteDbContext : IDbContext
 
     public ILiteCollection<RequestNode> RequestNodes => _database.GetCollection<RequestNode>("request_nodes");
     public ILiteCollection<OwlVariable> GlobalVariables => _database.GetCollection<OwlVariable>("global_variables");
+    public ILiteCollection<Environment> Environments => _database.GetCollection<Environment>("environments");
 }

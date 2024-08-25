@@ -3,6 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Owl.ViewModels.RequestTabs"
+             xmlns:models="using:Owl.Models"
+             xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="vm:ParamsTabViewModel"
              x:Class="Owl.Views.RequestTabs.ParamsTab">
@@ -14,9 +16,9 @@
                 <Button Content="Disable all" Command="{Binding SetParamEnabledCommand}" CommandParameter="false" />
             </StackPanel>
         </Grid>
-        <ItemsRepeater Height="1000" ItemsSource="{Binding Parameters}">
-            <ItemsRepeater.ItemTemplate>
-                <DataTemplate>
+        <controls:ItemsRepeater Height="1000" ItemsSource="{Binding Parameters}">
+            <controls:ItemsRepeater.ItemTemplate>
+                <DataTemplate DataType="models:RequestParameter">
                     <Grid Margin="0 5" ColumnDefinitions="*, 5, *, 50">
                         <TextBox TextChanged="ParamHasChanged" Text="{Binding Key, Mode=TwoWay}" Grid.Column="0"
                                  Watermark="Param key" />
@@ -29,7 +31,7 @@
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
-            </ItemsRepeater.ItemTemplate>
-        </ItemsRepeater>
+            </controls:ItemsRepeater.ItemTemplate>
+        </controls:ItemsRepeater>
     </StackPanel>
 </UserControl>

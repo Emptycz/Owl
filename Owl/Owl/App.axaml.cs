@@ -4,6 +4,7 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using Owl.Contexts;
+using Owl.Repositories.Environment;
 using Owl.Repositories.RequestNode;
 using Owl.Repositories.Spotlight;
 using Owl.Repositories.Variable;
@@ -58,6 +59,7 @@ public static class ServiceCollectionExtensions
         collection.AddSingleton<IRequestNodeRepository, LiteDbRequestNodeRepository>();
         collection.AddSingleton<IVariableRepository, LiteDbVariableRepository>();
         collection.AddSingleton<ISelectedNodeState, SelectedNodeState>();
+        collection.AddSingleton<IEnvironmentRepository, EnvironmentRepository>();
         collection.AddSingleton<ISpotlightRepository, SpotlightRepository>();
         collection.AddTransient<IVariableResolver, DbVariableResolver>();
         collection.AddTransient<RequestNodeFormWindowViewModel>();

@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Owl.Models;
 using Owl.Repositories.RequestNode;
 using Owl.States;
@@ -16,12 +17,12 @@ public partial class RequestsSidebarViewModel : ViewModelBase
 
     private readonly IRequestNodeRepository _repository;
 
-    public RequestsSidebarViewModel(ISelectedNodeState state, IRequestNodeRepository repository)
+    public RequestsSidebarViewModel(IServiceProvider provider)
     {
-        _state = state;
-        _repository = repository;
+        _state = provider.GetRequiredService<ISelectedNodeState>();
+        _repository = provider.GetRequiredService<IRequestNodeRepository>();
 
-        _requests = new ObservableCollection<RequestNode>(repository.GetAll());
+        _requests = new ObservableCollection<RequestNode>(_repository.GetAll());
         // TODO: Remove this, it's just for a test purposes
         // _requests.FirstOrDefault().Children = [new RequestNode{ Name = "Child!" }];
     }

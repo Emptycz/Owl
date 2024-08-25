@@ -1,5 +1,7 @@
+using System;
 using Avalonia.Controls;
 using AvaloniaEdit;
+using Microsoft.Extensions.DependencyInjection;
 using Owl.Repositories.RequestNode;
 using Owl.States;
 using Owl.ViewModels;
@@ -13,18 +15,24 @@ public partial class RequestView : UserControl
     private TextEditor? _editor;
     private RegistryOptions? _registryOptions;
 
-    public RequestView(IRequestNodeRepository nodeRepository, ISelectedNodeState state)
+    private readonly IServiceProvider _serviceProvider;
+
+    public RequestView(IServiceProvider provider)
     {
         InitializeComponent();
+        _serviceProvider = provider;
 
-        AddSidebarPanel(state, nodeRepository);
-        DataContext = new RequestViewModel(nodeRepository, state);
+        AddSidebarPanel();
+        DataContext = new RequestViewModel(
+            provider.GetRequiredService<IRequestNodeRepository>(),
+            provider.GetRequiredService<ISelectedNodeState>()
+        );      
     }
 
-    private void AddSidebarPanel(ISelectedNodeState state, IRequestNodeRepository nodeRepository)
+    private void AddSidebarPanel()
     {
         var sidebarWrapper = this.FindControl<Panel>("SidebarWrapper");
-        sidebarWrapper?.Children.Add(new RequestsSidebar(state, nodeRepository));
+        sidebarWrapper?.Children.Add(new RequestsSidebar(_serviceProvider));
     }
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)

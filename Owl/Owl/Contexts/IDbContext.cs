@@ -6,5 +6,6 @@ namespace Owl.Contexts;
 public interface IDbContext
 {
     public ILiteCollection<RequestNode> RequestNodes { get; }
-    public ILiteCollection<OwlVariable> GlobalVariables { get;  }
+    public ILiteCollection<OwlVariable> GlobalVariables { get; }
+    public ILiteCollection<Environment> Environments { get; }
 }

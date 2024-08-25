@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Owl.ViewModels.SettingsTabs"
+             xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+             xmlns:models="clr-namespace:Owl.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:EnvironmentsTabsViewModel"
+             x:Class="Owl.Views.SettingsTabs.EnvironmentsTab">
+    <Grid ColumnDefinitions="100, *">
+        <ListBox
+            ItemsSource="{Binding Environments}"
+            SelectedItem="{Binding SelectedEnvironment}" />
+        <controls:ItemsRepeater Grid.Column="1" ItemsSource="{Binding SelectedEnvironment.Variables}">
+            <controls:ItemsRepeater.ItemTemplate>
+                <DataTemplate DataType="models:OwlVariable">
+                    <Grid Margin="0 5" ColumnDefinitions="*, 5, *, 50">
+                        <TextBox Text="{Binding Key, Mode=TwoWay}" Grid.Column="0"
+                                 Watermark="Param key" />
+                        <TextBox Text="{Binding Value, Mode=TwoWay}" Grid.Column="2"
+                                 Watermark="Value" />
+                        <StackPanel Orientation="Horizontal" Grid.Column="3" Margin="10 0">
+                            <CheckBox ToolTip.Tip="Is param enabled" x:Name="IsEnabledCheckBox" />
+                            <!-- IsChecked="{Binding IsEnabled, Mode=TwoWay}" /> -->
+                            <!-- <Button Content="❌" Click="OnRemoveParameterClick" CommandParameter="{Binding }" /> -->
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </controls:ItemsRepeater.ItemTemplate>
+        </controls:ItemsRepeater>
+    </Grid>
+</UserControl>

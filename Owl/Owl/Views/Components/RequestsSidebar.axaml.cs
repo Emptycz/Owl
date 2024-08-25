@@ -1,22 +1,26 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
+using Microsoft.Extensions.DependencyInjection;
 using Owl.Models;
 using Owl.Repositories.RequestNode;
-using Owl.States;
 using Owl.ViewModels.Components;
+using Owl.Views.Windows;
 
 namespace Owl.Views.Components;
 
 public partial class RequestsSidebar : UserControl
 {
     private readonly IRequestNodeRepository _nodeRepository;
+    private readonly IServiceProvider _serviceProvider;
 
-    public RequestsSidebar(ISelectedNodeState state, IRequestNodeRepository nodeRepository)
+    public RequestsSidebar(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        DataContext = new RequestsSidebarViewModel(state, nodeRepository);
-        _nodeRepository = nodeRepository;
+        DataContext = new RequestsSidebarViewModel(serviceProvider);
+        _serviceProvider = serviceProvider;
+        _nodeRepository = serviceProvider.GetRequiredService<IRequestNodeRepository>();
     }
 
     private void OpenRequestEditWindow(object? sender, RoutedEventArgs e)
@@ -27,6 +31,12 @@ public partial class RequestsSidebar : UserControl
 
         var requestEditWindow = new RequestNodeFormWindow(_nodeRepository, viewModel.State.Current);
         requestEditWindow.ShowDialog(this.FindAncestorOfType<Window>()!);
+    }
+
+    private void OpenSettingsWindow(object? sender, RoutedEventArgs e)
+    {
+        var envWindow = new SettingsWindow(_serviceProvider);
+        envWindow.ShowDialog(this.FindAncestorOfType<Window>()!);
     }
 
     private void OnRemoveMenuItemClick(object sender, RoutedEventArgs e)
