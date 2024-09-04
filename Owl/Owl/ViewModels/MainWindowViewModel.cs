@@ -20,10 +20,12 @@ public partial class MainWindowViewModel : ViewModelBase
         var variableRepository = provider.GetRequiredService<IVariableRepository>();
         var var = new OwlVariable { Key = "Test", Value = "TestValue" };
         variableRepository.Add(var);
+        // variableRepository.DeleteAll();
 
         var vars = variableRepository.GetAll();
         foreach (var v in vars)
         {
+            Console.WriteLine("This is the restored db type: {0}", v.GetType());
             Console.WriteLine(JsonSerializer.Serialize(v));
         }
 

@@ -56,6 +56,11 @@ public class SettingsRepository : ISettingsRepository
         return _context.Settings.Delete(id);
     }
 
+    public int DeleteAll()
+    {
+        return _context.Settings.DeleteAll();
+    }
+
     public Models.Settings Upsert(Models.Settings entity)
     {
         return _context.Settings.FindById(entity.Id) is not null ? Update(entity) : Add(entity);

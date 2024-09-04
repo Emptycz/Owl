@@ -16,6 +16,7 @@ public interface IRepository<in TType, TResult>
     TResult Add(TType entity);
     TResult Update(TType entity);
     bool Delete(Guid id);
+    int DeleteAll();
     TResult Upsert(TType entity);
 
     Task<IEnumerable<TResult>> GetAllAsync();

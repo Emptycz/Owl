@@ -48,6 +48,14 @@ public class LiteDbRequestNodeRepository(IDbContext context) : IRequestNodeRepos
         return true;
     }
 
+    public int DeleteAll()
+    {
+        int res = context.RequestNodes.DeleteAll();
+
+        NotifyChange(new Models.RequestNode { Id = Guid.Empty, Name = "Deleted All Nodes" });
+        return res;
+    }
+
     public Models.RequestNode Upsert(Models.RequestNode entity)
     {
         context.RequestNodes.Upsert(entity);

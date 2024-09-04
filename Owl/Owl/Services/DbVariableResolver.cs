@@ -59,7 +59,9 @@ public partial class DbVariableResolver : IVariableResolver
         {
             string variableName = match.Groups[1].Value;
             var res = variableValues.FirstOrDefault(v => v.Key == variableName);
-            return res is null ? variableName : res.Value;
+            // TODO: This whole thing is just a prototype
+            // return res is null ? variableName : res.Value;
+            return variableName;
         });
     }
 

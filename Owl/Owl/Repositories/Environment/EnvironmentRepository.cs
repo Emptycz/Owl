@@ -57,6 +57,13 @@ public class EnvironmentRepository : IEnvironmentRepository
         return true;
     }
 
+    public int DeleteAll()
+    {
+        int res = _context.Environments.DeleteAll();
+        RepositoryHasChanged?.Invoke(this, new Models.Environment { Id = Guid.Empty });
+        return res;
+    }
+
     public Models.Environment Upsert(Models.Environment entity)
     {
         return entity.Id == Guid.Empty ? Add(entity) : Update(entity);
