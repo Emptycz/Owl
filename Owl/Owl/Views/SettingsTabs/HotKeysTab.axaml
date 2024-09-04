@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Owl.ViewModels.SettingsTabs"
+             xmlns:m="using:Owl.Models"
+             xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:HotKeysTabViewModel"
+             x:Class="Owl.Views.SettingsTabs.HotKeysTab">
+    <controls:ItemsRepeater ItemsSource="{Binding HotKeys}">
+        <controls:ItemsRepeater.ItemTemplate>
+            <DataTemplate x:DataType="m:HotKey">
+                <Grid Margin="0 5" ColumnDefinitions="3*, *">
+                    <TextBlock Text="{Binding Action}" />
+                    <DockPanel HorizontalAlignment="Stretch" Grid.Column="1">
+                        <TextBox HorizontalAlignment="Stretch" Margin="5 0" Text="{Binding Key, Mode=TwoWay}"
+                                 Watermark="Key..." />
+                        <TextBox HorizontalAlignment="Stretch" Text="{Binding Modifier, Mode=TwoWay}"
+                                 Watermark="Modifier..." />
+                    </DockPanel>
+                </Grid>
+            </DataTemplate>
+        </controls:ItemsRepeater.ItemTemplate>
+    </controls:ItemsRepeater>
+</UserControl>

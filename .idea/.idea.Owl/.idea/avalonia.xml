@@ -26,7 +26,10 @@
         <entry key="Owl/Owl/Views/ResponseTabs/ProcessingResponseTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/ResponseTabs/RawResponseTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/SettingsTabs/EnvironmentsTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/SettingsTabs/HotKeysTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/SettingsTabs/RequestSettingsTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/Windows/EnvironmentWIndow.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Windows/SettingsWindow.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
       </map>
     </option>
   </component>

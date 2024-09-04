@@ -1,30 +1,31 @@
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Owl.Models;
+using Owl.ViewModels.Models;
 
 namespace Owl.States;
 
 public interface ISelectedNodeState
 {
-    RequestNode? Current { get; set; }
-    event EventHandler<RequestNode>? CurrentHasChanged;
+    RequestNodeVm? Current { get; set; }
+    event EventHandler<RequestNodeVm>? CurrentHasChanged;
     event EventHandler<bool> RequestedRefresh;
 
-    void OnCurrentHasChanged(RequestNode? node);
+    void OnCurrentHasChanged(RequestNodeVm? node);
 }
 
 public partial class SelectedNodeState : ObservableObject, ISelectedNodeState
 {
-    [ObservableProperty] private RequestNode? _current;
-    public event EventHandler<RequestNode>? CurrentHasChanged;
+    [ObservableProperty] private RequestNodeVm? _current;
+    public event EventHandler<RequestNodeVm>? CurrentHasChanged;
     public event EventHandler<bool>? RequestedRefresh;
 
-    partial void OnCurrentChanged(RequestNode? value)
+    partial void OnCurrentChanged(RequestNodeVm? value)
     {
         OnCurrentHasChanged(value);
     }
 
-    public void OnCurrentHasChanged(RequestNode? node)
+    public void OnCurrentHasChanged(RequestNodeVm? node)
     {
         CurrentHasChanged?.Invoke(this, node!);
     }

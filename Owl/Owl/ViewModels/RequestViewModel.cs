@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -16,6 +19,7 @@ using Owl.Repositories.RequestNode;
 using Owl.Repositories.Variable;
 using Owl.Services;
 using Owl.States;
+using Owl.ViewModels.Models;
 using Owl.Views.RequestTabs;
 using Owl.Views.ResponseTabs;
 using Utils;
@@ -29,7 +33,7 @@ public partial class RequestViewModel : ViewModelBase
     [ObservableProperty] private string _selectedRequestUrl = string.Empty;
     [ObservableProperty] private string _selectedRequestMethod = "GET";
 
-    [ObservableProperty] private ObservableCollection<RequestNode> _requests = [];
+    [ObservableProperty] private ObservableCollection<RequestNodeVm> _requests = [];
     [ObservableProperty] private string[] _methods = ["GET", "POST", "PUT", "UPDATE", "DELETE"];
 
     [ObservableProperty] private string _responseSize = string.Empty;
@@ -46,15 +50,17 @@ public partial class RequestViewModel : ViewModelBase
 
     private readonly IRequestNodeRepository _nodeRepository;
     private readonly HttpClientService _httpClientService = new();
+    private readonly IVariableResolver _variableResolver;
 
 
-    public RequestViewModel(IRequestNodeRepository nodeNodeRepository, ISelectedNodeState state)
+    public RequestViewModel(IRequestNodeRepository nodeNodeRepository, ISelectedNodeState state, IVariableResolver variableResolver)
     {
         _nodeRepository = nodeNodeRepository;
+        _variableResolver = variableResolver;
         ResponseTime = "0 ms";
         RequestState = state;
 
-        Requests = new ObservableCollection<RequestNode>(_nodeRepository.GetAll());
+        Requests = new ObservableCollection<RequestNodeVm>(_nodeRepository.GetAll().Select(r => new RequestNodeVm(r)));
         state.Current = Requests.FirstOrDefault();
         state.CurrentHasChanged += OnRequestHasChanged;
 
@@ -85,7 +91,9 @@ public partial class RequestViewModel : ViewModelBase
 
     partial void OnSearchChanging(string value)
     {
-        Requests = new ObservableCollection<RequestNode>(_nodeRepository.Find((x) => x.Name.Contains(value)));
+        Requests = new ObservableCollection<RequestNodeVm>(_nodeRepository
+            .Find((x) => x.Name.Contains(value))
+            .Select(r => new RequestNodeVm(r)));
     }
 
     [RelayCommand]
@@ -139,13 +147,10 @@ public partial class RequestViewModel : ViewModelBase
         Console.WriteLine(
             $"Sending request to {RequestState.Current.Url} with method: {RequestState.Current.Method} with body: {RequestState.Current.Body}");
 
-        // TOOD: This is only for testing purposes, pass this via DI container
-        IVariableResolver resolver = new DbVariableResolver(new LiteDbVariableRepository(new LiteDbContext()));
-
         Console.WriteLine("Body {0} has var: {1}", RequestState.Current.Body,
-            resolver.HasVariable(RequestState.Current.Body));
+            _variableResolver.HasVariable(RequestState.Current.Body));
         Console.WriteLine("Body has variables: {0}",
-            JsonSerializer.Serialize(resolver.ExtractVariables(RequestState.Current.Body)));
+            JsonSerializer.Serialize(_variableResolver.ExtractVariables(RequestState.Current.Body)));
         try
         {
             _cancellationTokenSource = new CancellationTokenSource();
@@ -206,6 +211,17 @@ public partial class RequestViewModel : ViewModelBase
     {
         ResponseSize = SizeCalc.CalculateSize(response.Content.ReadAsStringAsync().Result, Encoding.ASCII).ToString();
         if (RequestState.Current is null) return;
+
+        // TODO: This should be Variable business logic implementation
+        string json = response.Content.ReadAsStringAsync().Result;
+        var parsedJson = JsonSerializer.Deserialize<JsonElement>(json);
+
+        // Example path provided by the user
+        const string userPath = "authentication.strategy"; // Example string path
+
+        // Extract value based on string path
+        object? valueFromStringPath = JsonTraverser.TraverseJson(parsedJson, userPath);
+        Console.WriteLine(valueFromStringPath); // Output: value at the specified path
 
         RequestState.Current.Response = response;
     }

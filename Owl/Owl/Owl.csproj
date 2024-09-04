@@ -50,4 +50,8 @@
     <ItemGroup>
       <UpToDateCheckInput Remove="Views\Icons\SyncCircleIcon.axaml" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Enums\" />
+    </ItemGroup>
 </Project>

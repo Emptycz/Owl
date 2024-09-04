@@ -1,11 +1,14 @@
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using Owl.Contexts;
+using Owl.Models;
 using Owl.Repositories.Environment;
 using Owl.Repositories.RequestNode;
+using Owl.Repositories.Settings;
 using Owl.Repositories.Spotlight;
 using Owl.Repositories.Variable;
 using Owl.Services;
@@ -35,6 +38,20 @@ public partial class App : Application
         // Creates a ServiceProvider containing services from the provided IServiceCollection
         var services = collection.BuildServiceProvider();
 
+        // Check if there are any settings in the database, if not, create a new one
+        var settingsRepository = services.GetRequiredService<ISettingsRepository>();
+        if (!settingsRepository.GetAll().Any())
+        {
+            settingsRepository.Add(new Settings
+            {
+                RequestSettings = new RequestSettings
+                {
+                    FontSize = 14,
+                    FontFamily = "Arial",
+                }
+            });
+        }
+
         // Create an instance of MainWindow, passing in the resolved RequestViewModel
         var mainWindow = new MainWindow(services);
 
@@ -61,6 +78,8 @@ public static class ServiceCollectionExtensions
         collection.AddSingleton<ISelectedNodeState, SelectedNodeState>();
         collection.AddSingleton<IEnvironmentRepository, EnvironmentRepository>();
         collection.AddSingleton<ISpotlightRepository, SpotlightRepository>();
+        collection.AddSingleton<ISettingsRepository, SettingsRepository>();
+
         collection.AddTransient<IVariableResolver, DbVariableResolver>();
         collection.AddTransient<RequestNodeFormWindowViewModel>();
         collection.AddTransient<MainWindow>();

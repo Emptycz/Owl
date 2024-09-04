@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Owl.Models;
 using Owl.Repositories.RequestNode;
 using Owl.ViewModels.Components;
+using Owl.ViewModels.Models;
 using Owl.Views.Windows;
 
 namespace Owl.Views.Components;
@@ -41,7 +42,7 @@ public partial class RequestsSidebar : UserControl
 
     private void OnRemoveMenuItemClick(object sender, RoutedEventArgs e)
     {
-        if (sender is not MenuItem menuItem || menuItem.DataContext is not RequestNode nodeToRemove) return;
+        if (sender is not MenuItem menuItem || menuItem.DataContext is not RequestNodeVm nodeToRemove) return;
 
         // Access the RequestViewModel instance from DataContext of UserControl
         if (DataContext is RequestsSidebarViewModel viewModel)
@@ -52,7 +53,7 @@ public partial class RequestsSidebar : UserControl
 
     private void OnDuplicateMenuItemClick(object? sender, RoutedEventArgs e)
     {
-        if (sender is not MenuItem menuItem || menuItem.DataContext is not RequestNode node) return;
+        if (sender is not MenuItem menuItem || menuItem.DataContext is not RequestNodeVm node) return;
 
         // Access the RequestViewModel instance from DataContext of UserControl
         if (DataContext is RequestsSidebarViewModel viewModel)

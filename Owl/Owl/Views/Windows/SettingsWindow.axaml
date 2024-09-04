@@ -8,20 +8,7 @@
         x:DataType="vc:SettingsWindowViewModel"
         Title="Owl | Settings">
     <Grid ColumnDefinitions="200, *">
-        <ListBox Grid.Column="0">
-            <ListBoxItem> Test </ListBoxItem>
-            <ListBoxItem> Test </ListBoxItem>
-            <ListBoxItem> Test </ListBoxItem>
-            <ListBoxItem> Test </ListBoxItem>
-            <ListBoxItem> Test </ListBoxItem>
-            <ListBoxItem> Test </ListBoxItem>
-            <ListBoxItem> Test </ListBoxItem>
-            <ListBoxItem>
-                <ListBox>
-                    <ListBoxItem> Test 2 </ListBoxItem>
-                </ListBox>
-            </ListBoxItem>
-        </ListBox>
+        <ListBox Grid.Column="0" SelectedItem="{Binding SelectedTab}" ItemsSource="{Binding SettingTabs}" />
         <ContentControl Grid.Column="1" Content="{Binding Content}" />
     </Grid>
 </Window>

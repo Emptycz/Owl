@@ -14,10 +14,6 @@ public partial class MainView : UserControl
     {
         InitializeComponent();
 
-        DataContext = new MainWindowViewModel(
-            provider.GetRequiredService<ISpotlightRepository>(),
-            provider.GetRequiredService<IRequestNodeRepository>(),
-            provider.GetRequiredService<ISelectedNodeState>()
-        );
+        DataContext = new MainWindowViewModel(provider);
     }
 }

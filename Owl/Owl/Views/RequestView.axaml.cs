@@ -1,20 +1,16 @@
 using System;
 using Avalonia.Controls;
-using AvaloniaEdit;
 using Microsoft.Extensions.DependencyInjection;
 using Owl.Repositories.RequestNode;
+using Owl.Services;
 using Owl.States;
 using Owl.ViewModels;
 using Owl.Views.Components;
-using TextMateSharp.Grammars;
 
 namespace Owl.Views;
 
 public partial class RequestView : UserControl
 {
-    private TextEditor? _editor;
-    private RegistryOptions? _registryOptions;
-
     private readonly IServiceProvider _serviceProvider;
 
     public RequestView(IServiceProvider provider)
@@ -25,8 +21,9 @@ public partial class RequestView : UserControl
         AddSidebarPanel();
         DataContext = new RequestViewModel(
             provider.GetRequiredService<IRequestNodeRepository>(),
-            provider.GetRequiredService<ISelectedNodeState>()
-        );      
+            provider.GetRequiredService<ISelectedNodeState>(),
+            provider.GetRequiredService<IVariableResolver>()
+        );
     }
 
     private void AddSidebarPanel()

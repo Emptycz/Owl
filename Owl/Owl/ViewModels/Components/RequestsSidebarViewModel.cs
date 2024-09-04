@@ -1,18 +1,20 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Owl.Models;
 using Owl.Repositories.RequestNode;
 using Owl.States;
+using Owl.ViewModels.Models;
 
 namespace Owl.ViewModels.Components;
 
 public partial class RequestsSidebarViewModel : ViewModelBase
 {
     [ObservableProperty] private string _search = string.Empty;
-    [ObservableProperty] private ObservableCollection<RequestNode> _requests;
+    [ObservableProperty] private ObservableCollection<RequestNodeVm> _requests;
     [ObservableProperty] private ISelectedNodeState _state;
 
     private readonly IRequestNodeRepository _repository;
@@ -22,19 +24,20 @@ public partial class RequestsSidebarViewModel : ViewModelBase
         _state = provider.GetRequiredService<ISelectedNodeState>();
         _repository = provider.GetRequiredService<IRequestNodeRepository>();
 
-        _requests = new ObservableCollection<RequestNode>(_repository.GetAll());
+        _requests = new ObservableCollection<RequestNodeVm>(_repository.GetAll().Select(r => new RequestNodeVm(r)));
         // TODO: Remove this, it's just for a test purposes
         // _requests.FirstOrDefault().Children = [new RequestNode{ Name = "Child!" }];
     }
 
     [RelayCommand]
-    private void RefreshData(System.Guid requestNodeId)
+    private void RefreshData(Guid requestNodeId)
     {
-        State.Current = _repository.Get(requestNodeId);
+        var request = _repository.Get(requestNodeId);
+        State.Current = request is null ? null : new RequestNodeVm(request);
     }
 
     [RelayCommand]
-    private void RemoveRequest(RequestNode node)
+    private void RemoveRequest(RequestNodeVm node)
     {
         _repository.Delete(node.Id);
         Requests.Remove(node);
@@ -50,18 +53,18 @@ public partial class RequestsSidebarViewModel : ViewModelBase
             Body = string.Empty,
         };
 
-        Requests.Add(_repository.Add(newNode));
+        Requests.Add(new RequestNodeVm(_repository.Add(newNode)));
     }
 
     [RelayCommand]
-    private void RemoveRequestNode(RequestNode node)
+    private void RemoveRequestNode(RequestNodeVm node)
     {
         _repository.Delete(node.Id);
         Requests.Remove(node);
     }
 
     [RelayCommand]
-    private void DuplicateRequest(RequestNode node)
+    private void DuplicateRequest(RequestNodeVm node)
     {
         var newNode = new RequestNode
         {
@@ -72,11 +75,11 @@ public partial class RequestsSidebarViewModel : ViewModelBase
             Headers = node.Headers,
             Children = node.Children,
         };
-        Requests.Add(_repository.Add(newNode));
+        Requests.Add(new RequestNodeVm(_repository.Add(newNode)));
     }
 
     partial void OnSearchChanging(string value)
     {
-        Requests = new ObservableCollection<RequestNode>(_repository.Find((x) => x.Name.Contains(value)));
+        Requests = new ObservableCollection<RequestNodeVm>(_repository.Find((x) => x.Name.Contains(value)).Select(r => new RequestNodeVm(r)));
     }
 }

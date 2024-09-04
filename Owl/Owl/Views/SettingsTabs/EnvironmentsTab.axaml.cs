@@ -9,6 +9,6 @@ public partial class EnvironmentsTab : UserControl
     public EnvironmentsTab(IEnvironmentRepository environmentRepository)
     {
         InitializeComponent();
-        DataContext = new EnvironmentsTabsViewModel(environmentRepository);
+        DataContext = new EnvironmentsTabViewModel(environmentRepository);
     }
 }

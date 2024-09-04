@@ -6,7 +6,7 @@
              xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
              xmlns:models="clr-namespace:Owl.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:DataType="vm:EnvironmentsTabsViewModel"
+             x:DataType="vm:EnvironmentsTabViewModel"
              x:Class="Owl.Views.SettingsTabs.EnvironmentsTab">
     <Grid ColumnDefinitions="100, *">
         <ListBox

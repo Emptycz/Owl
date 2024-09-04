@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Owl.Models;
 using Owl.States;
+using Owl.ViewModels.Models;
 
 namespace Owl.ViewModels.ResponseTabs;
 

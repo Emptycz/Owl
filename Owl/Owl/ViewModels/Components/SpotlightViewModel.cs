@@ -6,6 +6,7 @@ using Owl.Models;
 using Owl.Repositories.RequestNode;
 using Owl.Repositories.Spotlight;
 using Owl.States;
+using Owl.ViewModels.Models;
 
 namespace Owl.ViewModels.Components;
 
@@ -42,7 +43,8 @@ public partial class SpotlightViewModel : ViewModelBase
     private void UseSelectedItem()
     {
         if (SelectedItem is null) return;
-        _nodeState.Current = _nodeRepository.Get(SelectedItem!.Id);
+        var request = _nodeRepository.Get(SelectedItem!.Id);
+        _nodeState.Current = request is null ? null : new RequestNodeVm(request);
         Close();
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ public class HttpClientService
     {
         if (node.Auth is not null)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(node.Auth.Scheme, node.Auth.Token);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(node.Auth.Scheme, node.Auth.Token);
         }
 
         try
@@ -44,11 +45,11 @@ public class HttpClientService
 
     public async Task<HttpResponseMessage> PostAsync(RequestNode node, CancellationToken cancellationToken = default)
     {
-        var content = new StringContent(node.Body, Encoding.UTF8, "application/json");
+        var content = node.Body is not null ? new StringContent(node.Body, Encoding.UTF8, "application/json") : null;
 
         if (node.Auth is not null)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(node.Auth.Scheme, node.Auth.Token);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(node.Auth.Scheme, node.Auth.Token);
         }
 
         try
