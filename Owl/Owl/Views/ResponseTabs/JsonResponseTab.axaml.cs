@@ -8,7 +8,7 @@ namespace Owl.Views.ResponseTabs;
 
 public partial class JsonResponseTab : UserControl
 {
-    public JsonResponseTab(ISelectedNodeState state)
+    public JsonResponseTab(IRequestNodeState state)
     {
         InitializeComponent();
         DataContext = new JsonResponseTabViewModel(state);

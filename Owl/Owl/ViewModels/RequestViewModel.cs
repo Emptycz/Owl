@@ -15,9 +15,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Owl.Contexts;
 using Owl.Models;
+using Owl.Models.Variables;
 using Owl.Repositories.RequestNode;
 using Owl.Repositories.Variable;
 using Owl.Services;
+using Owl.Services.VariableResolvers;
 using Owl.States;
 using Owl.ViewModels.Models;
 using Owl.Views.RequestTabs;
@@ -29,7 +31,7 @@ namespace Owl.ViewModels;
 
 public partial class RequestViewModel : ViewModelBase
 {
-    [ObservableProperty] private ISelectedNodeState _requestState;
+    [ObservableProperty] private IRequestNodeState _requestState;
     [ObservableProperty] private string _selectedRequestUrl = string.Empty;
     [ObservableProperty] private string _selectedRequestMethod = "GET";
 
@@ -50,13 +52,15 @@ public partial class RequestViewModel : ViewModelBase
 
     private readonly IRequestNodeRepository _nodeRepository;
     private readonly HttpClientService _httpClientService = new();
-    private readonly IVariableResolver _variableResolver;
+    private readonly IEnvironmentState _environmentState;
+    private readonly IVariableResolverFactory _variableResolverFactory;
 
 
-    public RequestViewModel(IRequestNodeRepository nodeNodeRepository, ISelectedNodeState state, IVariableResolver variableResolver)
+    public RequestViewModel(IRequestNodeRepository nodeNodeRepository, IRequestNodeState state, IVariableResolverFactory variableResolver, IEnvironmentState envState)
     {
         _nodeRepository = nodeNodeRepository;
-        _variableResolver = variableResolver;
+        _variableResolverFactory = variableResolver;
+        _environmentState = envState;
         ResponseTime = "0 ms";
         RequestState = state;
 
@@ -144,13 +148,20 @@ public partial class RequestViewModel : ViewModelBase
         float responseTime = 0;
         var stopwatch = new Stopwatch();
 
-        Console.WriteLine(
-            $"Sending request to {RequestState.Current.Url} with method: {RequestState.Current.Method} with body: {RequestState.Current.Body}");
+        var requestVariables = VariableFinder.ExtractVariables(RequestState.Current);
+        foreach (FoundVariable foundVariable in requestVariables)
+        {
+            var variable = _environmentState.GetVariables().SingleOrDefault(x => x.Key == foundVariable.Key);
+            if (variable is null)
+            {
+                Console.WriteLine($"Variable {foundVariable.Key} not found");
+                return;
+            }
 
-        Console.WriteLine("Body {0} has var: {1}", RequestState.Current.Body,
-            _variableResolver.HasVariable(RequestState.Current.Body));
-        Console.WriteLine("Body has variables: {0}",
-            JsonSerializer.Serialize(_variableResolver.ExtractVariables(RequestState.Current.Body)));
+            IVariableResolver resolver = _variableResolverFactory.GetResolver(variable);
+            RequestState.Current.Body = RequestState.Current.Body?.Replace($"{{{{.{variable}}}}}", resolver.Resolve());
+        }
+
         try
         {
             _cancellationTokenSource = new CancellationTokenSource();

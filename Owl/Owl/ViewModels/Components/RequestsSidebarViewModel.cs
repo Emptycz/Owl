@@ -15,13 +15,13 @@ public partial class RequestsSidebarViewModel : ViewModelBase
 {
     [ObservableProperty] private string _search = string.Empty;
     [ObservableProperty] private ObservableCollection<RequestNodeVm> _requests;
-    [ObservableProperty] private ISelectedNodeState _state;
+    [ObservableProperty] private IRequestNodeState _state;
 
     private readonly IRequestNodeRepository _repository;
 
     public RequestsSidebarViewModel(IServiceProvider provider)
     {
-        _state = provider.GetRequiredService<ISelectedNodeState>();
+        _state = provider.GetRequiredService<IRequestNodeState>();
         _repository = provider.GetRequiredService<IRequestNodeRepository>();
 
         _requests = new ObservableCollection<RequestNodeVm>(_repository.GetAll().Select(r => new RequestNodeVm(r)));

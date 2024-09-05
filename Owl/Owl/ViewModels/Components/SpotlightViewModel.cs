@@ -19,14 +19,14 @@ public partial class SpotlightViewModel : ViewModelBase
 
     private readonly ISpotlightRepository _spotlightRepository;
     private readonly IRequestNodeRepository _nodeRepository;
-    private readonly ISelectedNodeState _nodeState;
+    private readonly IRequestNodeState _nodeState;
 
     public event EventHandler<bool>? IsOpenChanged;
 
     public SpotlightViewModel(
         ISpotlightRepository spotlightRepository,
         IRequestNodeRepository nodeRepository,
-        ISelectedNodeState nodeState)
+        IRequestNodeState nodeState)
     {
         _spotlightRepository = spotlightRepository;
         _nodeState = nodeState;

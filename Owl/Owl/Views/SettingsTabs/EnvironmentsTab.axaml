@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Owl.ViewModels.SettingsTabs"
              xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
-             xmlns:models="clr-namespace:Owl.Models"
+             xmlns:variables="clr-namespace:Owl.Models.Variables"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="vm:EnvironmentsTabViewModel"
              x:Class="Owl.Views.SettingsTabs.EnvironmentsTab">
@@ -14,7 +14,7 @@
             SelectedItem="{Binding SelectedEnvironment}" />
         <controls:ItemsRepeater Grid.Column="1" ItemsSource="{Binding SelectedEnvironment.Variables}">
             <controls:ItemsRepeater.ItemTemplate>
-                <DataTemplate DataType="models:OwlVariable">
+                <DataTemplate DataType="variables:StaticVariable">
                     <Grid Margin="0 5" ColumnDefinitions="*, 5, *, 50">
                         <TextBox Text="{Binding Key, Mode=TwoWay}" Grid.Column="0"
                                  Watermark="Param key" />

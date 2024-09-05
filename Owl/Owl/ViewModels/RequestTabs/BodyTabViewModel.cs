@@ -9,9 +9,9 @@ public partial class BodyTabViewModel : ViewModelBase
 {
     [ObservableProperty] private string _body = string.Empty;
     private readonly IRequestNodeRepository _repository;
-    private readonly ISelectedNodeState _state;
+    private readonly IRequestNodeState _state;
 
-    public BodyTabViewModel(ISelectedNodeState state, IRequestNodeRepository repo)
+    public BodyTabViewModel(IRequestNodeState state, IRequestNodeRepository repo)
     {
         _repository = repo;
         _state = state;

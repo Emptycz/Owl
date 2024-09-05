@@ -11,14 +11,14 @@ public partial class JsonResponseTabViewModel : ViewModelBase
 {
     [ObservableProperty] private string? _response;
 
-    private readonly ISelectedNodeState _selectedNodeState;
+    private readonly IRequestNodeState _requestNodeState;
 
-    public JsonResponseTabViewModel(ISelectedNodeState selectedNodeState)
+    public JsonResponseTabViewModel(IRequestNodeState requestNodeState)
     {
-        _selectedNodeState = selectedNodeState;
-        _selectedNodeState.CurrentHasChanged += (_, node) => Response = ParseResponse(node);
+        _requestNodeState = requestNodeState;
+        _requestNodeState.CurrentHasChanged += (_, node) => Response = ParseResponse(node);
 
-        Response = ParseResponse(selectedNodeState.Current);
+        Response = ParseResponse(requestNodeState.Current);
     }
 
     private static string ParseResponse(RequestNode? node)

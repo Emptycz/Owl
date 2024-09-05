@@ -7,7 +7,7 @@ namespace Owl.Views.RequestTabs;
 
 public partial class AuthTab : UserControl
 {
-    public AuthTab(ISelectedNodeState state, IRequestNodeRepository repo)
+    public AuthTab(IRequestNodeState state, IRequestNodeRepository repo)
     {
         InitializeComponent();
         DataContext = new AuthTabViewModel(state, repo);

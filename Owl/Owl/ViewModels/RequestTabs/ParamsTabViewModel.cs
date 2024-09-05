@@ -13,12 +13,12 @@ namespace Owl.ViewModels.RequestTabs;
 
 public partial class ParamsTabViewModel : ViewModelBase
 {
-    [ObservableProperty] private ISelectedNodeState _requestState;
+    [ObservableProperty] private IRequestNodeState _requestState;
     [ObservableProperty] private ObservableCollection<RequestParameter> _parameters;
 
     private readonly IRequestNodeRepository _repository;
 
-    public ParamsTabViewModel(ISelectedNodeState state, IRequestNodeRepository repo)
+    public ParamsTabViewModel(IRequestNodeState state, IRequestNodeRepository repo)
     {
         _repository = repo;
         _requestState = state;

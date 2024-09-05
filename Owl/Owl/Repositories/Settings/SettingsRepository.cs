@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Owl.Contexts;
 
 namespace Owl.Repositories.Settings;
@@ -64,30 +63,5 @@ public class SettingsRepository : ISettingsRepository
     public Models.Settings Upsert(Models.Settings entity)
     {
         return _context.Settings.FindById(entity.Id) is not null ? Update(entity) : Add(entity);
-    }
-
-    public Task<IEnumerable<Models.Settings>> GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Models.Settings?> GetAsync(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Models.Settings> AddAsync(Models.Settings entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Models.Settings> UpdateAsync(Models.Settings entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> DeleteAsync(Guid id)
-    {
-        throw new NotImplementedException();
     }
 }

@@ -8,14 +8,14 @@ namespace Owl.ViewModels.RequestTabs;
 
 public partial class AuthTabViewModel : ViewModelBase
 {
-    [ObservableProperty] private ISelectedNodeState _requestState;
+    [ObservableProperty] private IRequestNodeState _requestState;
     [ObservableProperty] private string? _scheme = "Bearer";
     [ObservableProperty] private string? _token = string.Empty;
     public string[] SchemeOptions { get; set; } = ["Bearer"];
 
     private readonly IRequestNodeRepository _repository;
 
-    public AuthTabViewModel(ISelectedNodeState state, IRequestNodeRepository repo)
+    public AuthTabViewModel(IRequestNodeState state, IRequestNodeRepository repo)
     {
         _repository = repo;
         _requestState = state;

@@ -11,7 +11,7 @@ using Owl.Repositories.RequestNode;
 using Owl.Repositories.Settings;
 using Owl.Repositories.Spotlight;
 using Owl.Repositories.Variable;
-using Owl.Services;
+using Owl.Services.VariableResolvers;
 using Owl.States;
 using Owl.ViewModels;
 using Owl.Views;
@@ -72,15 +72,17 @@ public static class ServiceCollectionExtensions
 {
     public static void AddCommonServices(this IServiceCollection collection)
     {
+        collection.AddSingleton<IVariableResolverFactory, VariableResolverFactory>();
         collection.AddSingleton<IDbContext, LiteDbContext>();
         collection.AddSingleton<IRequestNodeRepository, LiteDbRequestNodeRepository>();
         collection.AddSingleton<IVariableRepository, LiteDbVariableRepository>();
-        collection.AddSingleton<ISelectedNodeState, SelectedNodeState>();
         collection.AddSingleton<IEnvironmentRepository, EnvironmentRepository>();
         collection.AddSingleton<ISpotlightRepository, SpotlightRepository>();
         collection.AddSingleton<ISettingsRepository, SettingsRepository>();
 
-        collection.AddTransient<IVariableResolver, DbVariableResolver>();
+        collection.AddSingleton<IRequestNodeState, RequestNodeState>();
+        collection.AddSingleton<IEnvironmentState, EnvironmentState>();
+
         collection.AddTransient<RequestNodeFormWindowViewModel>();
         collection.AddTransient<MainWindow>();
         collection.AddTransient<RequestViewModel>();

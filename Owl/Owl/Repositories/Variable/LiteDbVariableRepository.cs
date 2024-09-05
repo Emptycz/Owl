@@ -1,45 +1,38 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Owl.Contexts;
-using Owl.Models;
+using Owl.Models.Variables;
 
 namespace Owl.Repositories.Variable;
 
 public class LiteDbVariableRepository(IDbContext context) : IVariableRepository
 {
-    public event EventHandler<VariableBase>? RepositoryHasChanged;
+    public event EventHandler<IVariable>? RepositoryHasChanged;
 
-    public IEnumerable<VariableBase> GetAll()
+    public IEnumerable<IVariable> GetAll()
     {
-        var res = context.GlobalVariables.FindAll();
-        foreach (var v in res)
-        {
-            Console.WriteLine(JsonSerializer.Serialize(v));
-        }
-        return res;
+        return context.GlobalVariables.FindAll();
     }
 
-    public IEnumerable<VariableBase> Find(Expression<Func<VariableBase, bool>> predicate)
+    public IEnumerable<IVariable> Find(Expression<Func<IVariable, bool>> predicate)
     {
         return context.GlobalVariables.Find(predicate);
     }
 
-    public VariableBase Get(Guid id)
+    public IVariable Get(Guid id)
     {
         return context.GlobalVariables.FindById(id);
     }
 
-    public VariableBase Add(VariableBase entity)
+    public IVariable Add(IVariable entity)
     {
         context.GlobalVariables.Insert(entity);
         NotifyChange(entity);
         return entity;
     }
 
-    public VariableBase Update(VariableBase entity)
+    public IVariable Update(IVariable entity)
     {
         context.GlobalVariables.Update(entity);
         NotifyChange(entity);
@@ -51,7 +44,7 @@ public class LiteDbVariableRepository(IDbContext context) : IVariableRepository
         bool res = context.GlobalVariables.Delete(id);
         if (!res) return false;
 
-        NotifyChange(new OwlVariable{ Id = id });
+        NotifyChange(new VariableBase{ Id = id });
         return true;
     }
 
@@ -59,47 +52,18 @@ public class LiteDbVariableRepository(IDbContext context) : IVariableRepository
     {
         int res = context.GlobalVariables.DeleteAll();
 
-        NotifyChange(new OwlVariable{ Id = Guid.Empty });
+        NotifyChange(new VariableBase{ Id = Guid.Empty });
         return res;
     }
 
-    public VariableBase Upsert(VariableBase entity)
+    public IVariable Upsert(IVariable entity)
     {
         context.GlobalVariables.Upsert(entity);
         NotifyChange(entity);
         return entity;
     }
 
-    public Task<IEnumerable<VariableBase>> GetAllAsync()
-    {
-        return Task.FromResult(context.GlobalVariables.FindAll());
-    }
-
-    public Task<VariableBase?> GetAsync(Guid id)
-    {
-        return Task.FromResult(context.GlobalVariables.FindById(id));
-    }
-
-    public Task<VariableBase> AddAsync(VariableBase entity)
-    {
-        context.GlobalVariables.Insert(entity);
-        NotifyChange(entity);
-        return Task.FromResult(entity);
-    }
-
-    public Task<VariableBase> UpdateAsync(VariableBase entity)
-    {
-        context.GlobalVariables.Update(entity);
-        NotifyChange(entity);
-        return Task.FromResult(entity);
-    }
-
-    public Task<bool> DeleteAsync(Guid id)
-    {
-        return Task.FromResult(context.GlobalVariables.Delete(id));
-    }
-
-    private void NotifyChange(VariableBase entity)
+    private void NotifyChange(IVariable entity)
     {
         RepositoryHasChanged?.Invoke(this, entity);
     }

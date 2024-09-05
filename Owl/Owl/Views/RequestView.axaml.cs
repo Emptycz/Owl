@@ -2,7 +2,7 @@ using System;
 using Avalonia.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using Owl.Repositories.RequestNode;
-using Owl.Services;
+using Owl.Services.VariableResolvers;
 using Owl.States;
 using Owl.ViewModels;
 using Owl.Views.Components;
@@ -21,8 +21,9 @@ public partial class RequestView : UserControl
         AddSidebarPanel();
         DataContext = new RequestViewModel(
             provider.GetRequiredService<IRequestNodeRepository>(),
-            provider.GetRequiredService<ISelectedNodeState>(),
-            provider.GetRequiredService<IVariableResolver>()
+            provider.GetRequiredService<IRequestNodeState>(),
+            provider.GetRequiredService<IVariableResolverFactory>(),
+            provider.GetRequiredService<IEnvironmentState>()
         );
     }
 

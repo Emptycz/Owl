@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using LiteDB;
 using Owl.Models;
+using Owl.Models.Variables;
 using Environment = Owl.Models.Environment;
 using RequestNode = Owl.Models.RequestNode;
 
@@ -21,7 +22,7 @@ public class LiteDbContext : IDbContext
     {
         var mapper = new BsonMapper();
 
-        mapper.RegisterType<VariableBase>(
+        mapper.RegisterType<IVariable>(
             serialize: variable =>
             {
                 // Serialize the object to a BsonDocument using LiteDB's global mapper
@@ -35,13 +36,14 @@ public class LiteDbContext : IDbContext
             deserialize: bson =>
             {
                 // Extract the type information
-                string typeName = bson["_type"].AsString;
+                var typeName = bson["_type"].AsString;
 
+                // TODO: Instead of throwing, maybe use some generic default type
                 // Resolve the correct type from the type name
                 Type type = Type.GetType(typeName) ?? throw new InvalidOperationException($"Cannot find the type: {typeName}");
 
                 // Deserialize using the global mapper to ensure all properties are handled
-                return (VariableBase)BsonMapper.Global.ToObject(type, (BsonDocument)bson);
+                return (IVariable)BsonMapper.Global.ToObject(type, (BsonDocument)bson);
             }
         );
 
@@ -49,7 +51,7 @@ public class LiteDbContext : IDbContext
     }
 
     public ILiteCollection<RequestNode> RequestNodes => _database.GetCollection<RequestNode>("request_nodes");
-    public ILiteCollection<VariableBase> GlobalVariables => _database.GetCollection<VariableBase>("global_variables");
+    public ILiteCollection<IVariable> GlobalVariables => _database.GetCollection<IVariable>("global_variables");
     public ILiteCollection<Environment> Environments => _database.GetCollection<Environment>("environments");
     public ILiteCollection<Settings> Settings => _database.GetCollection<Settings>("settings");
 }

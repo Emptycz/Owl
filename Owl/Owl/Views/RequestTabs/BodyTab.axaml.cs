@@ -17,9 +17,9 @@ public partial class BodyTab : UserControl
     private TextEditor? _editor;
     private RegistryOptions? _registryOptions;
 
-    public BodyTab(ISelectedNodeState selectedNodeState, IRequestNodeRepository repo)
+    public BodyTab(IRequestNodeState requestNodeState, IRequestNodeRepository repo)
     {
-        DataContext = new BodyTabViewModel(selectedNodeState, repo);
+        DataContext = new BodyTabViewModel(requestNodeState, repo);
         InitializeComponent();
         InitializeEditor();
     }

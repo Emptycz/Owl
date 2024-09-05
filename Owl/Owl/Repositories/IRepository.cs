@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Owl.Models;
 
 namespace Owl.Repositories;
 
@@ -18,10 +19,4 @@ public interface IRepository<in TType, TResult>
     bool Delete(Guid id);
     int DeleteAll();
     TResult Upsert(TType entity);
-
-    Task<IEnumerable<TResult>> GetAllAsync();
-    Task<TResult?> GetAsync(Guid id);
-    Task<TResult> AddAsync(TType entity);
-    Task<TResult> UpdateAsync(TType entity);
-    Task<bool> DeleteAsync(Guid id);
 }

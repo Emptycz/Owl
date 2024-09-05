@@ -1,11 +1,10 @@
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Owl.Models;
 using Owl.ViewModels.Models;
 
 namespace Owl.States;
 
-public interface ISelectedNodeState
+public interface IRequestNodeState
 {
     RequestNodeVm? Current { get; set; }
     event EventHandler<RequestNodeVm>? CurrentHasChanged;
@@ -14,7 +13,7 @@ public interface ISelectedNodeState
     void OnCurrentHasChanged(RequestNodeVm? node);
 }
 
-public partial class SelectedNodeState : ObservableObject, ISelectedNodeState
+public partial class RequestNodeState : ObservableObject, IRequestNodeState
 {
     [ObservableProperty] private RequestNodeVm? _current;
     public event EventHandler<RequestNodeVm>? CurrentHasChanged;

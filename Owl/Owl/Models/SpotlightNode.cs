@@ -1,4 +1,5 @@
 using System;
+using Owl.Models.Variables;
 
 namespace Owl.Models;
 
@@ -26,7 +27,7 @@ public class SpotlightNode
         Name = entity.Name;
     }
 
-    public SpotlightNode(OwlVariable entity)
+    public SpotlightNode(IVariable entity)
     {
         Id = entity.Id;
         Type = "Variable";

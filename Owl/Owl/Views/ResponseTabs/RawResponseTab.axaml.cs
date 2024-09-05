@@ -6,7 +6,7 @@ namespace Owl.Views.ResponseTabs;
 
 public partial class RawResponseTab : UserControl
 {
-    public RawResponseTab(ISelectedNodeState state)
+    public RawResponseTab(IRequestNodeState state)
     {
         InitializeComponent();
         DataContext = new RawResponseTabViewModel(state);

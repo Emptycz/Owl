@@ -5,14 +5,14 @@ namespace Owl.ViewModels.ResponseTabs;
 
 public partial class RawResponseTabViewModel : ViewModelBase
 {
-    private readonly ISelectedNodeState _selectedNodeState;
+    private readonly IRequestNodeState _requestNodeState;
     [ObservableProperty] private string _response;
 
-    public RawResponseTabViewModel(ISelectedNodeState state)
+    public RawResponseTabViewModel(IRequestNodeState state)
     {
-        _selectedNodeState = state;
+        _requestNodeState = state;
         Response = state.Current?.Response?.Content.ReadAsStringAsync().Result ?? string.Empty;
-        _selectedNodeState.CurrentHasChanged += (_, node) =>
+        _requestNodeState.CurrentHasChanged += (_, node) =>
             Response = node.Response?.Content.ReadAsStringAsync().Result ?? string.Empty;
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Owl.Contexts;
 
 namespace Owl.Repositories.Environment;
@@ -67,30 +66,5 @@ public class EnvironmentRepository : IEnvironmentRepository
     public Models.Environment Upsert(Models.Environment entity)
     {
         return entity.Id == Guid.Empty ? Add(entity) : Update(entity);
-    }
-
-    public Task<IEnumerable<Models.Environment>> GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Models.Environment?> GetAsync(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Models.Environment> AddAsync(Models.Environment entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Models.Environment> UpdateAsync(Models.Environment entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> DeleteAsync(Guid id)
-    {
-        throw new NotImplementedException();
     }
 }
