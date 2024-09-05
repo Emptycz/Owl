@@ -159,6 +159,8 @@ public partial class RequestViewModel : ViewModelBase
             }
 
             IVariableResolver resolver = _variableResolverFactory.GetResolver(variable);
+            //  TODO: We need to resolve variables in the body, params, headers, and URL
+
             RequestState.Current.Body = RequestState.Current.Body?.Replace($"{{{{.{variable}}}}}", resolver.Resolve());
         }
 
