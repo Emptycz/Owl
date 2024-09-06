@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Owl.Enums;
 using Owl.Models;
 using Owl.ViewModels.Models;
 
 namespace Owl.Services;
 
-public record FoundVariable(string Key, string Location);
+public record FoundVariable(string Key, FoundVariableLocation Location);
 
 public static partial class VariableFinder
 {
@@ -27,14 +28,14 @@ public static partial class VariableFinder
 	{
 		var variables = new List<FoundVariable>();
 
-		variables.AddRange(ExtractVariables(node.Body).Select(v => new FoundVariable(v, "Body")));
-		variables.AddRange(ExtractVariables(node.Url).Select(v => new FoundVariable(v, "Url")));
+		variables.AddRange(ExtractVariables(node.Body).Select(v => new FoundVariable(v, FoundVariableLocation.Body)));
+		variables.AddRange(ExtractVariables(node.Url).Select(v => new FoundVariable(v, FoundVariableLocation.Url)));
 		variables.AddRange(node.Headers.SelectMany(rh =>
-			ExtractVariables(rh.Key).Select(v => new FoundVariable(v, $"Header: {rh.Key}"))
-				.Concat(ExtractVariables(rh.Value).Select(v => new FoundVariable(v, $"Header: {rh.Key}")))));
+			ExtractVariables(rh.Key).Select(v => new FoundVariable(v, FoundVariableLocation.Header))
+				.Concat(ExtractVariables(rh.Value).Select(v => new FoundVariable(v, FoundVariableLocation.Header)))));
 		variables.AddRange(node.Parameters.SelectMany(p =>
-			ExtractVariables(p.Key).Select(v => new FoundVariable(v, $"Parameter: {p.Key}"))
-				.Concat(ExtractVariables(p.Value).Select(v => new FoundVariable(v, $"Parameter: {p.Key}")))));
+			ExtractVariables(p.Key).Select(v => new FoundVariable(v, FoundVariableLocation.Parameter))
+				.Concat(ExtractVariables(p.Value).Select(v => new FoundVariable(v, FoundVariableLocation.Parameter)))));
 
 		return variables;
 	}
@@ -43,14 +44,14 @@ public static partial class VariableFinder
 	{
 		var variables = new List<FoundVariable>();
 
-		variables.AddRange(ExtractVariables(node.Body).Select(v => new FoundVariable(v, "Body")));
-		variables.AddRange(ExtractVariables(node.Url).Select(v => new FoundVariable(v, "Url")));
+		variables.AddRange(ExtractVariables(node.Body).Select(v => new FoundVariable(v, FoundVariableLocation.Body)));
+		variables.AddRange(ExtractVariables(node.Url).Select(v => new FoundVariable(v, FoundVariableLocation.Url)));
 		variables.AddRange(node.Headers.SelectMany(rh =>
-			ExtractVariables(rh.Key).Select(v => new FoundVariable(v, $"Header: {rh.Key}"))
-				.Concat(ExtractVariables(rh.Value).Select(v => new FoundVariable(v, $"Header: {rh.Key}")))));
+			ExtractVariables(rh.Key).Select(v => new FoundVariable(v, FoundVariableLocation.Header))
+				.Concat(ExtractVariables(rh.Value).Select(v => new FoundVariable(v, FoundVariableLocation.Header)))));
 		variables.AddRange(node.Parameters.SelectMany(p =>
-			ExtractVariables(p.Key).Select(v => new FoundVariable(v, $"Parameter: {p.Key}"))
-				.Concat(ExtractVariables(p.Value).Select(v => new FoundVariable(v, $"Parameter: {p.Key}")))));
+			ExtractVariables(p.Key).Select(v => new FoundVariable(v, FoundVariableLocation.Parameter))
+				.Concat(ExtractVariables(p.Value).Select(v => new FoundVariable(v, FoundVariableLocation.Parameter)))));
 
 		return variables;
 	}

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -7,17 +6,14 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Owl.Contexts;
+using Owl.Enums;
 using Owl.Models;
-using Owl.Models.Variables;
 using Owl.Repositories.RequestNode;
-using Owl.Repositories.Variable;
 using Owl.Services;
 using Owl.Services.VariableResolvers;
 using Owl.States;
@@ -56,7 +52,8 @@ public partial class RequestViewModel : ViewModelBase
     private readonly IVariableResolverFactory _variableResolverFactory;
 
 
-    public RequestViewModel(IRequestNodeRepository nodeNodeRepository, IRequestNodeState state, IVariableResolverFactory variableResolver, IEnvironmentState envState)
+    public RequestViewModel(IRequestNodeRepository nodeNodeRepository, IRequestNodeState state,
+        IVariableResolverFactory variableResolver, IEnvironmentState envState)
     {
         _nodeRepository = nodeNodeRepository;
         _variableResolverFactory = variableResolver;
@@ -145,10 +142,13 @@ public partial class RequestViewModel : ViewModelBase
     {
         if (RequestState.Current is null) return;
 
+        // TODO: Maybe we want to use Struct instead of Class?
+        RequestNode request = RequestState.Current.Clone();
+
         float responseTime = 0;
         var stopwatch = new Stopwatch();
 
-        var requestVariables = VariableFinder.ExtractVariables(RequestState.Current);
+        var requestVariables = VariableFinder.ExtractVariables(request);
         foreach (FoundVariable foundVariable in requestVariables)
         {
             var variable = _environmentState.GetVariables().SingleOrDefault(x => x.Key == foundVariable.Key);
@@ -158,10 +158,35 @@ public partial class RequestViewModel : ViewModelBase
                 return;
             }
 
-            IVariableResolver resolver = _variableResolverFactory.GetResolver(variable);
-            //  TODO: We need to resolve variables in the body, params, headers, and URL
-
-            RequestState.Current.Body = RequestState.Current.Body?.Replace($"{{{{.{variable}}}}}", resolver.Resolve());
+            string resolvedVariableValue = _variableResolverFactory.GetResolver(variable).Resolve();
+            // TODO: Move this to a separate method
+            switch (foundVariable.Location)
+            {
+                case FoundVariableLocation.Url:
+                    request.Url =
+                        request.Url?.Replace($"{{{{ .{variable.Key} }}}}", resolvedVariableValue);
+                    break;
+                case FoundVariableLocation.Body:
+                    request.Body =
+                        request.Body?.Replace($"{{{{ .{variable.Key} }}}}", resolvedVariableValue);
+                    break;
+                case FoundVariableLocation.Header:
+                    request.Headers = request.Headers.Select(header =>
+                    {
+                        header.Value = header.Value.Replace($"{{{{ .{variable.Key} }}}}", resolvedVariableValue);
+                        return header;
+                    }).ToList();
+                    break;
+                case FoundVariableLocation.Parameter:
+                    request.Parameters = request.Parameters.Select(param =>
+                    {
+                        param.Value = param.Value.Replace($"{{{{ .{variable.Key} }}}}", resolvedVariableValue);
+                        return param;
+                    }).ToList();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         try
@@ -175,20 +200,20 @@ public partial class RequestViewModel : ViewModelBase
             {
                 case "GET":
                     responseMessage =
-                        await _httpClientService.GetAsync(RequestState.Current, _cancellationTokenSource.Token);
+                        await _httpClientService.GetAsync(request, _cancellationTokenSource.Token);
                     break;
 
                 case "POST":
                     responseMessage =
-                        await _httpClientService.PostAsync(RequestState.Current, _cancellationTokenSource.Token);
+                        await _httpClientService.PostAsync(request, _cancellationTokenSource.Token);
                     break;
 
                 // Add other cases for PUT, DELETE, etc., as needed
 
                 default:
                     responseTime = 0;
-                    throw new ArgumentOutOfRangeException(nameof(RequestState.Current.Method),
-                        $"Unsupported method type: {RequestState.Current.Method}");
+                    throw new ArgumentOutOfRangeException(nameof(request.Method),
+                        $"Unsupported method type: {request.Method}");
             }
 
             stopwatch.Stop();
@@ -196,7 +221,7 @@ public partial class RequestViewModel : ViewModelBase
 
             SetResponse(responseMessage);
 
-            ResponseContent = GetResponseControl(RequestState.Current.Response);
+            ResponseContent = GetResponseControl(request.Response);
             ResponseTime = TimeCalc.CalculateTime(responseTime);
             ResponseStatus = responseMessage.StatusCode;
         }

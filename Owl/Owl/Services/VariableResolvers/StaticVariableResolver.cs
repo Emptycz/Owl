@@ -1,3 +1,4 @@
+using System;
 using Owl.Models.Variables;
 
 namespace Owl.Services.VariableResolvers;
@@ -13,4 +14,3 @@ public class StaticVariableResolver : IVariableResolver
 
 	public string Resolve() => Variable.Value;
 }
-

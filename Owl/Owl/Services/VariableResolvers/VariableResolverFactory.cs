@@ -24,7 +24,7 @@ public class VariableResolverFactory : IVariableResolverFactory
 		{
 			StaticVariable staticVariable => new StaticVariableResolver(staticVariable),
 			DynamicVariable dynamicVariable => new DynamicVariableResolver(dynamicVariable, _requestNodeRepository),
-			_ => throw new ArgumentException("Unknown variable type")
+			_ => throw new ArgumentException("Unknown variable type: " + variable.GetType().Name)
 		};
 	}
 }

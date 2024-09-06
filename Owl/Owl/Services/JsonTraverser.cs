@@ -6,7 +6,7 @@ namespace Owl.Services;
 
 public static class JsonTraverser
 {
-    public static object? TraverseJson(JsonElement jsonElement, string path)
+    public static string? TraverseJson(JsonElement jsonElement, string path)
     {
         string[] parts = path.Split('.');
         JsonElement currentElement = jsonElement;
@@ -23,14 +23,7 @@ public static class JsonTraverser
             }
         }
 
-        return currentElement.ValueKind switch
-        {
-            JsonValueKind.String => currentElement.GetString(),
-            JsonValueKind.Number => currentElement.GetDouble(),
-            JsonValueKind.True => true,
-            JsonValueKind.False => false,
-            _ => currentElement.ToString()
-        };
+        return currentElement.ToString();
     }
 
     public static List<object?> TraverseJsonWithRegex(JsonElement jsonElement, string regexPath)
