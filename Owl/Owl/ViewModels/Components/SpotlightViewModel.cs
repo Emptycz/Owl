@@ -36,6 +36,7 @@ public partial class SpotlightViewModel : ViewModelBase
     [RelayCommand]
     private void Close()
     {
+        IsOpenChanged?.Invoke(this, !IsOpen);
         IsOpen = false;
     }
 

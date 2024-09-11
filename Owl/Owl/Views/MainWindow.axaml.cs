@@ -1,9 +1,7 @@
 using System;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Microsoft.Extensions.DependencyInjection;
-using Owl.Repositories.RequestNode;
-using Owl.Repositories.Spotlight;
-using Owl.States;
 using Owl.ViewModels;
 
 namespace Owl.Views;
@@ -24,5 +22,11 @@ public partial class MainWindow : Window
         {
             contentHost.Content = requestView;
         }
+    }
+
+    private void CloseSpotlightWindow(object? sender, PointerPressedEventArgs e)
+    {
+        if (DataContext is not MainWindowViewModel viewModel) return;
+        viewModel.SpotlightViewModel.CloseCommand.Execute(null);
     }
 }

@@ -20,7 +20,8 @@
         <Rectangle
             Fill="Black"
             Opacity="0.4"
-            IsVisible="{Binding SpotlightViewModel.IsOpen}"/>
+            IsVisible="{Binding SpotlightViewModel.IsOpen}"
+            PointerPressed="CloseSpotlightWindow" />
         <components:Spotlight VerticalAlignment="Center"
                               HorizontalAlignment="Center"
                               VerticalContentAlignment="Center"
