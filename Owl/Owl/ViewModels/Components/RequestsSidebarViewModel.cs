@@ -4,6 +4,7 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
+using Owl.Enums;
 using Owl.Models;
 using Owl.Repositories.RequestNode;
 using Owl.States;
@@ -49,7 +50,7 @@ public partial class RequestsSidebarViewModel : ViewModelBase
         var newNode = new RequestNode
         {
             Name = "New Request",
-            Method = "GET",
+            Method = HttpRequestType.Get,
             Body = string.Empty,
         };
 

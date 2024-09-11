@@ -1,3 +1,4 @@
+
 namespace Owl.Enums;
 
 public enum FoundVariableLocation

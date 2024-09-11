@@ -1,11 +1,12 @@
 using System.ComponentModel;
+using Owl.Enums;
 using Owl.Models;
 
 namespace Owl.ViewModels.Models;
 
 public class RequestNodeVm : RequestNode, INotifyPropertyChanged
 {
-    private string _method = "GET";
+    private HttpRequestType _method = HttpRequestType.Get;
     private string _name = string.Empty;
     private string _tagColor = "#FF0000";
 
@@ -51,7 +52,7 @@ public class RequestNodeVm : RequestNode, INotifyPropertyChanged
         }
     }
 
-    public new string Method
+    public new HttpRequestType Method
     {
         get => _method;
         set
@@ -63,16 +64,16 @@ public class RequestNodeVm : RequestNode, INotifyPropertyChanged
         }
     }
 
-    // TOOD: Allow for custom colors
-    private string GetMethodColor(string method)
+    // TODO: Allow for custom colors
+    private string GetMethodColor(HttpRequestType method)
     {
-        return method.Trim().ToUpper() switch
+        return method switch
         {
-            "GET" => "#9933ff",
-            "POST" => "#339933",
-            "PUT" => "#ff9933",
-            "UPDATE" => "#0099ff",
-            "DELETE" => "#ff0000",
+            HttpRequestType.Get => "#9933ff",
+            HttpRequestType.Post => "#339933",
+            HttpRequestType.Put => "#ff9933",
+            HttpRequestType.Update => "#0099ff",
+            HttpRequestType.Delete => "#ff0000",
             _ => "#ffffff"
         };
     }

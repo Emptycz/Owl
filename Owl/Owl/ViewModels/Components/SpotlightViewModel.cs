@@ -15,7 +15,7 @@ public partial class SpotlightViewModel : ViewModelBase
     [ObservableProperty] private string _filterText = string.Empty;
     [ObservableProperty] private IEnumerable<SpotlightNode> _items = [];
     [ObservableProperty] private SpotlightNode? _selectedItem;
-    [ObservableProperty] private bool _isOpen = false;
+    [ObservableProperty] private bool _isOpen;
 
     private readonly ISpotlightRepository _spotlightRepository;
     private readonly IRequestNodeRepository _nodeRepository;

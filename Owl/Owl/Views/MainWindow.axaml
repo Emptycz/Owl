@@ -17,6 +17,10 @@
         <ContentControl
             x:Name="RequestViewHost"
             Focusable="{Binding !SpotlightViewModel.IsOpen}" />
+        <Rectangle
+            Fill="Black"
+            Opacity="0.4"
+            IsVisible="{Binding SpotlightViewModel.IsOpen}"/>
         <components:Spotlight VerticalAlignment="Center"
                               HorizontalAlignment="Center"
                               VerticalContentAlignment="Center"

@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Controls;
 using AvaloniaEdit;
 using AvaloniaEdit.Indentation.CSharp;

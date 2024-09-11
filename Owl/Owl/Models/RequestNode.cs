@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using LiteDB;
+using Owl.Enums;
 
 namespace Owl.Models;
 
@@ -11,7 +12,7 @@ public class RequestNode
     public Guid Id { get; set; } = Guid.NewGuid();
     public string Name { get; set; } = string.Empty;
     public string? Url { get; set; }
-    public string Method { get; set; } = "GET";
+    public HttpRequestType Method { get; set; } = HttpRequestType.Get;
     public string? Body { get; set; }
     public List<RequestHeader> Headers { get; set; } = [];
     public List<RequestParameter> Parameters { get; set; } = [];
