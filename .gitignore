@@ -4,3 +4,6 @@
 /Utils/**/obj/
 /Owl/Owl.Desktop/Owl.db
 /Owl/Owl.Desktop/Owl-log.db
+/**/bin/
+/**/obj/
+/**/*.db
