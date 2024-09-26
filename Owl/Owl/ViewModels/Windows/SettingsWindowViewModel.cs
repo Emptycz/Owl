@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Owl.Attributes;
 using Owl.Repositories.Environment;
 using Owl.Repositories.Settings;
 using Owl.Views.SettingsTabs;
@@ -11,19 +12,17 @@ namespace Owl.ViewModels.Windows;
 public partial class SettingsWindowViewModel : ViewModelBase
 {
     [ObservableProperty] private UserControl? _content;
-    [ObservableProperty] private string _selectedTab = "General";
+    [ObservableProperty] private SettingTab _selectedTab = SettingTab.General;
 
     private readonly IEnvironmentRepository _environmentRepository;
     private readonly ISettingsRepository _settingsRepository;
-
-    public IEnumerable<string> SettingTabs { get; } =
-    [
-        "General",
-        "Hotkeys",
-        "Environments",
-        "Request",
-        "Response",
-        "Themes",
+    public SettingTab[] SettingTabs { get; } = [
+        SettingTab.General,
+        SettingTab.Environments,
+        SettingTab.Hotkeys,
+        SettingTab.Request,
+        SettingTab.Response,
+        SettingTab.Themes,
     ];
 
     public SettingsWindowViewModel(IEnvironmentRepository environmentRepository, ISettingsRepository settingsRepository)
@@ -32,14 +31,30 @@ public partial class SettingsWindowViewModel : ViewModelBase
         _settingsRepository = settingsRepository;
     }
 
-    partial void OnSelectedTabChanged(string value)
+    partial void OnSelectedTabChanged(SettingTab value)
     {
         Content = value switch
         {
-            "Environment" => new EnvironmentsTab(_environmentRepository),
-            "Hotkeys" => new HotKeysTab(_settingsRepository),
-            "Request" => new RequestSettingsTab(_settingsRepository),
+            SettingTab.Environments => new EnvironmentsTab(_environmentRepository),
+            SettingTab.Hotkeys => new HotKeysTab(_settingsRepository),
+            SettingTab.Request => new RequestSettingsTab(_settingsRepository),
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }
+}
+
+public enum SettingTab
+{
+    [DisplayName("General")]
+    General,
+    [DisplayName("Hotkeys")]
+    Hotkeys,
+    [DisplayName("Environments")]
+    Environments,
+    [DisplayName("Request")]
+    Request,
+    [DisplayName("Response")]
+    Response,
+    [DisplayName("Themes")]
+    Themes,
 }

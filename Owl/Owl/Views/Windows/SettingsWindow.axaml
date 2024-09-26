@@ -3,12 +3,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vc="using:Owl.ViewModels.Windows"
+        xmlns:converters="clr-namespace:Owl.Converters"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Owl.Views.Windows.SettingsWindow"
         x:DataType="vc:SettingsWindowViewModel"
         Title="Owl | Settings">
+    <Window.Resources>
+        <converters:EnumDisplayNameConverter x:Key="EnumDisplayNameConverter" />
+    </Window.Resources>
     <Grid ColumnDefinitions="200, *">
-        <ListBox Grid.Column="0" SelectedItem="{Binding SelectedTab}" ItemsSource="{Binding SettingTabs}" />
+        <ListBox Grid.Column="0" SelectedItem="{Binding SelectedTab}" ItemsSource="{Binding SettingTabs}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource EnumDisplayNameConverter}}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <ContentControl Grid.Column="1" Content="{Binding Content}" />
     </Grid>
 </Window>

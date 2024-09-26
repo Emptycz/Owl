@@ -1,28 +1,35 @@
 using System;
 using System.Text.Json;
+using Owl.Models;
 using Owl.Models.Variables;
-using Owl.Repositories.RequestNode;
+using Owl.States;
 
 namespace Owl.Services.VariableResolvers;
 
 public class DynamicVariableResolver : IVariableResolver
 {
     private readonly DynamicVariable _variable;
-    private readonly IRequestNodeRepository _requestNodeRepository;
+    private readonly IRequestNodeState _requestNodeState;
 
-    public DynamicVariableResolver(DynamicVariable variable, IRequestNodeRepository requestNodeRepository)
+    public DynamicVariableResolver(DynamicVariable variable, IRequestNodeState requestNodeState)
     {
         _variable = variable;
-        _requestNodeRepository = requestNodeRepository;
+        _requestNodeState = requestNodeState;
     }
 
     public string Resolve()
     {
-        var referenceNode = _requestNodeRepository.Get(_variable.RequestNodeId);
+        RequestNode? referenceNode = _requestNodeState.Current;
         if (referenceNode is null)
         {
             // TODO: This might be a valid use-case, think of a better way to handle this
             throw new NullReferenceException("Reference node was not found");
+        }
+
+        if (referenceNode.Response is null)
+        {
+            // TODO: This might be a valid use-case, think of a better way to handle this
+            throw new NullReferenceException("Reference node response was not found");
         }
 
         string? jsonResponse = referenceNode.Response?.Content.ReadAsStringAsync().Result;

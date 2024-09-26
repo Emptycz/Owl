@@ -6,11 +6,13 @@ using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using Owl.Contexts;
 using Owl.Models;
+using Owl.Models.Variables;
 using Owl.Repositories.Environment;
 using Owl.Repositories.RequestNode;
 using Owl.Repositories.Settings;
 using Owl.Repositories.Spotlight;
 using Owl.Repositories.Variable;
+using Owl.Services;
 using Owl.Services.VariableResolvers;
 using Owl.States;
 using Owl.ViewModels;
@@ -33,10 +35,13 @@ public partial class App : Application
 
         // Register all the services needed for the application to run
         var collection = new ServiceCollection();
-        collection.AddCommonServices();
+        collection.AddCommonServices(); ;
 
         // Creates a ServiceProvider containing services from the provided IServiceCollection
         var services = collection.BuildServiceProvider();
+
+        // Register the default variables
+        RegisterGlobalVariables(services.GetRequiredService<IVariableRepository>());
 
         // Check if there are any settings in the database, if not, create a new one
         var settingsRepository = services.GetRequiredService<ISettingsRepository>();
@@ -65,6 +70,11 @@ public partial class App : Application
         }
 
         base.OnFrameworkInitializationCompleted();
+    }
+
+    private static void RegisterGlobalVariables(IVariableRepository variableRepository)
+    {
+        // VariablesManager.AddVariables(variableRepository.GetAll());
     }
 }
 

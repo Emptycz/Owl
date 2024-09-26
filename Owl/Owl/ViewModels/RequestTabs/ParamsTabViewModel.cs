@@ -23,7 +23,6 @@ public partial class ParamsTabViewModel : ViewModelBase
         _repository = repo;
         _requestState = state;
         _parameters = new ObservableCollection<RequestParameter>(RequestState.Current?.Parameters ?? []);
-
         _requestState.CurrentHasChanged += OnSelectedRequestHasChanged;
 
         // TODO: Move this to the model itself and create DataModels for the DB entities

@@ -65,8 +65,7 @@ public partial class Spotlight : UserControl
         if (!listBoxFocused) return;
 
         // Find the first ListBoxItem and focus it
-        var firstItem = SpotlightList.ItemContainerGenerator.ContainerFromIndex(0);
-        if (firstItem is ListBoxItem) Console.WriteLine("First item is not ListBoxItem, it's: {0}", firstItem);
+        var firstItem = SpotlightList.ContainerFromIndex(0);
         if (firstItem is ListBoxItem listBoxItem) listBoxItem.Focus();
     }
 

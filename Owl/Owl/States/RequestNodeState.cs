@@ -8,7 +8,6 @@ public interface IRequestNodeState
 {
     RequestNodeVm? Current { get; set; }
     event EventHandler<RequestNodeVm>? CurrentHasChanged;
-    event EventHandler<bool> RequestedRefresh;
 
     void OnCurrentHasChanged(RequestNodeVm? node);
 }
@@ -17,7 +16,6 @@ public partial class RequestNodeState : ObservableObject, IRequestNodeState
 {
     [ObservableProperty] private RequestNodeVm? _current;
     public event EventHandler<RequestNodeVm>? CurrentHasChanged;
-    public event EventHandler<bool>? RequestedRefresh;
 
     partial void OnCurrentChanged(RequestNodeVm? value)
     {

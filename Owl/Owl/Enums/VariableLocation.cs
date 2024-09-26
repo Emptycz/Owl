@@ -1,10 +1,11 @@
 
 namespace Owl.Enums;
 
-public enum FoundVariableLocation
+public enum VariableLocation
 {
     Body,
     Url,
     Header,
-    Parameter
+    Parameter,
+    Auth,
 }

@@ -3,7 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Microsoft.Extensions.DependencyInjection;
-using Owl.Models;
 using Owl.Repositories.RequestNode;
 using Owl.ViewModels.Components;
 using Owl.ViewModels.Models;
@@ -60,5 +59,10 @@ public partial class RequestsSidebar : UserControl
         {
             viewModel.DuplicateRequestCommand.Execute(node);
         }
+    }
+
+    private void OpenEnvironmentsWindow(object? sender, RoutedEventArgs e)
+    {
+        // throw new NotImplementedException();
     }
 }

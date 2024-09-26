@@ -7,7 +7,7 @@ using Owl.ViewModels.Models;
 
 namespace Owl.Services;
 
-public record FoundVariable(string Key, FoundVariableLocation Location);
+public record FoundVariable(string Key, VariableLocation Location);
 
 public static partial class VariableFinder
 {
@@ -28,14 +28,15 @@ public static partial class VariableFinder
 	{
 		var variables = new List<FoundVariable>();
 
-		variables.AddRange(ExtractVariables(node.Body).Select(v => new FoundVariable(v, FoundVariableLocation.Body)));
-		variables.AddRange(ExtractVariables(node.Url).Select(v => new FoundVariable(v, FoundVariableLocation.Url)));
+		variables.AddRange(ExtractVariables(node.Body).Select(v => new FoundVariable(v, VariableLocation.Body)));
+		variables.AddRange(ExtractVariables(node.Url).Select(v => new FoundVariable(v, VariableLocation.Url)));
+		variables.AddRange(ExtractVariables(node.Auth?.Token).Select(v => new FoundVariable(v, VariableLocation.Auth)));
 		variables.AddRange(node.Headers.SelectMany(rh =>
-			ExtractVariables(rh.Key).Select(v => new FoundVariable(v, FoundVariableLocation.Header))
-				.Concat(ExtractVariables(rh.Value).Select(v => new FoundVariable(v, FoundVariableLocation.Header)))));
+			ExtractVariables(rh.Key).Select(v => new FoundVariable(v, VariableLocation.Header))
+				.Concat(ExtractVariables(rh.Value).Select(v => new FoundVariable(v, VariableLocation.Header)))));
 		variables.AddRange(node.Parameters.SelectMany(p =>
-			ExtractVariables(p.Key).Select(v => new FoundVariable(v, FoundVariableLocation.Parameter))
-				.Concat(ExtractVariables(p.Value).Select(v => new FoundVariable(v, FoundVariableLocation.Parameter)))));
+			ExtractVariables(p.Key).Select(v => new FoundVariable(v, VariableLocation.Parameter))
+				.Concat(ExtractVariables(p.Value).Select(v => new FoundVariable(v, VariableLocation.Parameter)))));
 
 		return variables;
 	}
@@ -44,14 +45,15 @@ public static partial class VariableFinder
 	{
 		var variables = new List<FoundVariable>();
 
-		variables.AddRange(ExtractVariables(node.Body).Select(v => new FoundVariable(v, FoundVariableLocation.Body)));
-		variables.AddRange(ExtractVariables(node.Url).Select(v => new FoundVariable(v, FoundVariableLocation.Url)));
+		variables.AddRange(ExtractVariables(node.Body).Select(v => new FoundVariable(v, VariableLocation.Body)));
+		variables.AddRange(ExtractVariables(node.Url).Select(v => new FoundVariable(v, VariableLocation.Url)));
+		variables.AddRange(ExtractVariables(node.Auth?.Token).Select(v => new FoundVariable(v, VariableLocation.Auth)));
 		variables.AddRange(node.Headers.SelectMany(rh =>
-			ExtractVariables(rh.Key).Select(v => new FoundVariable(v, FoundVariableLocation.Header))
-				.Concat(ExtractVariables(rh.Value).Select(v => new FoundVariable(v, FoundVariableLocation.Header)))));
+			ExtractVariables(rh.Key).Select(v => new FoundVariable(v, VariableLocation.Header))
+				.Concat(ExtractVariables(rh.Value).Select(v => new FoundVariable(v, VariableLocation.Header)))));
 		variables.AddRange(node.Parameters.SelectMany(p =>
-			ExtractVariables(p.Key).Select(v => new FoundVariable(v, FoundVariableLocation.Parameter))
-				.Concat(ExtractVariables(p.Value).Select(v => new FoundVariable(v, FoundVariableLocation.Parameter)))));
+			ExtractVariables(p.Key).Select(v => new FoundVariable(v, VariableLocation.Parameter))
+				.Concat(ExtractVariables(p.Value).Select(v => new FoundVariable(v, VariableLocation.Parameter)))));
 
 		return variables;
 	}

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net.Http;
 using LiteDB;
 using Owl.Enums;
+using Owl.Services;
+using ArgumentOutOfRangeException = System.ArgumentOutOfRangeException;
 
 namespace Owl.Models;
 
@@ -38,5 +40,38 @@ public class RequestNode
             Children = Children.Select(c => c.Clone()).ToList(),
             Response = Response
         };
+    }
+
+    public void ResolveVariable(FoundVariable foundVariable, string resolvedVariableValue)
+    {
+        switch (foundVariable.Location)
+        {
+            case VariableLocation.Url:
+                Url = Url?.Replace($"{{{{ .{foundVariable.Key} }}}}", resolvedVariableValue);
+                break;
+            case VariableLocation.Body:
+                Body = Body?.Replace($"{{{{ .{foundVariable.Key} }}}}", resolvedVariableValue);
+                break;
+            case VariableLocation.Header:
+                Headers = Headers.Select(header =>
+                {
+                    header.Value = header.Value.Replace($"{{{{ .{foundVariable.Key} }}}}", resolvedVariableValue);
+                    return header;
+                }).ToList();
+                break;
+            case VariableLocation.Parameter:
+                Parameters = Parameters.Select(param =>
+                {
+                    param.Value = param.Value.Replace($"{{{{ .{foundVariable.Key} }}}}", resolvedVariableValue);
+                    return param;
+                }).ToList();
+                break;
+            case VariableLocation.Auth:
+                Auth!.Token =
+                    Auth.Token.Replace($"{{{{ .{foundVariable.Key} }}}}", resolvedVariableValue);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException($"Location: {foundVariable.Location} not supported");
+        }
     }
 }
