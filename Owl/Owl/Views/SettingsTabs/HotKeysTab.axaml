@@ -8,19 +8,22 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="vm:HotKeysTabViewModel"
              x:Class="Owl.Views.SettingsTabs.HotKeysTab">
-    <controls:ItemsRepeater ItemsSource="{Binding HotKeys}">
-        <controls:ItemsRepeater.ItemTemplate>
-            <DataTemplate x:DataType="m:HotKey">
-                <Grid Margin="0 5" ColumnDefinitions="3*, *">
-                    <TextBlock Text="{Binding Action}" />
-                    <DockPanel HorizontalAlignment="Stretch" Grid.Column="1">
-                        <TextBox HorizontalAlignment="Stretch" Margin="5 0" Text="{Binding Key, Mode=TwoWay}"
-                                 Watermark="Key..." />
-                        <TextBox HorizontalAlignment="Stretch" Text="{Binding Modifier, Mode=TwoWay}"
-                                 Watermark="Modifier..." />
-                    </DockPanel>
-                </Grid>
-            </DataTemplate>
-        </controls:ItemsRepeater.ItemTemplate>
-    </controls:ItemsRepeater>
+    <StackPanel>
+        <TextBlock Text="Hey, how are you Johny?" />
+        <controls:ItemsRepeater ItemsSource="{Binding HotKeys}">
+            <controls:ItemsRepeater.ItemTemplate>
+                <DataTemplate x:DataType="m:HotKey">
+                    <Grid Margin="0 5" ColumnDefinitions="3*, *">
+                        <TextBlock Text="{Binding Action}" />
+                        <DockPanel HorizontalAlignment="Stretch" Grid.Column="1">
+                            <TextBox HorizontalAlignment="Stretch" Margin="5 0" Text="{Binding Key, Mode=TwoWay}"
+                                     Watermark="Key..." />
+                            <TextBox HorizontalAlignment="Stretch" Text="{Binding Modifier, Mode=TwoWay}"
+                                     Watermark="Modifier..." />
+                        </DockPanel>
+                    </Grid>
+                </DataTemplate>
+            </controls:ItemsRepeater.ItemTemplate>
+        </controls:ItemsRepeater>
+    </StackPanel>
 </UserControl>

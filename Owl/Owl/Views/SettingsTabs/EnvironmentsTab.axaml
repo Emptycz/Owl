@@ -11,9 +11,15 @@
     <Grid ColumnDefinitions="300, *">
         <ListBox
             ItemsSource="{Binding Environments}"
-            SelectedItem="{Binding SelectedEnvironment}" />
+            SelectedItem="{Binding SelectedEnvironment}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <controls:ItemsRepeater Grid.Column="1" ItemsSource="{Binding SelectedEnvironment.Variables}">
-            <controls:ItemsRepeater.ItemTemplate>   
+            <controls:ItemsRepeater.ItemTemplate>
                 <DataTemplate DataType="variables:StaticVariable">
                     <Grid Margin="0 5" ColumnDefinitions="*, 5, *, 50">
                         <TextBox Text="{Binding Key, Mode=TwoWay}" Grid.Column="0"
