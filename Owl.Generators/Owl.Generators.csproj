@@ -4,15 +4,15 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>warnings</Nullable>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-        <EnableAnalyzerReleaseTracking>true</EnableAnalyzerReleaseTracking> 
+        <EnableAnalyzerReleaseTracking>true</EnableAnalyzerReleaseTracking>
         <RootNamespace>Owl.Generators</RootNamespace>
         <OutputType>Library</OutputType>
         <AnalysisLevel>latest</AnalysisLevel>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.11.0" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.8.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
     </ItemGroup>
-    
+
 </Project>

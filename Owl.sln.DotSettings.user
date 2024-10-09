@@ -26,4 +26,5 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/SourceGeneratedFilesToSkip/=Owl_005CGenerators_002FGenerators_002EVariableResolverGenerator_002FGeneratedVariableResolver_002Eg_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/home/theempty/.nuget/packages/communitytoolkit.mvvm/8.2.2/lib/net6.0/CommunityToolkit.Mvvm.dll" /&gt;
+  &lt;Assembly Path="/home/theempty/.nuget/packages/microsoft.codeanalysis.csharp/4.8.0/lib/net7.0/Microsoft.CodeAnalysis.CSharp.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
