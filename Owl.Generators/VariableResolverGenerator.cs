@@ -1,15 +1,19 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Owl.Generators.IncrementalGenerators;
+namespace Owl.Generators;
 
 [Generator]
 public class VariableResolverGenerator : IIncrementalGenerator
 {
+    private static readonly DiagnosticDescriptor NoClassesFoundDescriptor = new(
+        "GEN001", "No Classes Found", "No classes with the attribute 'RegisterToVariableResolver' were found.", "Generator", DiagnosticSeverity.Warning, true);
+
+    private static readonly DiagnosticDescriptor GeneratedCodeEmptyDescriptor = new(
+        "GEN002", "Generated Code Empty", "The generated source code is empty.", "Generator", DiagnosticSeverity.Warning, true);
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         // Register syntax nodes to analyze for the "RegisterToVariableResolver" attribute
@@ -22,11 +26,29 @@ public class VariableResolverGenerator : IIncrementalGenerator
                     .Any(attr => attr.Name.ToString() == "RegisterToVariableResolver")))
             .Collect();
 
+        // Get the compilation
+        var compilationProvider = context.CompilationProvider;
+
         // Register the main generation step
-        context.RegisterSourceOutput(classesWithAttribute, (spc, classes) =>
+        context.RegisterSourceOutput(compilationProvider.Combine(classesWithAttribute), (spc, source) =>
         {
-            var (switchStatement, constructorParams) = GenerateSwitchStatement(spc.Compilation, classes);
+            var (compilation, classes) = source;
+
+            if (classes.IsEmpty)
+            {
+                spc.ReportDiagnostic(Diagnostic.Create(NoClassesFoundDescriptor, Location.None));
+                return;
+            }
+
+            var (switchStatement, constructorParams) = GenerateSwitchStatement(compilation, classes);
             var sourceCode = GenerateSourceCode(switchStatement, constructorParams);
+
+            if (string.IsNullOrWhiteSpace(sourceCode))
+            {
+                spc.ReportDiagnostic(Diagnostic.Create(GeneratedCodeEmptyDescriptor, Location.None));
+                return;
+            }
+
             spc.AddSource("Owl.Services.VariableResolvers.VariableResolverFactory.g.cs", sourceCode);
         });
     }
@@ -34,7 +56,7 @@ public class VariableResolverGenerator : IIncrementalGenerator
     private static (string switchStatement, string constructorParams) GenerateSwitchStatement(Compilation compilation, IEnumerable<ClassDeclarationSyntax> classes)
     {
         StringBuilder methodBuilder = new();
-        List<IParameterSymbol> paramList = new();
+        List<IParameterSymbol> paramList = [];
         INamedTypeSymbol? ivariableSymbol = compilation.GetTypeByMetadataName("Owl.Models.Variables.IVariable");
 
         if (ivariableSymbol is null)
@@ -75,7 +97,7 @@ public class VariableResolverGenerator : IIncrementalGenerator
             methodBuilder.AppendLine($"        {className} {variableName} => new {resolverType.Name}({GenerateParams(variableName, paramString)}),");
         }
 
-        // Handle duplicates or other necessary logic here
+        // TODO: Handle duplicates or other necessary logic here
         string constructorParams = string.Join(", ", paramList.Select(p => $"{p.Type.Name} {p.Name}"));
         methodBuilder.AppendLine("        _ => throw new ArgumentException(\"Unknown variable type: \" + variable.GetType().Name)");
 

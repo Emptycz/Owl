@@ -3,8 +3,13 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     </PropertyGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="..\..\Owl.Generators\Owl.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    </ItemGroup>
 
     <ItemGroup>
         <AvaloniaResource Include="Assets\**"/>
@@ -43,7 +48,6 @@
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>
-
     <ItemGroup>
       <ProjectReference Include="..\..\Utils\Utils.csproj" />
     </ItemGroup>

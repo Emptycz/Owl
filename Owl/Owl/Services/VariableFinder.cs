@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Owl.Enums;
@@ -23,6 +25,19 @@ public static partial class VariableFinder
 	}
 
 	public static bool HasVariable(string? content) => !string.IsNullOrEmpty(content) && VariableRegex.IsMatch(content);
+
+	public static IEnumerable<FoundVariable> ExtractVariables(RequestNode node, VariableLocation location)
+	{
+		return location switch
+		{
+			VariableLocation.Auth => ExtractVariables(node.Auth?.Token)
+				.Select(v => new FoundVariable(v, VariableLocation.Body)),
+			VariableLocation.Body => ExtractVariables(node.Body)
+				.Select(v => new FoundVariable(v, VariableLocation.Body)),
+			VariableLocation.Url => ExtractVariables(node.Url).Select(v => new FoundVariable(v, VariableLocation.Body)),
+			_ => throw new NotImplementedException($"Variable extraction for {location} is not implemented.")
+		};
+	}
 
 	public static IEnumerable<FoundVariable> ExtractVariables(RequestNode node)
 	{

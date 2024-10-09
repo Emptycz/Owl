@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Owl.Models;
 using Owl.Repositories.Environment;
 
@@ -15,5 +16,12 @@ public partial class EnvironmentsTabViewModel : ViewModelBase
     {
         _environmentRepository = environmentRepository;
         _environments = new ObservableCollection<Environment>(_environmentRepository.GetAll());
+    }
+
+    [RelayCommand]
+    private void AddVariable()
+    {
+        if (SelectedEnvironment is null) return;
+        // SelectedEnvironment.Variables
     }
 }
