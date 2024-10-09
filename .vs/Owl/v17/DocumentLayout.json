@@ -51,7 +51,7 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Owl.Desktop",
+              "Title": "Owl.Desktop.csproj",
               "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl.Desktop\\Owl.Desktop.csproj",
               "RelativeDocumentMoniker": "Owl\\Owl.Desktop\\Owl.Desktop.csproj",
               "ToolTip": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl.Desktop\\Owl.Desktop.csproj",
@@ -64,7 +64,7 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Owl",
+              "Title": "Owl.csproj",
               "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Owl.csproj",
               "RelativeDocumentMoniker": "Owl\\Owl\\Owl.csproj",
               "ToolTip": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Owl.csproj",
@@ -77,7 +77,7 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Owl.Generators",
+              "Title": "Owl.Generators.csproj",
               "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl.Generators\\Owl.Generators.csproj",
               "RelativeDocumentMoniker": "Owl.Generators\\Owl.Generators.csproj",
               "ToolTip": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl.Generators\\Owl.Generators.csproj",
@@ -97,8 +97,7 @@
               "RelativeToolTip": "Owl.Generators\\VariableMapperGenerator.bck.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-09T19:51:59.41Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-09T19:51:59.41Z"
             },
             {
               "$type": "Document",
@@ -110,8 +109,7 @@
               "RelativeToolTip": "Owl\\Owl\\Models\\Variables\\StaticVariable.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-09T19:48:14.969Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-09T19:48:14.969Z"
             },
             {
               "$type": "Document",
@@ -123,8 +121,7 @@
               "RelativeToolTip": "Owl.Generators\\VariableResolverGenerator.cs",
               "ViewState": "AQIAAGsAAAAAAAAAAAAAAIgAAABpAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-09T19:45:52.102Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-09T19:45:52.102Z"
             },
             {
               "$type": "Document",
@@ -136,8 +133,7 @@
               "RelativeToolTip": "Owl\\Owl\\Services\\VariableResolvers\\IVariableResolver.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-09T19:44:23.402Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-09T19:44:23.402Z"
             },
             {
               "$type": "Document",
@@ -149,8 +145,7 @@
               "RelativeToolTip": "Owl\\Owl\\Services\\VariableResolvers\\IVariableResolverFactory.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-09T19:44:23.793Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-09T19:44:23.793Z"
             },
             {
               "$type": "Document",
@@ -162,8 +157,7 @@
               "RelativeToolTip": "Owl\\Owl\\Services\\VariableResolvers\\VariableResolverFactory.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-09T19:43:48.648Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-09T19:43:48.648Z"
             }
           ]
         }
