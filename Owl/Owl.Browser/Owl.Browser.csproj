@@ -8,14 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <WasmExtraFilesToDeploy Include="wwwroot\**"/>
+        <WasmExtraFilesToDeploy Include="wwwroot\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia.Browser" Version="11.1.1" />
+        <PackageReference Include="Avalonia.Browser" Version="11.1.4" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Owl\Owl.csproj"/>
+        <ProjectReference Include="..\Owl\Owl.csproj" />
     </ItemGroup>
 </Project>

@@ -134,6 +134,7 @@ public class VariableResolverGenerator : IIncrementalGenerator
         methodBuilder.AppendLine("{");
         methodBuilder.AppendLine("private IVariableResolver SourceGenMapping(IVariable variable)");
         methodBuilder.AppendLine("{");
+        methodBuilder.AppendLine("""Console.WriteLine("Hey, this is auto-generated code, brother!");""");
         methodBuilder.AppendLine("return variable switch");
         methodBuilder.AppendLine("{");
         methodBuilder.Append(switchStatement);
