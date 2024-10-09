@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Owl.Generators;
 
-[Generator]
+[Generator(LanguageNames.CSharp)]
 public class VariableResolverGenerator : IIncrementalGenerator
 {
     private static readonly DiagnosticDescriptor NoClassesFoundDescriptor = new(
@@ -94,12 +94,12 @@ public class VariableResolverGenerator : IIncrementalGenerator
             // Generate the case for each variable type
             string paramString = string.Join(", ", requiredParams.Select(p => $"{p.Name}"));
 
-            methodBuilder.AppendLine($"        {className} {variableName} => new {resolverType.Name}({GenerateParams(variableName, paramString)}),");
+            methodBuilder.AppendLine($"            {className} {variableName} => new {resolverType.Name}({GenerateParams(variableName, paramString)}),");
         }
 
         // TODO: Handle duplicates or other necessary logic here
         string constructorParams = string.Join(", ", paramList.Select(p => $"{p.Type.Name} {p.Name}"));
-        methodBuilder.AppendLine("        _ => throw new ArgumentException(\"Unknown variable type: \" + variable.GetType().Name)");
+        methodBuilder.AppendLine("             _ => throw new ArgumentException(\"Unknown variable type: \" + variable.GetType().Name)");
 
         return (methodBuilder.ToString(), constructorParams);
     }
@@ -120,28 +120,31 @@ public class VariableResolverGenerator : IIncrementalGenerator
                              using Owl.Repositories.RequestNode;
 
                              namespace Owl.Services.VariableResolvers;
+
                              """);
 
         if (!string.IsNullOrEmpty(constructorParams))
         {
-            methodBuilder.AppendLine($"public partial class VariableResolverFactory({constructorParams}) : IVariableResolverFactory");
+            methodBuilder.AppendLine($"public partial class VariableResolverFactory({constructorParams})");
         }
         else
         {
-            methodBuilder.AppendLine("public partial class VariableResolverFactory() : IVariableResolverFactory");
+            methodBuilder.AppendLine("public partial class VariableResolverFactory()");
         }
 
-        methodBuilder.AppendLine("{");
-        methodBuilder.AppendLine("private IVariableResolver SourceGenMapping(IVariable variable)");
-        methodBuilder.AppendLine("{");
-        methodBuilder.AppendLine("""Console.WriteLine("Hey, this is auto-generated code, brother!");""");
-        methodBuilder.AppendLine("return variable switch");
-        methodBuilder.AppendLine("{");
+        methodBuilder.AppendLine("""
+                                 {
+                                     private IVariableResolver _getResolver(IVariable variable)
+                                     {
+                                         return variable switch
+                                         {
+                                 """);
         methodBuilder.Append(switchStatement);
-        methodBuilder.AppendLine("};");
-        methodBuilder.AppendLine("}");
-        methodBuilder.AppendLine("}");
-
+        methodBuilder.AppendLine("""
+                                         };
+                                     }
+                                 }
+                                 """);
         return methodBuilder.ToString();
     }
 

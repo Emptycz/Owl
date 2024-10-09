@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\kimic\\GithubRepos\\Owl\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{CCFC02C6-D854-42C7-981A-8767E7D9FA96}|Owl\\Owl\\Owl.csproj|c:\\users\\kimic\\githubrepos\\owl\\owl\\owl\\owl.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{CCFC02C6-D854-42C7-981A-8767E7D9FA96}|Owl\\Owl\\Owl.csproj|solutionrelative:owl\\owl\\owl.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F5084AD9-4F7F-4337-886A-F447502097F5}|Owl.Generators\\Owl.Generators.csproj|c:\\users\\kimic\\githubrepos\\owl\\owl.generators\\owl.generators.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{F5084AD9-4F7F-4337-886A-F447502097F5}|Owl.Generators\\Owl.Generators.csproj|solutionrelative:owl.generators\\owl.generators.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
@@ -46,11 +50,23 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "Owl",
+              "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Owl.csproj",
+              "RelativeDocumentMoniker": "Owl\\Owl\\Owl.csproj",
+              "ToolTip": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Owl.csproj",
+              "RelativeToolTip": "Owl\\Owl\\Owl.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-10-09T20:40:29.293Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Owl.Desktop.csproj",
               "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl.Desktop\\Owl.Desktop.csproj",
               "RelativeDocumentMoniker": "Owl\\Owl.Desktop\\Owl.Desktop.csproj",
@@ -63,7 +79,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Owl.csproj",
               "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Owl.csproj",
               "RelativeDocumentMoniker": "Owl\\Owl\\Owl.csproj",
@@ -76,7 +92,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Owl.Generators.csproj",
               "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl.Generators\\Owl.Generators.csproj",
               "RelativeDocumentMoniker": "Owl.Generators\\Owl.Generators.csproj",
@@ -89,7 +105,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "VariableMapperGenerator.bck.cs",
               "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl.Generators\\VariableMapperGenerator.bck.cs",
               "RelativeDocumentMoniker": "Owl.Generators\\VariableMapperGenerator.bck.cs",
@@ -101,7 +117,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "StaticVariable.cs",
               "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Models\\Variables\\StaticVariable.cs",
               "RelativeDocumentMoniker": "Owl\\Owl\\Models\\Variables\\StaticVariable.cs",
@@ -113,7 +129,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "VariableResolverGenerator.cs",
               "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl.Generators\\VariableResolverGenerator.cs",
               "RelativeDocumentMoniker": "Owl.Generators\\VariableResolverGenerator.cs",
@@ -125,7 +141,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "IVariableResolver.cs",
               "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Services\\VariableResolvers\\IVariableResolver.cs",
               "RelativeDocumentMoniker": "Owl\\Owl\\Services\\VariableResolvers\\IVariableResolver.cs",
@@ -137,7 +153,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "IVariableResolverFactory.cs",
               "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Services\\VariableResolvers\\IVariableResolverFactory.cs",
               "RelativeDocumentMoniker": "Owl\\Owl\\Services\\VariableResolvers\\IVariableResolverFactory.cs",
@@ -149,7 +165,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "VariableResolverFactory.cs",
               "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Services\\VariableResolvers\\VariableResolverFactory.cs",
               "RelativeDocumentMoniker": "Owl\\Owl\\Services\\VariableResolvers\\VariableResolverFactory.cs",
