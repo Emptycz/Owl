@@ -2,11 +2,12 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <Nullable>warnings</Nullable>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <EnableAnalyzerReleaseTracking>true</EnableAnalyzerReleaseTracking> 
         <RootNamespace>Owl.Generators</RootNamespace>
         <OutputType>Library</OutputType>
+        <AnalysisLevel>latest</AnalysisLevel>
     </PropertyGroup>
 
     <ItemGroup>
