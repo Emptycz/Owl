@@ -23,7 +23,7 @@ public class VariableResolverGenerator : IIncrementalGenerator
                 transform: static (ctx, _) => (ClassDeclarationSyntax)ctx.Node)
             .Where(static cls => cls.AttributeLists
                 .Any(attrList => attrList.Attributes
-                    .Any(attr => attr.Name.ToString() == "RegisterToVariableResolver")))
+                    .Any(attr => attr.Name.ToString() == "MapResolver")))
             .Collect();
 
         // Get the compilation
@@ -69,7 +69,7 @@ public class VariableResolverGenerator : IIncrementalGenerator
             var semanticModel = compilation.GetSemanticModel(cls.SyntaxTree);
             var classSymbol = semanticModel.GetDeclaredSymbol(cls);
             var attributeData = classSymbol?.GetAttributes()
-                .FirstOrDefault(attr => attr.AttributeClass?.Name == "RegisterToVariableResolver");
+                .FirstOrDefault(attr => attr.AttributeClass?.Name == "MapResolverAttribute");
 
             if (attributeData is null) continue;
 

@@ -1,28 +1,28 @@
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Owl.ViewModels.Models;
+using Owl.Interfaces;
 
 namespace Owl.States;
 
 public interface IRequestNodeState
 {
-    RequestNodeVm? Current { get; set; }
-    event EventHandler<RequestNodeVm>? CurrentHasChanged;
+    IRequestVm? Current { get; set; }
+    event EventHandler<IRequestVm>? CurrentHasChanged;
 
-    void OnCurrentHasChanged(RequestNodeVm? node);
+    void OnCurrentHasChanged(IRequestVm? node);
 }
 
 public partial class RequestNodeState : ObservableObject, IRequestNodeState
 {
-    [ObservableProperty] private RequestNodeVm? _current;
-    public event EventHandler<RequestNodeVm>? CurrentHasChanged;
+    [ObservableProperty] private IRequestVm? _current;
+    public event EventHandler<IRequestVm>? CurrentHasChanged;
 
-    partial void OnCurrentChanged(RequestNodeVm? value)
+    partial void OnCurrentChanged(IRequestVm? value)
     {
         OnCurrentHasChanged(value);
     }
 
-    public void OnCurrentHasChanged(RequestNodeVm? node)
+    public void OnCurrentHasChanged(IRequestVm? node)
     {
         CurrentHasChanged?.Invoke(this, node!);
     }

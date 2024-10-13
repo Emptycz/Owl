@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Owl.Enums;
+using Owl.Factories;
 using Owl.Models;
 using Owl.Repositories.RequestNode;
 using Owl.Repositories.Spotlight;
@@ -45,7 +47,7 @@ public partial class SpotlightViewModel : ViewModelBase
     {
         if (SelectedItem is null) return;
         var request = _nodeRepository.Get(SelectedItem!.Id);
-        _nodeState.Current = request is null ? null : new RequestNodeVm(request);
+        _nodeState.Current = request is null ? null : RequestNodeVmFactory.GetRequestNodeVm(request);
         Close();
     }
 

@@ -1,5 +1,6 @@
-using System;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Owl.Factories;
+using Owl.Interfaces;
 using Owl.Models;
 using Owl.Repositories.RequestNode;
 using Owl.States;
@@ -25,7 +26,7 @@ public partial class AuthTabViewModel : ViewModelBase
         Token = state.Current?.Auth?.Token ?? string.Empty;
     }
 
-    private void OnSelectedRequestHasChanged(object? e, RequestNode node)
+    private void OnSelectedRequestHasChanged(object? e, IRequestVm node)
     {
         Scheme = node.Auth?.Scheme ?? "Bearer";
         Token = node.Auth?.Token ?? string.Empty;
@@ -36,8 +37,8 @@ public partial class AuthTabViewModel : ViewModelBase
         if (RequestState.Current is null) return;
         RequestState.Current.Auth ??= new RequestAuth();
 
-        RequestState.Current.Auth.Scheme = value ?? String.Empty;
-        _repository.Update(RequestState.Current);
+        RequestState.Current.Auth.Scheme = value ?? string.Empty;
+        _repository.Update(RequestState.Current.ToRequest());
     }
 
     partial void OnTokenChanged(string? value)
@@ -45,7 +46,7 @@ public partial class AuthTabViewModel : ViewModelBase
         if (RequestState.Current is null) return;
         RequestState.Current.Auth ??= new RequestAuth();
 
-        RequestState.Current.Auth.Token = value ?? String.Empty;
-        _repository.Update(RequestState.Current);
+        RequestState.Current.Auth.Token = value ?? string.Empty;
+        _repository.Update(RequestState.Current.ToRequest());
     }
 }

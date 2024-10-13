@@ -1,33 +1,30 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using LiteDB;
 using Owl.Enums;
+using Owl.Models.Requests;
 using Owl.Services;
+using Owl.ViewModels.Models;
 using ArgumentOutOfRangeException = System.ArgumentOutOfRangeException;
 
 namespace Owl.Models;
 
-public class RequestNode
+public class HttpRequest : RequestBase
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
-    public string Name { get; set; } = string.Empty;
     public string? Url { get; set; }
     public HttpRequestType Method { get; set; } = HttpRequestType.Get;
     public string? Body { get; set; }
     public List<RequestHeader> Headers { get; set; } = [];
     public List<RequestParameter> Parameters { get; set; } = [];
-    public RequestAuth? Auth { get; set; }
-    public IEnumerable<RequestNode> Children { get; set; } = new List<RequestNode>();
 
     [BsonIgnore]
     public HttpResponseMessage? Response { get; set; }
 
 
-    public RequestNode Clone()
+    public HttpRequest Clone()
     {
-        return new RequestNode
+        return new HttpRequest
         {
             Id = Id,
             Name = Name,
@@ -37,9 +34,26 @@ public class RequestNode
             Headers = Headers.Select(h => new RequestHeader { Key = h.Key, Value = h.Value }).ToList(),
             Parameters = Parameters.Select(p => new RequestParameter { Key = p.Key, Value = p.Value }).ToList(),
             Auth = Auth?.Clone(),
-            Children = Children.Select(c => c.Clone()).ToList(),
             Response = Response
         };
+    }
+
+    public HttpRequest()
+    {
+
+    }
+
+    public HttpRequest(HttpRequestVm vm)
+    {
+        Id = vm.Id;
+        Name = vm.Name;
+        Url = vm.Url;
+        Method = vm.Method;
+        Body = vm.Body;
+        Headers = vm.Headers;
+        Parameters = vm.Parameters;
+        Auth = vm.Auth;
+        Response = vm.Response;
     }
 
     public void ResolveVariable(FoundVariable foundVariable, string resolvedVariableValue)

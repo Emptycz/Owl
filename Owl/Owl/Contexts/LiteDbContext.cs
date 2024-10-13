@@ -1,10 +1,11 @@
 using System;
 using System.IO;
+using System.Security.Cryptography;
 using LiteDB;
 using Owl.Models;
+using Owl.Models.Requests;
 using Owl.Models.Variables;
 using Environment = Owl.Models.Environment;
-using RequestNode = Owl.Models.RequestNode;
 
 namespace Owl.Contexts;
 
@@ -21,6 +22,20 @@ public class LiteDbContext : IDbContext
     private static BsonMapper RegisterMappings()
     {
         var mapper = new BsonMapper();
+
+        mapper.RegisterType<IRequest>(
+            serialize: request =>
+            {
+                var doc = BsonMapper.Global.ToDocument(request);
+                doc["_type"] = $"{request.GetType().FullName}, {request.GetType().Assembly.GetName().Name}";
+                return doc;
+            },
+            deserialize: bson =>
+            {
+                var typeName = bson["_type"].AsString;
+                Type type = Type.GetType(typeName) ?? throw new InvalidOperationException($"Cannot find type {typeName}");
+                return (IRequest)BsonMapper.Global.ToObject(type, (BsonDocument)bson);
+            });
 
         mapper.RegisterType<IVariable>(
             serialize: variable =>
@@ -50,7 +65,7 @@ public class LiteDbContext : IDbContext
         return mapper;
     }
 
-    public ILiteCollection<RequestNode> RequestNodes => _database.GetCollection<RequestNode>("request_nodes");
+    public ILiteCollection<IRequest> RequestNodes => _database.GetCollection<IRequest>("request_nodes");
     public ILiteCollection<IVariable> GlobalVariables => _database.GetCollection<IVariable>("global_variables");
     public ILiteCollection<Environment> Environments => _database.GetCollection<Environment>("environments");
     public ILiteCollection<Settings> Settings => _database.GetCollection<Settings>("settings");

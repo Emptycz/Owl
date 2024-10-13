@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Microsoft.Extensions.DependencyInjection;
+using Owl.Exceptions;
+using Owl.Interfaces;
 using Owl.Repositories.RequestNode;
 using Owl.ViewModels.Components;
 using Owl.ViewModels.Models;
@@ -41,7 +43,7 @@ public partial class RequestsSidebar : UserControl
 
     private void OnRemoveMenuItemClick(object sender, RoutedEventArgs e)
     {
-        if (sender is not MenuItem menuItem || menuItem.DataContext is not RequestNodeVm nodeToRemove) return;
+        if (sender is not MenuItem menuItem || menuItem.DataContext is not IRequestVm nodeToRemove) return;
 
         // Access the RequestViewModel instance from DataContext of UserControl
         if (DataContext is RequestsSidebarViewModel viewModel)
@@ -52,7 +54,7 @@ public partial class RequestsSidebar : UserControl
 
     private void OnDuplicateMenuItemClick(object? sender, RoutedEventArgs e)
     {
-        if (sender is not MenuItem menuItem || menuItem.DataContext is not RequestNodeVm node) return;
+        if (sender is not MenuItem menuItem || menuItem.DataContext is not IRequestVm node) return;
 
         // Access the RequestViewModel instance from DataContext of UserControl
         if (DataContext is RequestsSidebarViewModel viewModel)

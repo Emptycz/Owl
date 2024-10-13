@@ -16,12 +16,17 @@ public partial class JsonResponseTabViewModel : ViewModelBase
     public JsonResponseTabViewModel(IRequestNodeState requestNodeState)
     {
         _requestNodeState = requestNodeState;
-        _requestNodeState.CurrentHasChanged += (_, node) => Response = ParseResponse(node);
+        _requestNodeState.CurrentHasChanged += (_, node) =>
+        {
+            if (node is not HttpRequestVm vm) return;
+            Response = ParseResponse(vm);
+        };
 
-        Response = ParseResponse(requestNodeState.Current);
+        if (_requestNodeState.Current is not HttpRequestVm vm) return;
+        Response = ParseResponse(vm);
     }
 
-    private static string ParseResponse(RequestNode? node)
+    private static string ParseResponse(HttpRequest? node)
     {
         if (node is null || node.Response is null) return string.Empty;
         string content = node.Response.Content.ReadAsStringAsync().Result;

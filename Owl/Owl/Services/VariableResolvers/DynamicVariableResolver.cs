@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json;
+using Owl.Factories;
 using Owl.Models;
 using Owl.Models.Variables;
 using Owl.States;
@@ -19,7 +20,10 @@ public class DynamicVariableResolver : IVariableResolver
 
     public string Resolve()
     {
-        RequestNode? referenceNode = _requestNodeState.Current;
+        if (_requestNodeState.Current is null) throw new ArgumentException("No request node is selected in the global RequestNodeState");
+        var node = _requestNodeState.Current.ToRequest();
+        if (node is not HttpRequest referenceNode) throw new ArgumentException($"Dynamic variable resolve is trying to reference against nonHttpRequest node. The node type is: {_requestNodeState.Current.Type}");
+
         if (referenceNode is null)
         {
             // TODO: This might be a valid use-case, think of a better way to handle this

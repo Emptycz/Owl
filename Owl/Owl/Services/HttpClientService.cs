@@ -13,7 +13,7 @@ public class HttpClientService
 {
     private readonly HttpClient _httpClient = new();
 
-    public async Task<HttpResponseMessage> GetAsync(RequestNode node, CancellationToken cancellationToken = default)
+    public async Task<HttpResponseMessage> GetAsync(HttpRequest node, CancellationToken cancellationToken = default)
     {
         if (node.Auth is not null)
         {
@@ -43,7 +43,7 @@ public class HttpClientService
         }
     }
 
-    public async Task<HttpResponseMessage> PostAsync(RequestNode node, CancellationToken cancellationToken = default)
+    public async Task<HttpResponseMessage> PostAsync(HttpRequest node, CancellationToken cancellationToken = default)
     {
         var content = node.Body is not null ? new StringContent(node.Body, Encoding.UTF8, "application/json") : null;
 

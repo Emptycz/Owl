@@ -55,8 +55,4 @@
     <ItemGroup>
       <UpToDateCheckInput Remove="Views\Icons\SyncCircleIcon.axaml" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Factories\" />
-    </ItemGroup>
 </Project>

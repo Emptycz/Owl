@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Owl.States;
+using Owl.ViewModels.Models;
 
 namespace Owl.ViewModels.ResponseTabs;
 
@@ -11,8 +12,10 @@ public partial class RawResponseTabViewModel : ViewModelBase
     public RawResponseTabViewModel(IRequestNodeState state)
     {
         _requestNodeState = state;
-        Response = state.Current?.Response?.Content.ReadAsStringAsync().Result ?? string.Empty;
+        if (_requestNodeState.Current is not HttpRequestVm vm) return;
+
+        Response = vm.Response?.Content.ReadAsStringAsync().Result ?? string.Empty;
         _requestNodeState.CurrentHasChanged += (_, node) =>
-            Response = node.Response?.Content.ReadAsStringAsync().Result ?? string.Empty;
+            Response = vm.Response?.Content.ReadAsStringAsync().Result ?? string.Empty;
     }
 }

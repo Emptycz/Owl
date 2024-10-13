@@ -1,7 +1,11 @@
+using System;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Owl.Exceptions;
+using Owl.Interfaces;
 using Owl.Models;
 using Owl.Repositories.RequestNode;
 using Owl.States;
+using Owl.ViewModels.Models;
 
 namespace Owl.ViewModels.RequestTabs;
 
@@ -15,21 +19,27 @@ public partial class BodyTabViewModel : ViewModelBase
     {
         _repository = repo;
         _state = state;
-        Body = state.Current?.Body ?? string.Empty;
+
+        if (state.Current is null) return;
+
+        if (state.Current is not HttpRequestVm httpRequest) throw new InvalidRequestNodeException(state.Current, typeof(HttpRequestVm));
+        Body = httpRequest.Body ?? string.Empty;
 
         _state.CurrentHasChanged += OnSelectedRequestHasChanged;
     }
 
-    private void OnSelectedRequestHasChanged(object? e, RequestNode node)
+    private void OnSelectedRequestHasChanged(object? e, IRequestVm node)
     {
-        Body = node.Body;
+        if (node is not HttpRequestVm httpRequest) throw new InvalidRequestNodeException(node, typeof(HttpRequestVm));
+        Body = httpRequest.Body ?? string.Empty;
     }
 
     partial void OnBodyChanged(string? value)
     {
         if (_state.Current is null) return;
-        _state.Current.Body = value ?? string.Empty;
+        if (_state.Current is not HttpRequestVm httpRequest) throw new InvalidRequestNodeException(_state.Current, typeof(HttpRequestVm));
 
-        _repository.Update(_state.Current);
+        httpRequest.Body = value ?? string.Empty;
+        _repository.Update(httpRequest);
     }
 }

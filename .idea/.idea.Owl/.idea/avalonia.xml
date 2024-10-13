@@ -21,6 +21,11 @@
         <entry key="Owl/Owl/Views/RequestTabs/NoRequestSelectedTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/RequestTabs/ParamsTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/RequestView.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Requests/GroupRequestItem.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Requests/HttpRequest.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Requests/HttpRequestItem.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Requests/IRequestItem.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Requests/IVariableRequestItem.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/ResponseTabs/ErrorResponseTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/ResponseTabs/JsonResponseTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
         <entry key="Owl/Owl/Views/ResponseTabs/ProcessingResponseTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />

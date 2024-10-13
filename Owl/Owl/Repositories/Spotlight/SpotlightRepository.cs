@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Owl.Contexts;
 using Owl.Models;
+using Owl.Models.Requests;
 
 namespace Owl.Repositories.Spotlight;
 
@@ -32,7 +33,7 @@ public class SpotlightRepository : ISpotlightRepository
         throw new NotImplementedException();
     }
 
-    public IEnumerable<SpotlightNode> FindRequests(Expression<Func<Models.RequestNode, bool>>? predicate)
+    public IEnumerable<SpotlightNode> FindRequests(Expression<Func<IRequest, bool>>? predicate)
     {
         var res = predicate is null ? _context.RequestNodes.FindAll() : _context.RequestNodes.Find(predicate);
         return res.Select(x => new SpotlightNode(x));

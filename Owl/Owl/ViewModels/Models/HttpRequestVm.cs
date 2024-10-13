@@ -1,35 +1,17 @@
 using System.ComponentModel;
 using Owl.Enums;
+using Owl.Interfaces;
 using Owl.Models;
+using Owl.Models.Requests;
 
 namespace Owl.ViewModels.Models;
 
-public class RequestNodeVm : RequestNode, INotifyPropertyChanged
+public class HttpRequestVm : HttpRequest, IRequestVm, INotifyPropertyChanged
 {
     private HttpRequestType _method = HttpRequestType.Get;
     private string _name = string.Empty;
     private string _tagColor = "#FF0000";
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    public RequestNodeVm()
-    {
-
-    }
-
-    public RequestNodeVm(RequestNode node)
-    {
-        Id = node.Id;
-        Name = node.Name;
-        Url = node.Url;
-        Method = node.Method;
-        Body = node.Body;
-        Headers = node.Headers;
-        Parameters = node.Parameters;
-        Auth = node.Auth;
-        Children = node.Children;
-        Response = node.Response;
-    }
+    public RequestNodeType Type => RequestNodeType.Http;
 
     public new string Name
     {
@@ -64,6 +46,26 @@ public class RequestNodeVm : RequestNode, INotifyPropertyChanged
         }
     }
 
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public HttpRequestVm()
+    {
+
+    }
+
+    public HttpRequestVm(HttpRequest node)
+    {
+        Id = node.Id;
+        Name = node.Name;
+        Url = node.Url;
+        Method = node.Method;
+        Body = node.Body;
+        Headers = node.Headers;
+        Parameters = node.Parameters;
+        Auth = node.Auth;
+        Response = node.Response;
+    }
+
     // TODO: Allow for custom colors
     private string GetMethodColor(HttpRequestType method)
     {
@@ -76,6 +78,16 @@ public class RequestNodeVm : RequestNode, INotifyPropertyChanged
             HttpRequestType.Delete => "#ff0000",
             _ => "#ffffff"
         };
+    }
+
+    public string GetIcon()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public IRequest ToRequest()
+    {
+        return new HttpRequestVm(this);
     }
 
     private void OnPropertyChanged(string propertyName)

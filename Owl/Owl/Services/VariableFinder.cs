@@ -16,7 +16,7 @@ public static partial class VariableFinder
 	private const string VariablePattern = @"\{\{\s*\.(\w+)\s*\}\}";
 	private static readonly Regex VariableRegex = CompiledVariableRegex();
 
-	public static bool HasVariable(RequestNode node)
+	public static bool HasVariable(HttpRequest node)
 	{
 		return HasVariable(node.Body) ||
 		       HasVariable(node.Url) ||
@@ -26,7 +26,7 @@ public static partial class VariableFinder
 
 	public static bool HasVariable(string? content) => !string.IsNullOrEmpty(content) && VariableRegex.IsMatch(content);
 
-	public static IEnumerable<FoundVariable> ExtractVariables(RequestNode node, VariableLocation location)
+	public static IEnumerable<FoundVariable> ExtractVariables(HttpRequest node, VariableLocation location)
 	{
 		return location switch
 		{
@@ -39,7 +39,7 @@ public static partial class VariableFinder
 		};
 	}
 
-	public static IEnumerable<FoundVariable> ExtractVariables(RequestNode node)
+	public static IEnumerable<FoundVariable> ExtractVariables(HttpRequest node)
 	{
 		var variables = new List<FoundVariable>();
 
@@ -56,7 +56,7 @@ public static partial class VariableFinder
 		return variables;
 	}
 
-	public static IEnumerable<FoundVariable> ExtractVariables(RequestNodeVm node)
+	public static IEnumerable<FoundVariable> ExtractVariables(HttpRequestVm node)
 	{
 		var variables = new List<FoundVariable>();
 

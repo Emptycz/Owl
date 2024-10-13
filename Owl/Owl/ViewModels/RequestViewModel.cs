@@ -11,6 +11,8 @@ using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Owl.Enums;
+using Owl.Factories;
+using Owl.Interfaces;
 using Owl.Models;
 using Owl.Models.Variables;
 using Owl.Repositories.RequestNode;
@@ -26,8 +28,7 @@ namespace Owl.ViewModels;
 
 public partial class RequestViewModel : ViewModelBase
 {
-    [ObservableProperty] private IRequestNodeState _requestState;
-    [ObservableProperty] private ObservableCollection<RequestNodeVm> _requests = [];
+    [ObservableProperty] private ObservableCollection<IRequestVm> _requests = [];
 
     [ObservableProperty] private HttpRequestType[] _methods =
     [
@@ -47,9 +48,11 @@ public partial class RequestViewModel : ViewModelBase
     [ObservableProperty] private int _selectedTabIndex;
     [ObservableProperty] private UserControl _tabContentControl;
     [ObservableProperty] private UserControl _responseContent;
+    [ObservableProperty] private HttpRequestVm? _request;
 
     private CancellationTokenSource _cancellationTokenSource = new();
 
+    private readonly IRequestNodeState _requestState;
     private readonly IRequestNodeRepository _nodeRepository;
     private readonly HttpClientService _httpClientService = new();
     private readonly IEnvironmentState _environmentState;
@@ -62,20 +65,27 @@ public partial class RequestViewModel : ViewModelBase
         _variableResolverFactory = variableResolver;
         _environmentState = envState;
         ResponseTime = "0 ms";
-        RequestState = state;
+        _requestState = state;
 
-        Requests = new ObservableCollection<RequestNodeVm>(_nodeRepository.GetAll().Select(r => new RequestNodeVm(r)));
+        if (_requestState.Current is HttpRequestVm vm)
+        {
+            _request = vm;
+        }
+
+        Requests = new ObservableCollection<IRequestVm>(_nodeRepository.GetAll().Select(RequestNodeVmFactory.GetRequestNodeVm));
         state.Current = Requests.FirstOrDefault();
         state.CurrentHasChanged += OnRequestHasChanged;
 
         SelectedTabIndex = state.Current is not null ? 0 : -1;
         TabContentControl = GetTabControl(SelectedTabIndex);
-        ResponseContent = GetResponseControl(state.Current?.Response);
+        ResponseContent = GetResponseControl(Request?.Response);
     }
 
-    private void OnRequestHasChanged(object? e, RequestNode? node)
+    private void OnRequestHasChanged(object? e, IRequestVm? node)
     {
-        if (node is null)
+        if (node is not HttpRequestVm vm) return;
+        Request = vm;
+        if (Request is null)
         {
             SelectedTabIndex = -1;
             TabContentControl = GetTabControl(SelectedTabIndex);
@@ -95,15 +105,15 @@ public partial class RequestViewModel : ViewModelBase
 
     partial void OnSearchChanging(string value)
     {
-        Requests = new ObservableCollection<RequestNodeVm>(_nodeRepository
+        Requests = new ObservableCollection<IRequestVm>(_nodeRepository
             .Find(x => x.Name.Contains(value))
-            .Select(r => new RequestNodeVm(r)));
+            .Select(RequestNodeVmFactory.GetRequestNodeVm));
     }
 
     [RelayCommand]
     private void AddHeader()
     {
-        RequestState.Current?.Headers.Add(new RequestHeader());
+        Request?.Headers.Add(new RequestHeader());
         // SelectedRequest.Headers.Add(newHeader.Key, newHeader.Value);
         // HeadersCollection.Add(newHeader);
     }
@@ -111,26 +121,26 @@ public partial class RequestViewModel : ViewModelBase
     [RelayCommand]
     private void SelectedRequestPropertyHasChanged()
     {
-        if (RequestState.Current == null) return;
+        if (Request is null) return;
 
-        _nodeRepository.Update(RequestState.Current);
+        _nodeRepository.Update(Request);
 
-        var request = Requests.FirstOrDefault(x => x.Id == RequestState.Current.Id);
-        if (request is null) return;
+        var request = Requests.FirstOrDefault(x => x.Id == Request?.Id);
+        if (request is null || request is not HttpRequest httpRequest) return;
 
-        request.Method = RequestState.Current.Method;
+        // request.Method = RequestState.Current.Method;
     }
 
     [RelayCommand]
     private void SetBody(string value)
     {
         // FIXME: Custom behavior that added Text Binding support re-triggers the setter and it causes two triggers instead of one
-        if (RequestState.Current is null ||
-            (RequestState.Current.Body == value && !string.IsNullOrEmpty(value))) return;
+        if (Request is null ||
+            (Request.Body == value && !string.IsNullOrEmpty(value))) return;
 
-        RequestState.Current.Body = value;
+        Request.Body = value;
         // TODO: Implement debounce to avoid sending request on every key press
-        _nodeRepository.Update(RequestState.Current);
+        _nodeRepository.Update(Request);
     }
 
     [RelayCommand]
@@ -142,12 +152,12 @@ public partial class RequestViewModel : ViewModelBase
     [RelayCommand]
     private async Task SendRequest()
     {
-        if (RequestState.Current is null) return;
+        if (Request is null) return;
 
         // TODO: Maybe we want to use Struct instead of Class?
-        RequestNode request = RequestState.Current.Clone();
+        HttpRequest httpRequest = Request.Clone();
 
-        var requestVariables = VariableFinder.ExtractVariables(request);
+        var requestVariables = VariableFinder.ExtractVariables(httpRequest);
         foreach (FoundVariable foundVariable in requestVariables)
         {
             string? resolvedVariableValue =
@@ -156,7 +166,7 @@ public partial class RequestViewModel : ViewModelBase
             // TODO: Do something when variable was not found (maybe throw or return and render error)
             if (resolvedVariableValue is null) continue;
 
-            request.ResolveVariable(foundVariable, resolvedVariableValue);
+            httpRequest.ResolveVariable(foundVariable, resolvedVariableValue);
         }
 
         var stopwatch = new Stopwatch();
@@ -166,12 +176,12 @@ public partial class RequestViewModel : ViewModelBase
             ResponseContent = new ProcessingResponseTab(_cancellationTokenSource);
 
             stopwatch.Start();
-            HttpResponseMessage responseMessage = RequestState.Current.Method switch
+            HttpResponseMessage responseMessage = Request.Method switch
             {
-                HttpRequestType.Get => await _httpClientService.GetAsync(request, _cancellationTokenSource.Token),
-                HttpRequestType.Post => await _httpClientService.PostAsync(request, _cancellationTokenSource.Token),
-                _ => throw new ArgumentOutOfRangeException(nameof(request.Method),
-                    $"Unsupported method type: {request.Method}")
+                HttpRequestType.Get => await _httpClientService.GetAsync(httpRequest, _cancellationTokenSource.Token),
+                HttpRequestType.Post => await _httpClientService.PostAsync(httpRequest, _cancellationTokenSource.Token),
+                _ => throw new ArgumentOutOfRangeException(nameof(httpRequest.Method),
+                    $"Unsupported method type: {httpRequest.Method}")
             };
             stopwatch.Stop();
 
@@ -204,22 +214,22 @@ public partial class RequestViewModel : ViewModelBase
     private void SetResponse(HttpResponseMessage response)
     {
         ResponseSize = SizeCalc.CalculateSize(response.Content.ReadAsStringAsync().Result, Encoding.ASCII).ToString();
-        if (RequestState.Current is null) return;
-        RequestState.Current.Response = response;
+        if (Request is null) return;
+        Request.Response = response;
     }
 
     private void ResolveReferencingVariables()
     {
-        if (RequestState.Current is null) return;
+        if (Request is null) return;
 
         // Resolve dynamic variables
         var variables = _environmentState.Current?.Variables.ToList();
-        if (variables is null || !variables.Any()) return;
+        if (variables is null || variables.Count == 0) return;
 
         var dynamicVariables = variables.OfType<DynamicVariable>().ToList();
-        if (!dynamicVariables.Any()) return;
+        if (dynamicVariables.Count == 0) return;
 
-        var referencedVariables = dynamicVariables.FindAll(x => x.RequestNodeId == RequestState.Current.Id);
+        var referencedVariables = dynamicVariables.FindAll(x => x.RequestNodeId == Request.Id);
         foreach (var variable in referencedVariables)
         {
             string value = _variableResolverFactory.GetResolver(variable).Resolve();
@@ -229,13 +239,14 @@ public partial class RequestViewModel : ViewModelBase
 
     private UserControl GetResponseControl(HttpResponseMessage? response)
     {
+        // TODO: Create source gen mapping for this
         return response?.Content.Headers.ContentType?.MediaType switch
         {
-            "application/xml" => new RawResponseTab(RequestState),
-            "application/json" => new JsonResponseTab(RequestState),
+            "application/xml" => new RawResponseTab(_requestState),
+            "application/json" => new JsonResponseTab(_requestState),
             // TODO: We can use system default webView to try to render the HTML page
             // "text/html" => new HtmlResponseTab(),
-            _ => new RawResponseTab(RequestState),
+            _ => new RawResponseTab(_requestState),
         };
     }
 
@@ -243,9 +254,9 @@ public partial class RequestViewModel : ViewModelBase
     {
         return tabIndex switch
         {
-            0 => new ParamsTab(RequestState, _nodeRepository),
-            1 => new BodyTab(RequestState, _nodeRepository),
-            2 => new AuthTab(RequestState, _nodeRepository),
+            0 => new ParamsTab(_requestState, _nodeRepository),
+            1 => new BodyTab(_requestState, _nodeRepository),
+            2 => new AuthTab(_requestState, _nodeRepository),
             _ => new NoRequestSelectedTab()
         };
     }

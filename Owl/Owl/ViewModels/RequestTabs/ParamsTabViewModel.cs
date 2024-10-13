@@ -5,24 +5,32 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
+using Owl.Exceptions;
+using Owl.Interfaces;
 using Owl.Models;
 using Owl.Repositories.RequestNode;
 using Owl.States;
+using Owl.ViewModels.Models;
 
 namespace Owl.ViewModels.RequestTabs;
 
 public partial class ParamsTabViewModel : ViewModelBase
 {
-    [ObservableProperty] private IRequestNodeState _requestState;
     [ObservableProperty] private ObservableCollection<RequestParameter> _parameters;
+    [ObservableProperty] private HttpRequestVm _request;
 
+    private readonly IRequestNodeState _requestState;
     private readonly IRequestNodeRepository _repository;
 
     public ParamsTabViewModel(IRequestNodeState state, IRequestNodeRepository repo)
     {
         _repository = repo;
         _requestState = state;
-        _parameters = new ObservableCollection<RequestParameter>(RequestState.Current?.Parameters ?? []);
+
+        if (_requestState.Current is not HttpRequestVm httpRequest) throw new InvalidRequestNodeException(_requestState.Current, typeof(HttpRequestVm));
+        _request = httpRequest;
+
+        _parameters = new ObservableCollection<RequestParameter>(_request.Parameters);
         _requestState.CurrentHasChanged += OnSelectedRequestHasChanged;
 
         // TODO: Move this to the model itself and create DataModels for the DB entities
@@ -32,9 +40,14 @@ public partial class ParamsTabViewModel : ViewModelBase
         }
     }
 
-    private void OnSelectedRequestHasChanged(object? e, RequestNode node)
+    private void OnSelectedRequestHasChanged(object? e, IRequestVm node)
     {
-        Parameters = new ObservableCollection<RequestParameter>(node.Parameters);
+        if (node is not HttpRequestVm vm)
+        {
+            Reset();
+            return;
+        }
+        Parameters = new ObservableCollection<RequestParameter>(vm.Parameters);
     }
 
     // TODO: Move this to the model itself and create DataModels for the DB entities
@@ -58,17 +71,17 @@ public partial class ParamsTabViewModel : ViewModelBase
     [RelayCommand]
     private void ParamHasChanged()
     {
-        if (RequestState.Current == null) return;
+        if (_requestState.Current == null) return;
 
         Console.WriteLine("Params have changed! Current params: {0}", JsonConvert.SerializeObject(Parameters));
-        RequestState.Current.Parameters = Parameters.ToList();
-        _repository.Update(RequestState.Current);
+        Request.Parameters = Parameters.ToList();
+        _repository.Update(_requestState.Current.ToRequest());
     }
 
     [RelayCommand]
     private void AddParameter()
     {
-        if (RequestState.Current is null) return;
+        if (_requestState.Current is null) return;
         Parameters.Add(new RequestParameter());
         ParamHasChanged();
     }
@@ -76,8 +89,13 @@ public partial class ParamsTabViewModel : ViewModelBase
     [RelayCommand]
     private void RemoveParameter(RequestParameter parameter)
     {
-        if (RequestState.Current is null) return;
+        if (_requestState.Current is null) return;
         Parameters.Remove(parameter);
         ParamHasChanged();
+    }
+
+    private void Reset()
+    {
+        Parameters = [];
     }
 }

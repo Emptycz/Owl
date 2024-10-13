@@ -1,4 +1,5 @@
 using System;
+using Owl.Models.Requests;
 using Owl.Models.Variables;
 
 namespace Owl.Models;
@@ -20,9 +21,10 @@ public class SpotlightNode
         _ => "avares://Owl/Assets/Icons/Unknown.svg"
     };
 
-    public SpotlightNode(RequestNode entity)
+    public SpotlightNode(IRequest entity)
     {
         Id = entity.Id;
+        // FIXME: Map Type properly and use RequestNodeType enum
         Type = "Request";
         Name = entity.Name;
     }
