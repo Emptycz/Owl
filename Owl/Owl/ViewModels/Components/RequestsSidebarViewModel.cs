@@ -47,7 +47,7 @@ public partial class RequestsSidebarViewModel : ViewModelBase
         _requests = new ObservableCollection<IRequestVm>(_repository.GetAll().Select(RequestNodeVmFactory.GetRequestNodeVm));
 
         // TODO: Remove this, it's just for a test purposes
-        // _requests.FirstOrDefault().Children = [new RequestNode{ Name = "Child!" }];
+        _requests.OfType<GroupRequestVm>().First().Children = [new HttpRequestVm(){ Name = "Child!" }];
     }
 
     [RelayCommand]

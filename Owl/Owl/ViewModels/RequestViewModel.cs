@@ -83,8 +83,9 @@ public partial class RequestViewModel : ViewModelBase
 
     private void OnRequestHasChanged(object? e, IRequestVm? node)
     {
-        if (node is not HttpRequestVm vm) return;
-        Request = vm;
+        // TODO: This whole model should be split to a HttpRequest specific component and a generic IRequest component
+        Request = node is not HttpRequestVm vm ? null : vm;
+
         if (Request is null)
         {
             SelectedTabIndex = -1;

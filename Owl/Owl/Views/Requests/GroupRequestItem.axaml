@@ -4,22 +4,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:Owl.ViewModels.Models"
              xmlns:requests="clr-namespace:Owl.Views.Requests"
+             xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Owl.Views.Requests.GroupRequestItem"
              x:DataType="models:GroupRequestVm">
-        <Expander>
-            <Expander.Header>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock>DIR</TextBlock>
-                    <TextBlock Text="{Binding Name}" />
-                </StackPanel>
-            </Expander.Header>
-            <ItemsRepeater ItemsSource="{Binding Children}">
-                <ItemsRepeater.ItemTemplate>
-                    <DataTemplate>
-                        <requests:IRequestItem Request="{Binding}" />
-                    </DataTemplate>
-                </ItemsRepeater.ItemTemplate>
-            </ItemsRepeater>
-        </Expander>
+    <Expander>
+        <Expander.Header>
+            <StackPanel Orientation="Horizontal">
+                <avalonia:Icon Value="fa-solid fa-folder" Margin="5 0" />
+                <TextBlock Text="{Binding Name}" />
+            </StackPanel>
+        </Expander.Header>
+        <ItemsRepeater ItemsSource="{Binding Children}">
+            <ItemsRepeater.ItemTemplate>
+                <DataTemplate>
+                    <requests:IRequestItem Request="{Binding}" />
+                </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+    </Expander>
 </UserControl>
