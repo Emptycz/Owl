@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Text.Json;
 using Owl.Contexts;
 using Owl.Models.Requests;
 
@@ -34,6 +35,7 @@ public class LiteDbRequestNodeRepository(IDbContext context) : IRequestNodeRepos
 
     public IRequest Update(IRequest entity)
     {
+        Console.WriteLine($"Updating entity: {JsonSerializer.Serialize(entity, typeof(object))}");
         context.RequestNodes.Update(entity);
         NotifyChange(entity);
         return entity;

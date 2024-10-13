@@ -21,7 +21,6 @@ public partial class RequestView : UserControl
         AddSidebarPanel();
         DataContext = new RequestViewModel(
             provider.GetRequiredService<IRequestNodeRepository>(),
-            provider.GetRequiredService<IRequestNodeState>(),
             provider.GetRequiredService<IVariableResolverFactory>(),
             provider.GetRequiredService<IEnvironmentState>()
         );

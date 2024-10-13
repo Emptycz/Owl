@@ -8,7 +8,6 @@ using Owl.Models;
 using Owl.Repositories.RequestNode;
 using Owl.Repositories.Spotlight;
 using Owl.States;
-using Owl.ViewModels.Models;
 
 namespace Owl.ViewModels.Components;
 
@@ -27,11 +26,10 @@ public partial class SpotlightViewModel : ViewModelBase
 
     public SpotlightViewModel(
         ISpotlightRepository spotlightRepository,
-        IRequestNodeRepository nodeRepository,
-        IRequestNodeState nodeState)
+        IRequestNodeRepository nodeRepository)
     {
         _spotlightRepository = spotlightRepository;
-        _nodeState = nodeState;
+        _nodeState = RequestNodeState.Instance;
         _nodeRepository = nodeRepository;
     }
 

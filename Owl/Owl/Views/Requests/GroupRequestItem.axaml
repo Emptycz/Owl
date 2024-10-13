@@ -15,12 +15,13 @@
                 <TextBlock Text="{Binding Name}" />
             </StackPanel>
         </Expander.Header>
-        <ItemsRepeater ItemsSource="{Binding Children}">
-            <ItemsRepeater.ItemTemplate>
+        <!-- TODO: We need to create VM for this View and bind the SelectedRequestState to the SelectedItem here -->
+        <ListBox ItemsSource="{Binding Children}">
+            <ListBox.ItemTemplate>
                 <DataTemplate>
                     <requests:IRequestItem Request="{Binding}" />
                 </DataTemplate>
-            </ItemsRepeater.ItemTemplate>
-        </ItemsRepeater>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Expander>
 </UserControl>

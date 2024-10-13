@@ -22,10 +22,10 @@ public partial class ParamsTabViewModel : ViewModelBase
     private readonly IRequestNodeState _requestState;
     private readonly IRequestNodeRepository _repository;
 
-    public ParamsTabViewModel(IRequestNodeState state, IRequestNodeRepository repo)
+    public ParamsTabViewModel(IRequestNodeRepository repo)
     {
         _repository = repo;
-        _requestState = state;
+        _requestState = RequestNodeState.Instance;
 
         if (_requestState.Current is not HttpRequestVm httpRequest) throw new InvalidRequestNodeException(_requestState.Current, typeof(HttpRequestVm));
         _request = httpRequest;
@@ -44,9 +44,11 @@ public partial class ParamsTabViewModel : ViewModelBase
     {
         if (node is not HttpRequestVm vm)
         {
+            Console.WriteLine("Request has changed and it's not HttpRequestVm");
             Reset();
             return;
         }
+        Console.WriteLine($"Request has changed and it's HttpRequestVm, reading Id: {node.Id}");
         Parameters = new ObservableCollection<RequestParameter>(vm.Parameters);
     }
 
@@ -71,11 +73,9 @@ public partial class ParamsTabViewModel : ViewModelBase
     [RelayCommand]
     private void ParamHasChanged()
     {
-        if (_requestState.Current == null) return;
-
-        Console.WriteLine("Params have changed! Current params: {0}", JsonConvert.SerializeObject(Parameters));
-        Request.Parameters = Parameters.ToList();
-        _repository.Update(_requestState.Current.ToRequest());
+        if (_requestState.Current is not HttpRequestVm httpRequest) return;
+        httpRequest.Parameters = Parameters.ToList();
+        _repository.Update(httpRequest.ToRequest());
     }
 
     [RelayCommand]

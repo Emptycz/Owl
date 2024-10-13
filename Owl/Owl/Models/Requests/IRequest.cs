@@ -1,5 +1,4 @@
 using System;
-using Owl.Enums;
 
 namespace Owl.Models.Requests;
 

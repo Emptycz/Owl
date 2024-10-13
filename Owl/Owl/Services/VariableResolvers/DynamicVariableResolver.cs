@@ -12,10 +12,10 @@ public class DynamicVariableResolver : IVariableResolver
     private readonly DynamicVariable _variable;
     private readonly IRequestNodeState _requestNodeState;
 
-    public DynamicVariableResolver(DynamicVariable variable, IRequestNodeState requestNodeState)
+    public DynamicVariableResolver(DynamicVariable variable)
     {
         _variable = variable;
-        _requestNodeState = requestNodeState;
+        _requestNodeState = RequestNodeState.Instance;
     }
 
     public string Resolve()

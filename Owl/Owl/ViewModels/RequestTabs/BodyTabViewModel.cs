@@ -15,14 +15,14 @@ public partial class BodyTabViewModel : ViewModelBase
     private readonly IRequestNodeRepository _repository;
     private readonly IRequestNodeState _state;
 
-    public BodyTabViewModel(IRequestNodeState state, IRequestNodeRepository repo)
+    public BodyTabViewModel(IRequestNodeRepository repo)
     {
         _repository = repo;
-        _state = state;
+        _state = RequestNodeState.Instance;
 
-        if (state.Current is null) return;
+        if (_state.Current is null) return;
 
-        if (state.Current is not HttpRequestVm httpRequest) throw new InvalidRequestNodeException(state.Current, typeof(HttpRequestVm));
+        if (_state.Current is not HttpRequestVm httpRequest) throw new InvalidRequestNodeException(_state.Current, typeof(HttpRequestVm));
         Body = httpRequest.Body ?? string.Empty;
 
         _state.CurrentHasChanged += OnSelectedRequestHasChanged;

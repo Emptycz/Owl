@@ -42,7 +42,9 @@ public partial class RequestsSidebarViewModel : ViewModelBase
         _environments = new ObservableCollection<Environment>(vars);
         _selectedEnvironment = _environments.FirstOrDefault();
 
-        _state = provider.GetRequiredService<IRequestNodeState>();
+        // _state = provider.GetRequiredService<IRequestNodeState>();
+        _state = RequestNodeState.Instance;
+
         _repository = provider.GetRequiredService<IRequestNodeRepository>();
         _requests = new ObservableCollection<IRequestVm>(_repository.GetAll().Select(RequestNodeVmFactory.GetRequestNodeVm));
 

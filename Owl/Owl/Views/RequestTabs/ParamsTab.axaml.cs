@@ -10,10 +10,10 @@ namespace Owl.Views.RequestTabs;
 
 public partial class ParamsTab : UserControl
 {
-    public ParamsTab(IRequestNodeState state, IRequestNodeRepository repo)
+    public ParamsTab(IRequestNodeRepository repo)
     {
         InitializeComponent();
-        DataContext = new ParamsTabViewModel(state, repo);
+        DataContext = new ParamsTabViewModel(repo);
     }
 
     private void OnAddParameterClick(object? sender, RoutedEventArgs e)

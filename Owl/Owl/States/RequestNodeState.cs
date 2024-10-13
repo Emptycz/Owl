@@ -1,5 +1,5 @@
 using System;
-using CommunityToolkit.Mvvm.ComponentModel;
+using System.ComponentModel;
 using Owl.Interfaces;
 
 namespace Owl.States;
@@ -9,20 +9,37 @@ public interface IRequestNodeState
     IRequestVm? Current { get; set; }
     event EventHandler<IRequestVm>? CurrentHasChanged;
 
-    void OnCurrentHasChanged(IRequestVm? node);
+    void OnCurrentChanged(IRequestVm? node);
 }
 
-public partial class RequestNodeState : ObservableObject, IRequestNodeState
-{
-    [ObservableProperty] private IRequestVm? _current;
-    public event EventHandler<IRequestVm>? CurrentHasChanged;
+public class RequestNodeState : INotifyPropertyChanged, IRequestNodeState {
 
-    partial void OnCurrentChanged(IRequestVm? value)
+    private IRequestVm? _current;
+    public IRequestVm? Current
     {
-        OnCurrentHasChanged(value);
+        get => _current;
+        set
+        {
+            if (_current == value) return;
+
+            _current = value;
+            OnPropertyChanged(nameof(Current));
+            OnCurrentChanged(value);
+        }
     }
 
-    public void OnCurrentHasChanged(IRequestVm? node)
+    private static readonly RequestNodeState _instance = new();
+    public static RequestNodeState Instance => _instance;
+    public event PropertyChangedEventHandler? PropertyChanged;
+    public event EventHandler<IRequestVm>? CurrentHasChanged;
+
+
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    public void OnCurrentChanged(IRequestVm? node)
     {
         CurrentHasChanged?.Invoke(this, node!);
     }

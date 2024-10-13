@@ -9,9 +9,9 @@ public partial class RawResponseTabViewModel : ViewModelBase
     private readonly IRequestNodeState _requestNodeState;
     [ObservableProperty] private string _response;
 
-    public RawResponseTabViewModel(IRequestNodeState state)
+    public RawResponseTabViewModel()
     {
-        _requestNodeState = state;
+        _requestNodeState = RequestNodeState.Instance;
         if (_requestNodeState.Current is not HttpRequestVm vm) return;
 
         Response = vm.Response?.Content.ReadAsStringAsync().Result ?? string.Empty;

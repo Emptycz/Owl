@@ -13,9 +13,9 @@ public partial class JsonResponseTabViewModel : ViewModelBase
 
     private readonly IRequestNodeState _requestNodeState;
 
-    public JsonResponseTabViewModel(IRequestNodeState requestNodeState)
+    public JsonResponseTabViewModel()
     {
-        _requestNodeState = requestNodeState;
+        _requestNodeState = RequestNodeState.Instance;
         _requestNodeState.CurrentHasChanged += (_, node) =>
         {
             if (node is not HttpRequestVm vm) return;

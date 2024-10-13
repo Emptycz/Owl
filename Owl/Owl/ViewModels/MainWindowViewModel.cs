@@ -16,8 +16,7 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         SpotlightViewModel = new SpotlightViewModel(
             provider.GetRequiredService<ISpotlightRepository>(),
-            provider.GetRequiredService<IRequestNodeRepository>(),
-            provider.GetRequiredService<IRequestNodeState>()
+            provider.GetRequiredService<IRequestNodeRepository>()
         );
     }
 

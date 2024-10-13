@@ -16,14 +16,14 @@ public partial class AuthTabViewModel : ViewModelBase
 
     private readonly IRequestNodeRepository _repository;
 
-    public AuthTabViewModel(IRequestNodeState state, IRequestNodeRepository repo)
+    public AuthTabViewModel(IRequestNodeRepository repo)
     {
         _repository = repo;
-        _requestState = state;
+        _requestState = RequestNodeState.Instance;
         _requestState.CurrentHasChanged += OnSelectedRequestHasChanged;
 
-        Scheme = state.Current?.Auth?.Scheme ?? "Bearer";
-        Token = state.Current?.Auth?.Token ?? string.Empty;
+        Scheme = _requestState.Current?.Auth?.Scheme ?? "Bearer";
+        Token = _requestState.Current?.Auth?.Token ?? string.Empty;
     }
 
     private void OnSelectedRequestHasChanged(object? e, IRequestVm node)

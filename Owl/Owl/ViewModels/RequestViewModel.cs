@@ -58,14 +58,14 @@ public partial class RequestViewModel : ViewModelBase
     private readonly IEnvironmentState _environmentState;
     private readonly IVariableResolverFactory _variableResolverFactory;
 
-    public RequestViewModel(IRequestNodeRepository nodeNodeRepository, IRequestNodeState state,
+    public RequestViewModel(IRequestNodeRepository nodeNodeRepository,
         IVariableResolverFactory variableResolver, IEnvironmentState envState)
     {
         _nodeRepository = nodeNodeRepository;
         _variableResolverFactory = variableResolver;
         _environmentState = envState;
         ResponseTime = "0 ms";
-        _requestState = state;
+        _requestState = RequestNodeState.Instance;
 
         if (_requestState.Current is HttpRequestVm vm)
         {
@@ -73,10 +73,10 @@ public partial class RequestViewModel : ViewModelBase
         }
 
         Requests = new ObservableCollection<IRequestVm>(_nodeRepository.GetAll().Select(RequestNodeVmFactory.GetRequestNodeVm));
-        state.Current = Requests.FirstOrDefault();
-        state.CurrentHasChanged += OnRequestHasChanged;
+        _requestState.Current = Requests.FirstOrDefault();
+        _requestState.CurrentHasChanged += OnRequestHasChanged;
 
-        SelectedTabIndex = state.Current is not null ? 0 : -1;
+        SelectedTabIndex = _requestState.Current is not null ? 0 : -1;
         TabContentControl = GetTabControl(SelectedTabIndex);
         ResponseContent = GetResponseControl(Request?.Response);
     }
@@ -243,11 +243,11 @@ public partial class RequestViewModel : ViewModelBase
         // TODO: Create source gen mapping for this
         return response?.Content.Headers.ContentType?.MediaType switch
         {
-            "application/xml" => new RawResponseTab(_requestState),
-            "application/json" => new JsonResponseTab(_requestState),
+            "application/xml" => new RawResponseTab(),
+            "application/json" => new JsonResponseTab(),
             // TODO: We can use system default webView to try to render the HTML page
             // "text/html" => new HtmlResponseTab(),
-            _ => new RawResponseTab(_requestState),
+            _ => new RawResponseTab(),
         };
     }
 
@@ -255,9 +255,9 @@ public partial class RequestViewModel : ViewModelBase
     {
         return tabIndex switch
         {
-            0 => new ParamsTab(_requestState, _nodeRepository),
-            1 => new BodyTab(_requestState, _nodeRepository),
-            2 => new AuthTab(_requestState, _nodeRepository),
+            0 => new ParamsTab(_nodeRepository),
+            1 => new BodyTab(_nodeRepository),
+            2 => new AuthTab(_nodeRepository),
             _ => new NoRequestSelectedTab()
         };
     }
