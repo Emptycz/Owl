@@ -5,6 +5,7 @@
              xmlns:vm="using:Owl.ViewModels.Components"
              xmlns:i="https://github.com/projektanker/icons.avalonia"
              xmlns:requests="clr-namespace:Owl.Views.Requests"
+             xmlns:components="clr-namespace:Owl.Views.Components"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Owl.Views.Components.RequestsSidebar"
              x:DataType="vm:RequestsSidebarViewModel">
@@ -23,10 +24,7 @@
             </ComboBox>
         </DockPanel>
         <DockPanel Margin="5 0" Grid.Row="3">
-            <Button Command="{Binding AddNodeCommand}"
-                    i:Attached.Icon="fa-plus" />
-            <Button Command="{Binding AddDirectoryCommand}"
-                    i:Attached.Icon="fa-minus" />
+            <components:CreateIRequestItemDropDown x:Name="CreateIRequestItemDropDown" />
             <Button
                 Command="{Binding RefreshDataCommand}"
                 CommandParameter="{Binding State.Current.Id}"
@@ -41,6 +39,7 @@
                 <DataTemplate>
                     <Border Background="Transparent">
                         <Border.ContextMenu>
+                            <!-- <contextMenus:IRequestItemContextMenu /> -->
                             <ContextMenu>
                                 <MenuItem
                                     Header="Edit"

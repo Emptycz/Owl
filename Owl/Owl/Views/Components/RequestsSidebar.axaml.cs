@@ -9,6 +9,7 @@ using Owl.Repositories.RequestNode;
 using Owl.ViewModels.Components;
 using Owl.ViewModels.Models;
 using Owl.Views.Windows;
+using Serilog;
 
 namespace Owl.Views.Components;
 
@@ -23,6 +24,8 @@ public partial class RequestsSidebar : UserControl
         DataContext = new RequestsSidebarViewModel(serviceProvider);
         _serviceProvider = serviceProvider;
         _nodeRepository = serviceProvider.GetRequiredService<IRequestNodeRepository>();
+
+        InitIRequestItemDropDown();
     }
 
     private void OpenRequestEditWindow(object? sender, RoutedEventArgs e)
@@ -66,5 +69,17 @@ public partial class RequestsSidebar : UserControl
     private void OpenEnvironmentsWindow(object? sender, RoutedEventArgs e)
     {
         // throw new NotImplementedException();
+    }
+
+    private void InitIRequestItemDropDown()
+    {
+        var control = this.Find<CreateIRequestItemDropDown>("CreateIRequestItemDropDown");
+        if (control is null)
+        {
+            Log.Error("Element with name: CreateIRequestItemDropDown was not found!");
+            return;
+        }
+
+        control.DataContext = new CreateIRequestItemDropDownViewModel(_nodeRepository);
     }
 }

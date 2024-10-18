@@ -16,6 +16,6 @@ public partial class HotKeysTabViewModel : ViewModelBase
         HotKeys = settingsRepository.Current.HotKeysSettings;
 
         _settingsRepository = settingsRepository;
-        _settingsRepository.RepositoryHasChanged += (_, settings) => HotKeys = settings.HotKeysSettings;
+        _settingsRepository.RepositoryHasChanged += (_, settings) => HotKeys = settings.NewValue.HotKeysSettings;
     }
 }

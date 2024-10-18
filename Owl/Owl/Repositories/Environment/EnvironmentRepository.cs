@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Owl.Contexts;
+using Owl.Enums;
+using Owl.EventModels;
 
 namespace Owl.Repositories.Environment;
 
@@ -14,7 +16,7 @@ public class EnvironmentRepository : IEnvironmentRepository
         _context = context;
     }
 
-    public event EventHandler<Models.Environment>? RepositoryHasChanged;
+    public event EventHandler<RepositoryEventObject<Models.Environment>>? RepositoryHasChanged;
     public IEnumerable<Models.Environment> GetAll()
     {
         return _context.Environments.FindAll();
@@ -33,18 +35,18 @@ public class EnvironmentRepository : IEnvironmentRepository
     public Models.Environment Add(Models.Environment entity)
     {
         _context.Environments.Insert(entity);
-        RepositoryHasChanged?.Invoke(this, entity);
+        NotifyChange(entity, RepositoryEventOperation.Add);
         return entity;
     }
 
     public Models.Environment Update(Models.Environment entity)
     {
         _context.Environments.Update(entity);
-        RepositoryHasChanged?.Invoke(this, entity);
+        NotifyChange(entity, RepositoryEventOperation.Update);
         return entity;
     }
 
-    public bool Delete(Guid id)
+    public bool Remove(Guid id)
     {
         var entity = Get(id);
         if (entity is null)
@@ -52,19 +54,23 @@ public class EnvironmentRepository : IEnvironmentRepository
             return false;
         }
         _context.Environments.Delete(id);
-        RepositoryHasChanged?.Invoke(this, entity);
+        NotifyChange(entity, RepositoryEventOperation.Remove);
         return true;
     }
 
     public int DeleteAll()
     {
         int res = _context.Environments.DeleteAll();
-        RepositoryHasChanged?.Invoke(this, new Models.Environment { Id = Guid.Empty });
         return res;
     }
 
     public Models.Environment Upsert(Models.Environment entity)
     {
         return entity.Id == Guid.Empty ? Add(entity) : Update(entity);
+    }
+
+    private void NotifyChange(Models.Environment model, RepositoryEventOperation operation)
+    {
+        RepositoryHasChanged?.Invoke(this, new RepositoryEventObject<Models.Environment>(model, operation));
     }
 }

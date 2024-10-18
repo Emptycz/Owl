@@ -22,6 +22,7 @@ using Owl.States;
 using Owl.ViewModels.Models;
 using Owl.Views.RequestTabs;
 using Owl.Views.ResponseTabs;
+using Serilog;
 using Utils;
 
 namespace Owl.ViewModels;
@@ -175,6 +176,8 @@ public partial class RequestViewModel : ViewModelBase
         {
             _cancellationTokenSource = new CancellationTokenSource();
             ResponseContent = new ProcessingResponseTab(_cancellationTokenSource);
+
+            Log.Warning($"Sending a request: {httpRequest.Url}");
 
             stopwatch.Start();
             HttpResponseMessage responseMessage = Request.Method switch

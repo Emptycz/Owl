@@ -30,7 +30,11 @@ public partial class BodyTabViewModel : ViewModelBase
 
     private void OnSelectedRequestHasChanged(object? e, IRequestVm node)
     {
-        if (node is not HttpRequestVm httpRequest) throw new InvalidRequestNodeException(node, typeof(HttpRequestVm));
+        if (node is not HttpRequestVm httpRequest)
+        {
+            Body = string.Empty;
+            return;
+        }
         Body = httpRequest.Body ?? string.Empty;
     }
 

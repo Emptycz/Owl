@@ -4,12 +4,13 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Owl.Interfaces;
-using Owl.ViewModels.Components;
+using Owl.Repositories.RequestNode;
 using Owl.ViewModels.Models;
+using Serilog;
 
-namespace Owl.Views.Requests;
+namespace Owl.Views.Requests.ContextMenus;
 
-public partial class IRequestItem : UserControl
+public partial class IRequestItemContextMenu : UserControl
 {
     public static readonly StyledProperty<IRequestVm> RequestProperty =
         AvaloniaProperty.Register<IRequestItem, IRequestVm>(nameof(Request),
@@ -21,15 +22,23 @@ public partial class IRequestItem : UserControl
         set => SetValue(RequestProperty, value);
     }
 
-    public IRequestItem()
+    private IRequestNodeRepository _requestNodeRepository;
+
+    public IRequestItemContextMenu()
     {
         InitializeComponent();
+    }
+
+    public void Setup(IRequestNodeRepository nodeRepository)
+    {
+        _requestNodeRepository = nodeRepository;
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
+        Log.Information("TEST!!!!!!!!!!!!!!!!!!!!!!§");
         if (Request is null)
         {
             throw new NullReferenceException($"{nameof(Request)} property cannot be null");
@@ -44,8 +53,8 @@ public partial class IRequestItem : UserControl
         // TODO: We could utilize source gen for this
         control.Content = Request switch
         {
-            HttpRequestVm requestVm => new HttpRequestItem { DataContext = requestVm },
-            GroupRequestVm requestVm => new GroupRequestItem { DataContext = new GroupRequestItemViewModel(requestVm) },
+            HttpRequestVm requestVm => new HttpRequestItemContextMenu(_requestNodeRepository) { Request = requestVm },
+            // GroupRequestVm requestVm => new GroupRequestItemContextMenu { DataContext = requestVm },
             _ => throw new NotImplementedException($"The request type: {Request.GetType()} is not supported.")
         };
     }

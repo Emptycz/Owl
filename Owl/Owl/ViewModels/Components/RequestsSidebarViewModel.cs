@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Owl.Enums;
+using Owl.EventModels;
 using Owl.Factories;
 using Owl.Interfaces;
 using Owl.Models;
@@ -14,6 +15,7 @@ using Owl.Repositories.RequestNode;
 using Owl.Services;
 using Owl.States;
 using Owl.ViewModels.Models;
+using Serilog;
 using Environment = Owl.Models.Environment;
 
 namespace Owl.ViewModels.Components;
@@ -48,8 +50,7 @@ public partial class RequestsSidebarViewModel : ViewModelBase
         _repository = provider.GetRequiredService<IRequestNodeRepository>();
         _requests = new ObservableCollection<IRequestVm>(_repository.GetAll().Select(RequestNodeVmFactory.GetRequestNodeVm));
 
-        // TODO: Remove this, it's just for a test purposes
-        _requests.OfType<GroupRequestVm>().First().Children = [new HttpRequestVm(){ Name = "Child!" }];
+        _repository.RepositoryHasChanged += OnRepositoryHasChanged;
     }
 
     [RelayCommand]
@@ -62,7 +63,7 @@ public partial class RequestsSidebarViewModel : ViewModelBase
     [RelayCommand]
     private void RemoveRequest(IRequestVm node)
     {
-        _repository.Delete(node.Id);
+        _repository.Remove(node.Id);
         Requests.Remove(node);
     }
 
@@ -76,7 +77,7 @@ public partial class RequestsSidebarViewModel : ViewModelBase
             Body = string.Empty,
         };
 
-        Requests.Add(RequestNodeVmFactory.GetRequestNodeVm(_repository.Add(newNode)));
+       _repository.Add(newNode);
     }
 
     [RelayCommand]
@@ -87,13 +88,13 @@ public partial class RequestsSidebarViewModel : ViewModelBase
             Name = "New Directory",
         };
 
-        Requests.Add(RequestNodeVmFactory.GetRequestNodeVm(_repository.Add(newNode)));
+        _repository.Add(newNode);
     }
 
     [RelayCommand]
     private void RemoveRequestNode(IRequestVm node)
     {
-        _repository.Delete(node.Id);
+        _repository.Remove(node.Id);
         Requests.Remove(node);
     }
 
@@ -109,7 +110,7 @@ public partial class RequestsSidebarViewModel : ViewModelBase
             Url = node.Url,
             Headers = node.Headers,
         };
-        Requests.Add(RequestNodeVmFactory.GetRequestNodeVm(_repository.Add(newNode)));
+        _repository.Add(newNode);
     }
 
     partial void OnSelectedEnvironmentChanged(Environment? oldValue, Environment? newValue)
@@ -126,5 +127,28 @@ public partial class RequestsSidebarViewModel : ViewModelBase
     {
         Requests = new ObservableCollection<IRequestVm>(_repository.Find(x => x.Name.Contains(value))
             .Select(RequestNodeVmFactory.GetRequestNodeVm));
+    }
+
+    private void OnRepositoryHasChanged(object? e, RepositoryEventObject<IRequest>? eventObject)
+    {
+        if (eventObject is null) return;
+        var nodeVm = RequestNodeVmFactory.GetRequestNodeVm(eventObject.NewValue);
+
+        switch (eventObject.Operation)
+        {
+            case RepositoryEventOperation.Add:
+                Requests.Add(nodeVm);
+                return;
+            case RepositoryEventOperation.Remove:
+                Requests.Remove(nodeVm);
+                break;
+            case RepositoryEventOperation.Update:
+            {
+                Log.Warning("TODO: Implement updating IRequests in RequestSideBarViewModel for OnRepositoryHasChanged!");
+                break;
+            }
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 }

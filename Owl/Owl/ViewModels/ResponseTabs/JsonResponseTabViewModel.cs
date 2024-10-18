@@ -18,8 +18,8 @@ public partial class JsonResponseTabViewModel : ViewModelBase
         _requestNodeState = RequestNodeState.Instance;
         _requestNodeState.CurrentHasChanged += (_, node) =>
         {
-            if (node is not HttpRequestVm vm) return;
-            Response = ParseResponse(vm);
+            if (node is not HttpRequestVm requestVm) return;
+            Response = ParseResponse(requestVm);
         };
 
         if (_requestNodeState.Current is not HttpRequestVm vm) return;

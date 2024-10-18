@@ -108,7 +108,7 @@
         <GridSplitter Background="#27232E" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" ResizeDirection="Columns"
                       ResizeBehavior="BasedOnAlignment" />
         <!-- ResponsePanel -->
-        <StackPanel Grid.Row="0" Grid.Column="4" Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" Orientation="Horizontal">
             <TextBlock FontSize="12" Margin="10" TextWrapping="Wrap" Text="{Binding ResponseStatus}" />
             <TextBlock FontSize="12" Margin="10" Text="{Binding ResponseTime}" />
             <TextBlock FontSize="12" Margin="10" Text="{Binding ResponseSize}" />

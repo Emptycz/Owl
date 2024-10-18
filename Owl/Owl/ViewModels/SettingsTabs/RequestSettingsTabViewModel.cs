@@ -25,7 +25,7 @@ public partial class RequestSettingsTabViewModel : ViewModelBase
         Console.WriteLine("Init RequestSettingsTabViewModel");
         _settingsRepository = settingsRepository;
         Console.WriteLine("2.");
-        _settingsRepository.RepositoryHasChanged += (_, settings) => Settings = settings;
+        _settingsRepository.RepositoryHasChanged += (_, settings) => Settings = settings.NewValue;
         Console.WriteLine("3.");
         Settings = _settingsRepository.Current;
 
@@ -35,7 +35,7 @@ public partial class RequestSettingsTabViewModel : ViewModelBase
         Console.WriteLine(Settings.Id);
         Console.WriteLine(Settings.RequestSettings.ShowLineNumbers);
         Console.WriteLine(Settings.RequestSettings.FontFamily);
-        Console.WriteLine(_settingsRepository.GetAll().Count());
+        Console.WriteLine(_settingsRepository?.GetAll().Count());
     }
 
     partial void OnSettingsChanged(Settings value)

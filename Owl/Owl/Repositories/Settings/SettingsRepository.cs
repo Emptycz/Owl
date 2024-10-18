@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Owl.Contexts;
+using Owl.Enums;
+using Owl.EventModels;
 
 namespace Owl.Repositories.Settings;
 
 public class SettingsRepository : ISettingsRepository
 {
     public Models.Settings Current { get; set; }
-    public event EventHandler<Models.Settings>? RepositoryHasChanged;
+    public event EventHandler<RepositoryEventObject<Models.Settings>>? RepositoryHasChanged;
 
     private readonly IDbContext _context;
 
@@ -37,7 +39,7 @@ public class SettingsRepository : ISettingsRepository
     public Models.Settings Add(Models.Settings entity)
     {
         _context.Settings.Insert(entity);
-        RepositoryHasChanged?.Invoke(this, entity);
+        NotifyChange(entity, RepositoryEventOperation.Add);
         Current = entity;
         return entity;
     }
@@ -45,12 +47,12 @@ public class SettingsRepository : ISettingsRepository
     public Models.Settings Update(Models.Settings entity)
     {
         _context.Settings.Update(entity);
-        RepositoryHasChanged?.Invoke(this, entity);
+        NotifyChange(entity, RepositoryEventOperation.Update);
         Current = entity;
         return entity;
     }
 
-    public bool Delete(Guid id)
+    public bool Remove(Guid id)
     {
         return _context.Settings.Delete(id);
     }
@@ -63,5 +65,10 @@ public class SettingsRepository : ISettingsRepository
     public Models.Settings Upsert(Models.Settings entity)
     {
         return _context.Settings.FindById(entity.Id) is not null ? Update(entity) : Add(entity);
+    }
+
+    private void NotifyChange(Models.Settings model, RepositoryEventOperation operation)
+    {
+        RepositoryHasChanged?.Invoke(this, new RepositoryEventObject<Models.Settings>(model, operation));
     }
 }

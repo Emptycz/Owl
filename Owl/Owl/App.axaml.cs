@@ -6,17 +6,16 @@ using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using Owl.Contexts;
 using Owl.Models;
-using Owl.Models.Variables;
 using Owl.Repositories.Environment;
 using Owl.Repositories.RequestNode;
 using Owl.Repositories.Settings;
 using Owl.Repositories.Spotlight;
 using Owl.Repositories.Variable;
-using Owl.Services;
 using Owl.Services.VariableResolvers;
 using Owl.States;
 using Owl.ViewModels;
 using Owl.Views;
+using Serilog;
 
 namespace Owl;
 
@@ -32,6 +31,12 @@ public partial class App : Application
         // If you use CommunityToolkit, line below is needed to remove Avalonia data validation.
         // Without this line you will get duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
+
+        // Configure Serilog
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug() // Change this based on your needs
+            .WriteTo.Console() // Log to console
+            .CreateLogger();
 
         // Register all the services needed for the application to run
         var collection = new ServiceCollection();

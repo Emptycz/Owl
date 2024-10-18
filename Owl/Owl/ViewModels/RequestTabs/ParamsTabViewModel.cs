@@ -4,20 +4,19 @@ using System.ComponentModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
-using Owl.Exceptions;
 using Owl.Interfaces;
 using Owl.Models;
 using Owl.Repositories.RequestNode;
 using Owl.States;
 using Owl.ViewModels.Models;
+using Serilog;
 
 namespace Owl.ViewModels.RequestTabs;
 
 public partial class ParamsTabViewModel : ViewModelBase
 {
-    [ObservableProperty] private ObservableCollection<RequestParameter> _parameters;
-    [ObservableProperty] private HttpRequestVm _request;
+    [ObservableProperty] private ObservableCollection<RequestParameter> _parameters = [];
+    [ObservableProperty] private HttpRequestVm? _request;
 
     private readonly IRequestNodeState _requestState;
     private readonly IRequestNodeRepository _repository;
@@ -27,7 +26,7 @@ public partial class ParamsTabViewModel : ViewModelBase
         _repository = repo;
         _requestState = RequestNodeState.Instance;
 
-        if (_requestState.Current is not HttpRequestVm httpRequest) throw new InvalidRequestNodeException(_requestState.Current, typeof(HttpRequestVm));
+        if (_requestState.Current is not HttpRequestVm httpRequest) return;
         _request = httpRequest;
 
         _parameters = new ObservableCollection<RequestParameter>(_request.Parameters);
@@ -44,11 +43,10 @@ public partial class ParamsTabViewModel : ViewModelBase
     {
         if (node is not HttpRequestVm vm)
         {
-            Console.WriteLine("Request has changed and it's not HttpRequestVm");
+            Log.Debug("Request has changed and it's not HttpRequestVm, it is {0}", node);
             Reset();
             return;
         }
-        Console.WriteLine($"Request has changed and it's HttpRequestVm, reading Id: {node.Id}");
         Parameters = new ObservableCollection<RequestParameter>(vm.Parameters);
     }
 
@@ -74,6 +72,7 @@ public partial class ParamsTabViewModel : ViewModelBase
     private void ParamHasChanged()
     {
         if (_requestState.Current is not HttpRequestVm httpRequest) return;
+        Log.Warning("TODO: Optimize the ParamHasChanged function so it's not called many times!");
         httpRequest.Parameters = Parameters.ToList();
         _repository.Update(httpRequest.ToRequest());
     }
