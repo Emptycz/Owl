@@ -1,9 +1,7 @@
-using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Owl.Models;
 using Owl.Repositories.RequestNode;
-using Owl.States;
 using Owl.ViewModels.RequestTabs;
 
 namespace Owl.Views.RequestTabs;
@@ -14,17 +12,6 @@ public partial class ParamsTab : UserControl
     {
         InitializeComponent();
         DataContext = new ParamsTabViewModel(repo);
-    }
-
-    private void OnAddParameterClick(object? sender, RoutedEventArgs e)
-    {
-        if (sender is not Button) return;
-
-        // Access the RequestViewModel instance from DataContext of UserControl
-        if (DataContext is ParamsTabViewModel viewModel)
-        {
-            viewModel.AddParameterCommand.Execute(null);
-        }
     }
 
     private void OnRemoveParameterClick(object sender, RoutedEventArgs e)

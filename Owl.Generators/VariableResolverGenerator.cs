@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Owl.Generators;
 
 [Generator(LanguageNames.CSharp)]
-public class VariableResolverGenerator : IIncrementalGenerator
+internal class VariableResolverGenerator : IIncrementalGenerator
 {
     private static readonly DiagnosticDescriptor NoClassesFoundDescriptor = new(
         "GEN001", "No Classes Found", "No classes with the attribute 'RegisterToVariableResolver' were found.", "Generator", DiagnosticSeverity.Warning, true);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Owl.Enums;
 using Owl.EventModels;
 using Owl.Factories;
+using Owl.Importers;
 using Owl.Interfaces;
 using Owl.Models;
 using Owl.Models.Requests;
@@ -150,5 +152,15 @@ public partial class RequestsSidebarViewModel : ViewModelBase
             default:
                 throw new ArgumentOutOfRangeException();
         }
+    }
+
+    // TEST::
+
+    [RelayCommand]
+    private void TestImport()
+    {
+        var content = File.ReadAllText("/home/theempty/Plocha/insomnia_export.json");
+        var importer = new InsomniaV4Importer();
+        importer.Parse(content);
     }
 }
