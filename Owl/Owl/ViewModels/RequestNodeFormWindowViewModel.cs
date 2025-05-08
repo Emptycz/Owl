@@ -1,30 +1,25 @@
-using System;
-using System.IO;
-using System.Text.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Owl.Contexts;
-using Owl.Models;
-using Owl.Repositories.RequestNodeRepository;
+using Owl.Interfaces;
+using Owl.Repositories.RequestNode;
 
 namespace Owl.ViewModels;
 
 public partial class RequestNodeFormWindowViewModel : ViewModelBase
 {
-    [ObservableProperty] private RequestNode _currentNode;
+    [ObservableProperty] private IRequestVm _current;
 
     private readonly IRequestNodeRepository _repository;
-    
-    public RequestNodeFormWindowViewModel(IRequestNodeRepository repository, RequestNode requestNode)
+
+    public RequestNodeFormWindowViewModel(IRequestNodeRepository repository, IRequestVm request)
     {
-        _currentNode = requestNode;
-        string currentDirectory = Directory.GetCurrentDirectory();
+        _current = request;
         _repository = repository;
     }
-    
+
     [RelayCommand]
     private void UpdateSubmit()
     {
-        _repository.Update(CurrentNode);
+        _repository.Update(Current.ToRequest());
     }
 }

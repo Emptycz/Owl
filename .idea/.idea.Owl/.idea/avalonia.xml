@@ -4,10 +4,40 @@
     <option name="projectPerEditor">
       <map>
         <entry key="Owl/Owl/App.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
-        <entry key="Owl/Owl/Views/MainView.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
-        <entry key="Owl/Owl/Views/MainWindow.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/ViewModels/ResponseTabs/RawResponseTabViewModel.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Components/BodyFormView.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Components/CreateIRequestItemDropDown.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Components/MyTextEditor.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Components/RequestsSidebar.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Components/Spotlight.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Components/TabControlMenu.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Components/TabControlMenuItem.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Icons/SyncCircleIcon.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/MainView.axaml" value="Owl/Owl.Desktop/Owl.Desktop.csproj" />
+        <entry key="Owl/Owl/Views/MainWindow.axaml" value="Owl/Owl.Desktop/Owl.Desktop.csproj" />
         <entry key="Owl/Owl/Views/RequestNodeFormWindow.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
-        <entry key="Owl/Owl/Views/RequestView.axaml" value="Owl/Owl.Desktop/Owl.Desktop.csproj" />
+        <entry key="Owl/Owl/Views/RequestTabs/AuthTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/RequestTabs/BodyTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/RequestTabs/NoRequestSelectedTab).axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/RequestTabs/NoRequestSelectedTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/RequestTabs/ParamsTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/RequestView.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Requests/ContextMenus/HttpRequestItemContextMenu.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Requests/ContextMenus/IRequestItemContextMenu.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Requests/GroupRequestItem.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Requests/HttpRequest.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Requests/HttpRequestItem.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Requests/IRequestItem.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Requests/IVariableRequestItem.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/ResponseTabs/ErrorResponseTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/ResponseTabs/JsonResponseTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/ResponseTabs/ProcessingResponseTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/ResponseTabs/RawResponseTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/SettingsTabs/EnvironmentsTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/SettingsTabs/HotKeysTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/SettingsTabs/RequestSettingsTab.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Windows/EnvironmentWIndow.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
+        <entry key="Owl/Owl/Views/Windows/SettingsWindow.axaml" value="Owl/Owl.Browser/Owl.Browser.csproj" />
       </map>
     </option>
   </component>

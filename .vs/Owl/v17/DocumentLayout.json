@@ -1,0 +1,180 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\kimic\\GithubRepos\\Owl\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CCFC02C6-D854-42C7-981A-8767E7D9FA96}|Owl\\Owl\\Owl.csproj|c:\\users\\kimic\\githubrepos\\owl\\owl\\owl\\owl.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{CCFC02C6-D854-42C7-981A-8767E7D9FA96}|Owl\\Owl\\Owl.csproj|solutionrelative:owl\\owl\\owl.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5084AD9-4F7F-4337-886A-F447502097F5}|Owl.Generators\\Owl.Generators.csproj|c:\\users\\kimic\\githubrepos\\owl\\owl.generators\\owl.generators.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{F5084AD9-4F7F-4337-886A-F447502097F5}|Owl.Generators\\Owl.Generators.csproj|solutionrelative:owl.generators\\owl.generators.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCFC02C6-D854-42C7-981A-8767E7D9FA96}|Owl\\Owl\\Owl.csproj|c:\\users\\kimic\\githubrepos\\owl\\owl\\owl\\owl.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{CCFC02C6-D854-42C7-981A-8767E7D9FA96}|Owl\\Owl\\Owl.csproj|solutionrelative:owl\\owl\\owl.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{979C3DD8-65EA-412D-B338-290A7004CF8F}|Owl\\Owl.Desktop\\Owl.Desktop.csproj|c:\\users\\kimic\\githubrepos\\owl\\owl\\owl.desktop\\owl.desktop.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{979C3DD8-65EA-412D-B338-290A7004CF8F}|Owl\\Owl.Desktop\\Owl.Desktop.csproj|solutionrelative:owl\\owl.desktop\\owl.desktop.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5084AD9-4F7F-4337-886A-F447502097F5}|Owl.Generators\\Owl.Generators.csproj|c:\\users\\kimic\\githubrepos\\owl\\owl.generators\\variableresolvergenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5084AD9-4F7F-4337-886A-F447502097F5}|Owl.Generators\\Owl.Generators.csproj|solutionrelative:owl.generators\\variableresolvergenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCFC02C6-D854-42C7-981A-8767E7D9FA96}|Owl\\Owl\\Owl.csproj|c:\\users\\kimic\\githubrepos\\owl\\owl\\owl\\services\\variableresolvers\\variableresolverfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CCFC02C6-D854-42C7-981A-8767E7D9FA96}|Owl\\Owl\\Owl.csproj|solutionrelative:owl\\owl\\services\\variableresolvers\\variableresolverfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5084AD9-4F7F-4337-886A-F447502097F5}|Owl.Generators\\Owl.Generators.csproj|c:\\users\\kimic\\githubrepos\\owl\\owl.generators\\variablemappergenerator.bck.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5084AD9-4F7F-4337-886A-F447502097F5}|Owl.Generators\\Owl.Generators.csproj|solutionrelative:owl.generators\\variablemappergenerator.bck.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCFC02C6-D854-42C7-981A-8767E7D9FA96}|Owl\\Owl\\Owl.csproj|c:\\users\\kimic\\githubrepos\\owl\\owl\\owl\\models\\variables\\staticvariable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CCFC02C6-D854-42C7-981A-8767E7D9FA96}|Owl\\Owl\\Owl.csproj|solutionrelative:owl\\owl\\models\\variables\\staticvariable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCFC02C6-D854-42C7-981A-8767E7D9FA96}|Owl\\Owl\\Owl.csproj|c:\\users\\kimic\\githubrepos\\owl\\owl\\owl\\services\\variableresolvers\\ivariableresolverfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CCFC02C6-D854-42C7-981A-8767E7D9FA96}|Owl\\Owl\\Owl.csproj|solutionrelative:owl\\owl\\services\\variableresolvers\\ivariableresolverfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CCFC02C6-D854-42C7-981A-8767E7D9FA96}|Owl\\Owl\\Owl.csproj|c:\\users\\kimic\\githubrepos\\owl\\owl\\owl\\services\\variableresolvers\\ivariableresolver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CCFC02C6-D854-42C7-981A-8767E7D9FA96}|Owl\\Owl\\Owl.csproj|solutionrelative:owl\\owl\\services\\variableresolvers\\ivariableresolver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Owl",
+              "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Owl.csproj",
+              "RelativeDocumentMoniker": "Owl\\Owl\\Owl.csproj",
+              "ToolTip": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Owl.csproj",
+              "RelativeToolTip": "Owl\\Owl\\Owl.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-10-09T20:40:29.293Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Owl.Desktop.csproj",
+              "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl.Desktop\\Owl.Desktop.csproj",
+              "RelativeDocumentMoniker": "Owl\\Owl.Desktop\\Owl.Desktop.csproj",
+              "ToolTip": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl.Desktop\\Owl.Desktop.csproj",
+              "RelativeToolTip": "Owl\\Owl.Desktop\\Owl.Desktop.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-10-09T20:06:18.718Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Owl.csproj",
+              "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Owl.csproj",
+              "RelativeDocumentMoniker": "Owl\\Owl\\Owl.csproj",
+              "ToolTip": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Owl.csproj",
+              "RelativeToolTip": "Owl\\Owl\\Owl.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAD4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-10-09T20:06:09.965Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Owl.Generators.csproj",
+              "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl.Generators\\Owl.Generators.csproj",
+              "RelativeDocumentMoniker": "Owl.Generators\\Owl.Generators.csproj",
+              "ToolTip": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl.Generators\\Owl.Generators.csproj",
+              "RelativeToolTip": "Owl.Generators\\Owl.Generators.csproj",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABEAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-10-09T20:05:54.45Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "VariableMapperGenerator.bck.cs",
+              "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl.Generators\\VariableMapperGenerator.bck.cs",
+              "RelativeDocumentMoniker": "Owl.Generators\\VariableMapperGenerator.bck.cs",
+              "ToolTip": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl.Generators\\VariableMapperGenerator.bck.cs",
+              "RelativeToolTip": "Owl.Generators\\VariableMapperGenerator.bck.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-09T19:51:59.41Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "StaticVariable.cs",
+              "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Models\\Variables\\StaticVariable.cs",
+              "RelativeDocumentMoniker": "Owl\\Owl\\Models\\Variables\\StaticVariable.cs",
+              "ToolTip": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Models\\Variables\\StaticVariable.cs",
+              "RelativeToolTip": "Owl\\Owl\\Models\\Variables\\StaticVariable.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-09T19:48:14.969Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "VariableResolverGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl.Generators\\VariableResolverGenerator.cs",
+              "RelativeDocumentMoniker": "Owl.Generators\\VariableResolverGenerator.cs",
+              "ToolTip": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl.Generators\\VariableResolverGenerator.cs",
+              "RelativeToolTip": "Owl.Generators\\VariableResolverGenerator.cs",
+              "ViewState": "AQIAAGsAAAAAAAAAAAAAAIgAAABpAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-09T19:45:52.102Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IVariableResolver.cs",
+              "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Services\\VariableResolvers\\IVariableResolver.cs",
+              "RelativeDocumentMoniker": "Owl\\Owl\\Services\\VariableResolvers\\IVariableResolver.cs",
+              "ToolTip": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Services\\VariableResolvers\\IVariableResolver.cs",
+              "RelativeToolTip": "Owl\\Owl\\Services\\VariableResolvers\\IVariableResolver.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-09T19:44:23.402Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IVariableResolverFactory.cs",
+              "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Services\\VariableResolvers\\IVariableResolverFactory.cs",
+              "RelativeDocumentMoniker": "Owl\\Owl\\Services\\VariableResolvers\\IVariableResolverFactory.cs",
+              "ToolTip": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Services\\VariableResolvers\\IVariableResolverFactory.cs",
+              "RelativeToolTip": "Owl\\Owl\\Services\\VariableResolvers\\IVariableResolverFactory.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-09T19:44:23.793Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "VariableResolverFactory.cs",
+              "DocumentMoniker": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Services\\VariableResolvers\\VariableResolverFactory.cs",
+              "RelativeDocumentMoniker": "Owl\\Owl\\Services\\VariableResolvers\\VariableResolverFactory.cs",
+              "ToolTip": "C:\\Users\\kimic\\GithubRepos\\Owl\\Owl\\Owl\\Services\\VariableResolvers\\VariableResolverFactory.cs",
+              "RelativeToolTip": "Owl\\Owl\\Services\\VariableResolvers\\VariableResolverFactory.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-09T19:43:48.648Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

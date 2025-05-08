@@ -2,165 +2,120 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:Owl.ViewModels"
-             xmlns:avaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
-             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-             xmlns:behaviors="clr-namespace:Owl.Behaviors"
-             xmlns:converters="clr-namespace:Owl.Converters"
+             xmlns:vm="using:Owl.ViewModels"
+             xmlns:converters="using:Owl.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Owl.Views.RequestView"
              x:DataType="vm:RequestViewModel"
              x:Name="RequestViewXaml">
-    <Design.DataContext>
-        <vm:RequestViewModel />
-    </Design.DataContext>
+    <UserControl.KeyBindings>
+        <KeyBinding Gesture="ctrl+enter" Command="{Binding SendRequestCommand}" />
+        <KeyBinding Gesture="alt+d1" Command="{Binding SwitchTabCommand}" CommandParameter="0" />
+        <KeyBinding Gesture="alt+d2" Command="{Binding SwitchTabCommand}" CommandParameter="1" />
+        <KeyBinding Gesture="alt+d3" Command="{Binding SwitchTabCommand}" CommandParameter="2" />
+        <KeyBinding Gesture="alt+d4" Command="{Binding SwitchTabCommand}" CommandParameter="3" />
+    </UserControl.KeyBindings>
     <UserControl.Resources>
-        <converters:EnumToIntConverter x:Key="EnumToIntConverter" />
+        <converters:EnumDisplayNameConverter x:Key="EnumDisplayNameConverter" />
     </UserControl.Resources>
-    <Grid ColumnDefinitions="2*, 1, *">
-        <Grid Grid.Column="0" ColumnDefinitions="200, 1, *">
-            <Panel>
-                <Grid ColumnDefinitions="*" RowDefinitions="30, *">
-                    <StackPanel Orientation="Horizontal">
-                        <Button Command="{Binding RefreshDataCommand}" CommandParameter="{Binding SelectedRequest.Id}"
-                                Content="🙂‍↔️" />
-                        <Button Command="{Binding AddNodeCommand}" Background="Red"
-                                Content="New node!" />
-                    </StackPanel>
-                    <ListBox Grid.Row="1" ItemsSource="{Binding Requests}" SelectedItem="{Binding SelectedRequest}"
-                             Padding="5">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border Background="Transparent">
-                                    <Border.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem
-                                                Header="Edit"
-                                                Click="OpenRequestEditWindow"
-                                                CommandParameter="{Binding}" />
-                                            <MenuItem
-                                                Header="Remove"
-                                                Click="OnRemoveMenuItemClick"
-                                                CommandParameter="{Binding}" />
-                                        </ContextMenu>
-                                    </Border.ContextMenu>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                Height="20" Width="40"
-                                                Background="{Binding TagColor}" CornerRadius="5">
-                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                       Padding="2"
-                                                       FontSize="8"
-                                                       Foreground="Azure"
-                                                       Text="{Binding Method}" />
-                                        </Border>
-                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                   Text="{Binding Name}" Padding="5">
-                                        </TextBlock>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Grid>
-            </Panel>
-            <GridSplitter Grid.Column="1" ResizeDirection="Columns" />
-            <Grid Grid.Column="2" Margin="10 5" RowDefinitions="50,*">
-                <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto">
-                    <ComboBox ItemsSource="{Binding Methods}"
-                              SelectionChanged="SelectingItemsControl_OnSelectionChanged"
-                              SelectedItem="{Binding SelectedRequest.Method}"
-                              MinWidth="80"
-                              Margin="0 10" Grid.Row="0" />
-                    <TextBox Text="{Binding SelectedRequest.Url}" Grid.Row="0" Height="30" Margin="0 6"
-                             Grid.Column="1"
-                             TextChanged="TextBox_UrlChanged"
-                             Watermark="https://localhost" />
-                    <Button Command="{Binding SendRequestCommand}" Grid.Row="0" Height="30" Grid.Column="2"> Send </Button>
-                </Grid>
-                <Grid Grid.Row="1" Margin="10 5" ColumnDefinitions="Auto,*,Auto" RowDefinitions="30,*">
-                    <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Orientation="Vertical">
-                        <Expander HorizontalAlignment="Stretch" VerticalAlignment="Top" Header="Headers">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
-                                <Button Command="{Binding AddHeaderCommand}"> Add new </Button>
-                                <!-- <ListBox ItemsSource="{Binding HeadersCollection, Mode=TwoWay}"> -->
-                                <!--     <ListBox.ItemTemplate> -->
-                                <!--         <DataTemplate> -->
-                                <!--             <StackPanel Orientation="Horizontal"> -->
-                                <!--                 <TextBox Width="100" Text="{Binding Key, Mode=TwoWay}" /> -->
-                                <!--                 <TextBox Width="100" Text="{Binding Value, Mode=TwoWay}" /> -->
-                                <!--                 <Button Click="RemoveHeaderButtonOnClick" -->
-                                <!--                         CommandParameter="{Binding Key}"> -->
-                                <!--                     Remove -->
-                                <!--                 </Button> -->
-                                <!--             </StackPanel> -->
-                                <!--         </DataTemplate> -->
-                                <!--     </ListBox.ItemTemplate> -->
-                                <!-- </ListBox> -->
-                            </StackPanel>
-                        </Expander>
-                        <Expander IsExpanded="False" Header="Params" HorizontalAlignment="Stretch" Margin="0 10">
-                            <TextBlock> Params </TextBlock>
-                        </Expander>
-                        <Expander IsExpanded="True" Header="Body" HorizontalAlignment="Stretch">
-                            <avaloniaEdit:TextEditor
-                                Name="Editor"
-                                FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
-                                Margin="10"
-                                ShowLineNumbers="True"
-                                HorizontalScrollBarVisibility="Auto"
-                                VerticalScrollBarVisibility="Visible"
-                                FontWeight="Light"
-                                TextChanged="Editor_TextChanged"
-                                FontSize="14">
-                                <i:Interaction.Behaviors>
-                                    <behaviors:DocumentTextBindingBehavior
-                                        Text="{Binding SelectedRequest.Body, Mode=TwoWay}">
-                                    </behaviors:DocumentTextBindingBehavior>
-                                </i:Interaction.Behaviors>
-                            </avaloniaEdit:TextEditor>
-                        </Expander>
-                    </StackPanel>
-                </Grid>
-            </Grid>
+    <Grid Background="#27232E" RowDefinitions="55, *" ColumnDefinitions="*, 1, 3*, 1, 2*">
+        <Panel x:Name="SidebarWrapper" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
+            <!-- Sidebar component is added here in the behind-code -->
+        </Panel>
+        <GridSplitter Background="#27232E" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" ResizeDirection="Columns"
+                      ResizeBehavior="BasedOnAlignment" />
+        <!-- RequestPanel -->
+        <Grid Grid.Column="2" Margin="10 0" Grid.Row="0" ColumnDefinitions="Auto,*,Auto">
+            <ComboBox ItemsSource="{Binding Methods}"
+                      SelectionChanged="SelectingItemsControl_OnSelectionChanged"
+                      SelectedItem="{Binding Request.Method}"
+                      MinWidth="120"
+                      IsEnabled="{Binding !!Request}"
+                      VerticalAlignment="Center"
+                      Margin="5 0" Grid.Row="0">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource EnumDisplayNameConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBox Text="{Binding Request.Url}" Grid.Row="0" Height="30" Margin="5 0"
+                     VerticalAlignment="Center"
+                     Grid.Column="1"
+                     IsEnabled="{Binding !!Request}"
+                     TextChanged="TextBox_UrlChanged"
+                     Watermark="https://localhost" />
+            <Button Command="{Binding SendRequestCommand}" Grid.Row="0" Width="100" HorizontalContentAlignment="Center"
+                    IsEnabled="{Binding !!Request}"
+                    VerticalContentAlignment="Center" Height="30" VerticalAlignment="Center" Margin="5 0"
+                    Grid.Column="2">
+                Send
+            </Button>
         </Grid>
-        <GridSplitter Grid.Column="1" Width="1" ResizeDirection="Columns" ResizeBehavior="BasedOnAlignment" />
-        <Grid Grid.Column="2" RowDefinitions="50, *" Background="WhiteSmoke">
-            <Border BorderThickness="0 0 0 1" BorderBrush="LightGray" Background="LightGray" CornerRadius="5">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock FontSize="16" Margin="10" TextWrapping="Wrap" Text="{Binding ResponseStatus}" />
-                    <TextBlock FontSize="16" Margin="10">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0} ms">
-                                <Binding Path="ResponseTime" StringFormat="{}{0:F2}" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </StackPanel>
-            </Border>
-            <!-- <OverlayLayer OpacityMask="Black" Grid.Row="1" HorizontalAlignment="Stretch" IsEnabled="True"> -->
-            <!--     <Grid ColumnDefinitions="*" RowDefinitions="*" VerticalAlignment="Center" HorizontalAlignment="Center"> -->
-            <!--         <TextBlock> Test </TextBlock> -->
-            <!--     </Grid> -->
-            <!-- </OverlayLayer> -->
-            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <avaloniaEdit:TextEditor
-                    Name="ResponseEditor"
-                    FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
-                    Margin="10"
-                    ShowLineNumbers="True"
-                    HorizontalScrollBarVisibility="Auto"
-                    VerticalScrollBarVisibility="Visible"
-                    FontWeight="Light"
-                    IsReadOnly="True"
-                    FontSize="14">
-                    <i:Interaction.Behaviors>
-                        <behaviors:DocumentTextBindingBehavior
-                            Text="{Binding Response, Mode=TwoWay}">
-                        </behaviors:DocumentTextBindingBehavior>
-                    </i:Interaction.Behaviors>
-                </avaloniaEdit:TextEditor>
-            </ScrollViewer>
+        <!-- /RequestPanel -->
+        <!-- RequestContent -->
+        <Border CornerRadius="20" Grid.Row="1" Grid.Column="2" Background="#362F44">
+            <Grid ColumnDefinitions="10, *, 10" RowDefinitions="10, 50, 10, *">
+                <Border Padding="10 5" Grid.Column="1" Height="50" Grid.Row="1" Background="#27232E" CornerRadius="15">
+                    <TabStrip
+                        IsEnabled="{Binding !!Request}"
+                        UseLayoutRounding="false"
+                        SelectedIndex="{Binding SelectedTabIndex}"
+                        Height="50">
+                        <TabStrip.Styles>
+                            <Style Selector="TabStripItem">
+                                <Setter Property="Padding" Value="10" />
+                                <Setter Property="Width" Value="80" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="12" />
+                                <Setter Property="Background" Value="#27232E" />
+                                <Setter Property="MinWidth" Value="100" />
+                            </Style>
+                            <Style Selector="TabStripItem:selected">
+                                <Setter Property="CornerRadius" Value="10" />
+                                <Setter Property="Background" Value="#362F44" />
+                                <Setter Property="MinWidth" Value="100" />
+                                <Setter Property="MinHeight" Value="35" />
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Height" Value="40" />
+                            </Style>
+                            <Style Selector="TabStripItem:selected:pointerover /template/ Border#PART_LayoutRoot">
+                                <Setter Property="CornerRadius" Value="10" />
+                                <Setter Property="Background" Value="#362F44" />
+                                <Setter Property="MinWidth" Value="100" />
+                                <Setter Property="MinHeight" Value="35" />
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Height" Value="40" />
+                            </Style>
+                            <Style Selector="TabStripItem:selected /template/ Border#PART_SelectedPipe">
+                                <Setter Property="IsVisible" Value="False" />
+                            </Style>
+                        </TabStrip.Styles>
+                        <TabStripItem> Params </TabStripItem>
+                        <TabStripItem> Body </TabStripItem>
+                        <TabStripItem> Auth </TabStripItem>
+                        <TabStripItem> Headers </TabStripItem>
+                    </TabStrip>
+                </Border>
+                <Border Padding="5" Grid.Column="1" Grid.Row="3" Background="#27232E" CornerRadius="15 15 20 20">
+                    <ContentControl Content="{Binding TabContentControl}" />
+                </Border>
+            </Grid>
+        </Border>
+        <GridSplitter Background="#27232E" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" ResizeDirection="Columns"
+                      ResizeBehavior="BasedOnAlignment" />
+        <!-- ResponsePanel -->
+        <StackPanel Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" Orientation="Horizontal">
+            <TextBlock FontSize="12" Margin="10" TextWrapping="Wrap" Text="{Binding ResponseStatus}" />
+            <TextBlock FontSize="12" Margin="10" Text="{Binding ResponseTime}" />
+            <TextBlock FontSize="12" Margin="10" Text="{Binding ResponseSize}" />
+        </StackPanel>
+        <!-- /ResponsePanel -->
+        <Grid Grid.Row="1" Grid.Column="4" Background="#362F44">
+            <ContentControl Content="{Binding ResponseContent}" />
         </Grid>
     </Grid>
 </UserControl>

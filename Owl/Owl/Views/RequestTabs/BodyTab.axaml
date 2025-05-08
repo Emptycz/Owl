@@ -1,0 +1,28 @@
+    <UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+             xmlns:behaviors="using:Owl.Behaviors"
+             xmlns:requestTabs="using:Owl.ViewModels.RequestTabs"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="requestTabs:BodyTabViewModel"
+             x:Class="Owl.Views.RequestTabs.BodyTab">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <avaloniaEdit:TextEditor
+            Name="Editor"
+            FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
+            Margin="10"
+            ShowLineNumbers="True"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Visible"
+            FontWeight="Light"
+            FontSize="14">
+            <Interaction.Behaviors>
+                <behaviors:DocumentTextBindingBehavior
+                    Text="{Binding Body, Mode=TwoWay}">
+                </behaviors:DocumentTextBindingBehavior>
+            </Interaction.Behaviors>
+        </avaloniaEdit:TextEditor>
+    </ScrollViewer>
+</UserControl>

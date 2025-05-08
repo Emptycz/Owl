@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+             xmlns:behaviors="clr-namespace:Owl.Behaviors"
+             xmlns:vm="using:Owl.ViewModels.ResponseTabs"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Owl.Views.ResponseTabs.RawResponseTab"
+             x:DataType="vm:RawResponseTabViewModel">
+    <avaloniaEdit:TextEditor
+        Name="ResponseEditor"
+        FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
+        Margin="10"
+        ShowLineNumbers="True"
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Visible"
+        FontWeight="Light"
+        IsReadOnly="True"
+        FontSize="14">
+        <Interaction.Behaviors>
+            <behaviors:DocumentTextBindingBehavior
+                Text="{Binding Response, Mode=TwoWay}">
+            </behaviors:DocumentTextBindingBehavior>
+        </Interaction.Behaviors>
+    </avaloniaEdit:TextEditor>
+</UserControl>

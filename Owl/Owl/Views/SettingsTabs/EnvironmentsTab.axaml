@@ -1,0 +1,66 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Owl.ViewModels.SettingsTabs"
+             xmlns:variables="clr-namespace:Owl.Models.Variables"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:EnvironmentsTabViewModel"
+             x:Class="Owl.Views.SettingsTabs.EnvironmentsTab">
+    <Grid ColumnDefinitions="300, *">
+        <ListBox
+            ItemsSource="{Binding Environments}"
+            SelectedItem="{Binding SelectedEnvironment}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <Button Content="Add +" Command="{Binding AddVariableCommand}" />
+            <!-- <Button Margin="5 0" Content="Enable all" Command="{Binding SetParamEnabledCommand}" -->
+            <!--         CommandParameter="true" /> -->
+            <!-- <Button Content="Disable all" Command="{Binding SetParamEnabledCommand}" CommandParameter="false" /> -->
+        </StackPanel>
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Visible">
+            <ItemsRepeater Margin="0 0 15 0" ItemsSource="{Binding SelectedEnvironment.Variables}">
+                <ItemsRepeater.Layout>
+                    <StackLayout Orientation="Vertical" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate DataType="variables:IVariable">
+                        <Grid Margin="0 5" ColumnDefinitions="*, 5, *, 50">
+                            <TextBox Text="{Binding Key, Mode=TwoWay}" Grid.Column="0"
+                                     Watermark="Param key" />
+                            <TextBox Text="{Binding Key, Mode=TwoWay}" Grid.Column="2"
+                                     Watermark="Value" />
+                            <StackPanel Orientation="Horizontal" Grid.Column="3" Margin="10 0">
+                                <CheckBox ToolTip.Tip="Is param enabled" x:Name="IsEnabledCheckBox"
+                                          IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
+                                <!-- <Button Content="❌" Click="OnRemoveParameterClick" CommandParameter="{Binding }" /> -->
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+        </ScrollViewer>
+        <!-- <controls:ItemsRepeater Grid.Column="1" ItemsSource="{Binding SelectedEnvironment.Variables}"> -->
+        <!--     <controls:ItemsRepeater.ItemTemplate> -->
+        <!--         <DataTemplate DataType="variables:StaticVariable"> -->
+        <!--             <Grid Margin="0 5" ColumnDefinitions="*, 5, *, 50"> -->
+        <!--                 <TextBox Text="{Binding Key, Mode=TwoWay}" Grid.Column="0" -->
+        <!--                          Watermark="Param key" /> -->
+        <!--                 <TextBox Text="{Binding Value, Mode=TwoWay}" Grid.Column="2" -->
+        <!--                          Watermark="Value" /> -->
+        <!--                 <StackPanel Orientation="Horizontal" Grid.Column="3" Margin="10 0"> -->
+        <!--                     <CheckBox ToolTip.Tip="Is param enabled" x:Name="IsEnabledCheckBox" /> -->
+        <!--                     ~1~ IsChecked="{Binding IsEnabled, Mode=TwoWay}" /> @1@ -->
+        <!--                     ~1~ <Button Content="❌" Click="OnRemoveParameterClick" CommandParameter="{Binding }" /> @1@ -->
+        <!--                 </StackPanel> -->
+        <!--             </Grid> -->
+        <!--         </DataTemplate> -->
+        <!--     </controls:ItemsRepeater.ItemTemplate> -->
+        <!-- </controls:ItemsRepeater> -->
+    </Grid>
+</UserControl>

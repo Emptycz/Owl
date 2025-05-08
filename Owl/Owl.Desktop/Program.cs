@@ -1,5 +1,8 @@
 ﻿using System;
 using Avalonia;
+using Avalonia.Logging;
+using Projektanker.Icons.Avalonia;
+using Projektanker.Icons.Avalonia.FontAwesome;
 
 namespace Owl.Desktop;
 
@@ -14,8 +17,13 @@ sealed class Program
 
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
+    {
+        IconProvider.Current
+            .Register<FontAwesomeIconProvider>();
+
+        return AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
-            .LogToTrace();
+            .LogToTrace(LogEventLevel.Verbose);
+    }
 }
