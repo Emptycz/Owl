@@ -8,6 +8,40 @@
              x:Class="Owl.Views.RequestView"
              x:DataType="vm:RequestViewModel"
              x:Name="RequestViewXaml">
+    <!-- <UserControl.Styles> -->
+    <!--     <Style Selector="Ellipse.pointer"> -->
+    <!--         <Setter Property="Margin" Value="0" /> -->
+    <!--         <Setter Property="Transitions"> -->
+    <!--             <Transitions> -->
+    <!--                 <ThicknessTransition Property="Margin" Duration="0:0:0.5" Easing="QuarticEaseOut"/> -->
+    <!--             </Transitions> -->
+    <!--         </Setter> -->
+    <!--     </Style> -->
+    <!--     <Style Selector="ToggleButton.nav"> -->
+    <!--         <Setter Property="Background" Value="Transparent" /> -->
+    <!--         <Setter Property="Foreground" Value="rgba(255,255,255,0.8)" /> -->
+    <!--         <Setter Property="FontWeight" Value="SemiBold" /> -->
+    <!--         <Setter Property="FontSize" Value="12" /> -->
+    <!--         <Style Selector="^ /template/ ContentPresenter"> -->
+    <!--             <Setter Property="Transitions"> -->
+    <!--                 <Transitions> -->
+    <!--                     <BrushTransition Property="Foreground" Duration="0:0:0.5" Easing="QuarticEaseOut" /> -->
+    <!--                 </Transitions> -->
+    <!--             </Setter> -->
+    <!--         </Style> -->
+    <!--         <Style Selector="^:pointerover /template/ ContentPresenter"> -->
+    <!--             <Setter Property="Foreground" Value="#FFB0B0B0" /> -->
+    <!--         </Style> -->
+    <!--         <Style Selector="^:unchecked /template/ ContentPresenter#PART_ContentPresenter"> -->
+    <!--             <Setter Property="Foreground" Value="Transparent" /> -->
+    <!--         </Style> -->
+    <!--         <Style Selector="^:checked /template/ ContentPresenter#PART_ContentPresenter"> -->
+    <!--             <Setter Property="IsEnabled" Value="False" /> -->
+    <!--             <Setter Property="Foreground" Value="White" /> -->
+    <!--             <Setter Property="Background" Value="Transparent" /> -->
+    <!--         </Style> -->
+    <!--     </Style> -->
+    <!-- </UserControl.Styles> -->
     <UserControl.KeyBindings>
         <KeyBinding Gesture="ctrl+enter" Command="{Binding SendRequestCommand}" />
         <KeyBinding Gesture="alt+d1" Command="{Binding SwitchTabCommand}" CommandParameter="0" />
@@ -100,6 +134,19 @@
                         <TabStripItem> Headers </TabStripItem>
                     </TabStrip>
                 </Border>
+                <!-- <Border Padding="10 5" Grid.Column="1" Height="50" Grid.Row="1" Background="#27232E" CornerRadius="15"> -->
+                <!--     <Grid RowDefinitions="Auto, Auto"> -->
+                <!--         <StackPanel Orientation="Horizontal" Spacing="5"> -->
+                <!--             <ToggleButton Classes="nav" Content="Params" /> -->
+                <!--             <ToggleButton Classes="nav" Content="Body" /> -->
+                <!--             <ToggleButton Classes="nav" Content="Auth" /> -->
+                <!--             <ToggleButton Classes="nav" Content="Headers" /> -->
+                <!--         </StackPanel> -->
+                <!--         <Grid Row="1" Height="8" Margin="0 25 0 0"> -->
+                <!--             <Ellipse Classes="pointer" x:Name="navPointer" HorizontalAlignment="Left" Width="6" Height="6" Fill="{StaticResource pr}" /> -->
+                <!--         </Grid> -->
+                <!--     </Grid> -->
+                <!-- </Border> -->
                 <Border Padding="5" Grid.Column="1" Grid.Row="3" Background="#27232E" CornerRadius="15 15 20 20">
                     <ContentControl Content="{Binding TabContentControl}" />
                 </Border>

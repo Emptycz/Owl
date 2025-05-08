@@ -181,13 +181,8 @@ public partial class RequestViewModel : ViewModelBase
             Log.Warning($"Sending a request: {httpRequest.Url}");
 
             stopwatch.Start();
-            HttpResponseMessage responseMessage = Request.Method switch
-            {
-                HttpRequestMethod.Get => await _httpClientService.GetAsync(httpRequest, _cancellationTokenSource.Token),
-                HttpRequestMethod.Post => await _httpClientService.PostAsync(httpRequest, _cancellationTokenSource.Token),
-                _ => throw new ArgumentOutOfRangeException(nameof(httpRequest.Method),
-                    $"Unsupported method type: {httpRequest.Method}")
-            };
+            HttpResponseMessage responseMessage = await _httpClientService.ProcessRequestAsync(httpRequest,
+                _cancellationTokenSource.Token);
             stopwatch.Stop();
 
             SetResponse(responseMessage);

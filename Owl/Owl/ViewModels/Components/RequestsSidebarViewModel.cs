@@ -33,7 +33,7 @@ public partial class RequestsSidebarViewModel : ViewModelBase
 	[ObservableProperty] private Environment? _selectedEnvironment;
 
 	[ObservableProperty] private ObservableCollection<string> _collections;
-	[ObservableProperty] private string _selectedCollection;
+	[ObservableProperty] private string? _selectedCollection;
 
 	private readonly IRequestNodeRepository _repository;
 	private readonly IEnvironmentRepository _environmentRepository;
@@ -111,16 +111,11 @@ public partial class RequestsSidebarViewModel : ViewModelBase
 
 	[RelayCommand]
 	// TODO: This needs to be generalized
-	private void DuplicateRequest(HttpRequestVm node)
+	private void DuplicateRequest(IRequestVm node)
 	{
-		var newNode = new HttpRequest
-		{
-			Name = node.Name,
-			Method = node.Method,
-			Body = node.Body,
-			Url = node.Url,
-			Headers = node.Headers,
-		};
+		var newNode = node.ToRequest();
+		newNode.Id = Guid.NewGuid();
+
 		_repository.Add(newNode);
 	}
 
@@ -131,7 +126,7 @@ public partial class RequestsSidebarViewModel : ViewModelBase
 
 		var vars = _environmentRepository.Get(newValue.Id)?.Variables;
 		if (vars is null) return;
-		VariablesManager.AddVariables(vars, newValue?.Name);
+		VariablesManager.AddVariables(vars, newValue.Name);
 	}
 
 	partial void OnSearchChanging(string value)
@@ -171,8 +166,10 @@ public partial class RequestsSidebarViewModel : ViewModelBase
 		}
 	}
 
-	partial void OnSelectedCollectionChanged(string value)
+	partial void OnSelectedCollectionChanged(string? value)
 	{
+		if (string.IsNullOrEmpty(value)) return;
+
 		Log.Debug("Switching database to {Database}", value);
 		// FIXME: This needs to be way more resilient
 		_dbContext.SwitchDatabase(Directory.GetCurrentDirectory() + $"/{value}");
