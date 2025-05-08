@@ -45,16 +45,16 @@ public partial class SettingsWindowViewModel : ViewModelBase
 
 public enum SettingTab
 {
-    [DisplayName("General")]
+    [Value("General")]
     General,
-    [DisplayName("Hotkeys")]
+    [Value("Hotkeys")]
     Hotkeys,
-    [DisplayName("Environments")]
+    [Value("Environments")]
     Environments,
-    [DisplayName("Request")]
+    [Value("Request")]
     Request,
-    [DisplayName("Response")]
+    [Value("Response")]
     Response,
-    [DisplayName("Themes")]
+    [Value("Themes")]
     Themes,
 }

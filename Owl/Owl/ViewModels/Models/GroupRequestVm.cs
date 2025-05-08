@@ -1,7 +1,9 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using Owl.Enums;
+using Owl.Factories;
 using Owl.Interfaces;
 using Owl.Models;
 using Owl.Models.Requests;
@@ -15,7 +17,7 @@ public class GroupRequestVm : IRequestVm, INotifyPropertyChanged
     public Guid Id { get; set; }
     public RequestNodeType Type => RequestNodeType.Group;
     public RequestAuth? Auth { get; set; }
-    public ObservableCollection<IRequestVm> Children { get; set; } = [];
+    public ObservableCollection<IRequestVm> Children { get; set; }
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public string Name
@@ -33,8 +35,7 @@ public class GroupRequestVm : IRequestVm, INotifyPropertyChanged
         Id = groupRequest.Id;
         Name = groupRequest.Name;
         // TODO: This needs to be mapped with a factory function
-        Console.WriteLine("TODO: Need to map RequestGroup.Children in the VM constructor");
-        // Children = new ObservableCollection<IRequestVm>(request.Children);
+        Children = new ObservableCollection<IRequestVm>(groupRequest.Children.Select(RequestNodeVmFactory.GetRequestNodeVm));
     }
 
     public string GetIcon()

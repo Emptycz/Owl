@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using Owl.Models.Requests;
+using Owl.Models;
 
 namespace Owl.Importers;
 
 public interface IImporter
 {
-    IEnumerable<IRequest> ImportRequests(string content);
+    IEnumerable<OwlCollection> ImportRequests(string content);
 }

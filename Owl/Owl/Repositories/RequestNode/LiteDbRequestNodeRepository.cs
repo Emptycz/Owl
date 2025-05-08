@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text.Json;
 using Owl.Contexts;
@@ -10,67 +11,90 @@ using Serilog;
 
 namespace Owl.Repositories.RequestNode;
 
-public class LiteDbRequestNodeRepository(IDbContext context) : IRequestNodeRepository
+public class LiteDbRequestNodeRepository : IRequestNodeRepository
 {
     public event EventHandler<RepositoryEventObject<IRequest>>? RepositoryHasChanged;
 
+    private readonly IDbContext _context;
+    public LiteDbRequestNodeRepository(IDbContext context)
+    {
+        _context = context;
+        // FIXME: This need to be redesigned to be more efficient + it feels weird to just pass the event through
+        _context.DbContextHasChanged += (sender, operation) =>
+            RepositoryHasChanged?.Invoke(this, new RepositoryEventObject<IRequest>(RepositoryEventOperation.SourceChanged));
+    }
+
     public IEnumerable<IRequest> GetAll()
     {
-        return context.RequestNodes.FindAll();
+        return _context.RequestNodes.FindAll();
     }
 
     public IEnumerable<IRequest> Find(Expression<Func<IRequest, bool>> predicate)
     {
-        return context.RequestNodes.Find(predicate);
+        return _context.RequestNodes.Find(predicate);
     }
 
     public IRequest Get(Guid id)
     {
-        return context.RequestNodes.FindOne((x) => x.Id == id);
+        return _context.RequestNodes.FindOne((x) => x.Id == id);
     }
 
     public IRequest Add(IRequest entity)
     {
-        context.RequestNodes.Insert(entity);
-        NotifyChange(entity, RepositoryEventOperation.Add);
+        _context.RequestNodes.Insert(entity);
+        NotifyChange(entity, RepositoryEventOperation.AddedOne);
         return entity;
+    }
+
+    public IEnumerable<IRequest> Add(IEnumerable<IRequest> entity)
+    {
+        var enumerable = entity as IRequest[] ?? entity.ToArray();
+
+        _context.RequestNodes.Insert(enumerable);
+        NotifyChange(RepositoryEventOperation.AddedMultiple);
+        return enumerable;
     }
 
     public IRequest Update(IRequest entity)
     {
         Log.Debug($"Updating entity: {JsonSerializer.Serialize(entity, typeof(object))}");
-        context.RequestNodes.Update(entity);
-        NotifyChange(entity, RepositoryEventOperation.Update);
+        _context.RequestNodes.Update(entity);
+        NotifyChange(entity, RepositoryEventOperation.UpdatedOne);
         return entity;
     }
 
     public bool Remove(Guid id)
     {
-        var oldValue = context.RequestNodes.FindOne(x => x.Id == id);
-        bool res = context.RequestNodes.Delete(id);
+        var oldValue = _context.RequestNodes.FindOne(x => x.Id == id);
+        bool res = _context.RequestNodes.Delete(id);
         if (!res) return false;
 
-        NotifyChange(oldValue, RepositoryEventOperation.Remove);
+        NotifyChange(oldValue, RepositoryEventOperation.RemovedOne);
         return true;
     }
 
     public int DeleteAll()
     {
-        int res = context.RequestNodes.DeleteAll();
+        int res = _context.RequestNodes.DeleteAll();
 
-        NotifyChange(new RequestBase { Id = Guid.Empty, Name = "Deleted All Nodes" }, RepositoryEventOperation.Remove);
+        NotifyChange(new RequestBase { Id = Guid.Empty, Name = "Deleted All Nodes" }, RepositoryEventOperation.RemovedOne);
         return res;
     }
 
     public IRequest Upsert(IRequest entity)
     {
-        context.RequestNodes.Upsert(entity);
-        NotifyChange(entity, RepositoryEventOperation.Add);
+        _context.RequestNodes.Upsert(entity);
+        NotifyChange(entity, RepositoryEventOperation.AddedOne);
         return entity;
     }
 
     private void NotifyChange(IRequest entity, RepositoryEventOperation operation)
     {
         RepositoryHasChanged?.Invoke(this, new RepositoryEventObject<IRequest>(entity, operation));
+    }
+
+    private void NotifyChange(RepositoryEventOperation operation)
+    {
+        RepositoryHasChanged?.Invoke(this, new RepositoryEventObject<IRequest>(operation));
     }
 }

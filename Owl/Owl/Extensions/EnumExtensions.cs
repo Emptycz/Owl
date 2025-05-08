@@ -13,7 +13,7 @@ public static class EnumExtensions
 	/// </summary>
 	/// <param name="value"></param>
 	/// <returns></returns>
-	public static string? GetDisplayName(this Enum value) {
+	public static string? GetStringValue(this Enum value) {
 		// Get the type
 		Type type = value.GetType();
 
@@ -21,8 +21,8 @@ public static class EnumExtensions
 		FieldInfo? fieldInfo = type.GetField(value.ToString());
 
 		// Get the stringvalue attributes
-		DisplayNameAttribute[]? attribs = fieldInfo?.GetCustomAttributes(
-			typeof(DisplayNameAttribute), false) as DisplayNameAttribute[];
+		ValueAttribute[]? attribs = fieldInfo?.GetCustomAttributes(
+			typeof(ValueAttribute), false) as ValueAttribute[];
 
 		// Return the first if there was a match.
 		return attribs?.Length > 0 ? attribs[0].StringValue : null;

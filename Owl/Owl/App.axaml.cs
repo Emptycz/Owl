@@ -1,3 +1,4 @@
+using System.IO;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -11,6 +12,7 @@ using Owl.Repositories.RequestNode;
 using Owl.Repositories.Settings;
 using Owl.Repositories.Spotlight;
 using Owl.Repositories.Variable;
+using Owl.Services;
 using Owl.Services.VariableResolvers;
 using Owl.States;
 using Owl.ViewModels;
@@ -40,11 +42,12 @@ public partial class App : Application
 
         // Register all the services needed for the application to run
         var collection = new ServiceCollection();
-        collection.AddCommonServices(); ;
+        collection.AddCommonServices();
 
         // Creates a ServiceProvider containing services from the provided IServiceCollection
         var services = collection.BuildServiceProvider();
 
+        CollectionManager.LoadCollections(Directory.GetCurrentDirectory() + "/Collections");
         // Register the default variables
         RegisterGlobalVariables(services.GetRequiredService<IVariableRepository>());
 
@@ -95,6 +98,7 @@ public static class ServiceCollectionExtensions
         collection.AddSingleton<ISpotlightRepository, SpotlightRepository>();
         collection.AddSingleton<ISettingsRepository, SettingsRepository>();
 
+        // Register global states
         collection.AddSingleton<IRequestNodeState, RequestNodeState>();
         collection.AddSingleton<IEnvironmentState, EnvironmentState>();
 

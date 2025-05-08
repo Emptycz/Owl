@@ -10,7 +10,7 @@ namespace Owl.ViewModels.Models;
 
 public class HttpRequestVm : HttpRequest, IRequestVm, INotifyPropertyChanged
 {
-    private HttpRequestType _method = HttpRequestType.Get;
+    private HttpRequestMethod _method = HttpRequestMethod.Get;
     private string _name = string.Empty;
     private string _tagColor = "#FF0000";
     public RequestNodeType Type => RequestNodeType.Http;
@@ -36,7 +36,7 @@ public class HttpRequestVm : HttpRequest, IRequestVm, INotifyPropertyChanged
         }
     }
 
-    public new HttpRequestType Method
+    public new HttpRequestMethod Method
     {
         get => _method;
         set
@@ -69,22 +69,22 @@ public class HttpRequestVm : HttpRequest, IRequestVm, INotifyPropertyChanged
     }
 
     // TODO: Allow for custom colors
-    private string GetMethodColor(HttpRequestType method)
+    private string GetMethodColor(HttpRequestMethod method)
     {
         return method switch
         {
-            HttpRequestType.Get => "#9933ff",
-            HttpRequestType.Post => "#339933",
-            HttpRequestType.Put => "#ff9933",
-            HttpRequestType.Update => "#0099ff",
-            HttpRequestType.Delete => "#ff0000",
+            HttpRequestMethod.Get => "#9933ff",
+            HttpRequestMethod.Post => "#339933",
+            HttpRequestMethod.Put => "#ff9933",
+            HttpRequestMethod.Patch => "#0099ff",
+            HttpRequestMethod.Delete => "#ff0000",
             _ => "#ffffff"
         };
     }
 
     public string GetIcon()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public IRequest ToRequest()

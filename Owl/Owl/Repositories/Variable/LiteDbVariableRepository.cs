@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using Avalonia.Controls;
 using Owl.Contexts;
 using Owl.Enums;
 using Owl.EventModels;
@@ -8,65 +10,88 @@ using Owl.Models.Variables;
 
 namespace Owl.Repositories.Variable;
 
-public class LiteDbVariableRepository(IDbContext context) : IVariableRepository
+public class LiteDbVariableRepository : IVariableRepository
 {
     public event EventHandler<RepositoryEventObject<IVariable>>? RepositoryHasChanged;
 
+    private readonly IDbContext _context;
+    public LiteDbVariableRepository(IDbContext context)
+    {
+        _context = context;
+
+        // FIXME: This need to be redesigned to be more efficient + it feels weird to just pass the event through
+        _context.DbContextHasChanged += (sender, operation) =>
+            RepositoryHasChanged?.Invoke(this, new RepositoryEventObject<IVariable>(RepositoryEventOperation.SourceChanged));
+    }
+
     public IEnumerable<IVariable> GetAll()
     {
-        return context.GlobalVariables.FindAll();
+        return _context.GlobalVariables.FindAll();
     }
 
     public IEnumerable<IVariable> Find(Expression<Func<IVariable, bool>> predicate)
     {
-        return context.GlobalVariables.Find(predicate);
+        return _context.GlobalVariables.Find(predicate);
     }
 
     public IVariable Get(Guid id)
     {
-        return context.GlobalVariables.FindById(id);
+        return _context.GlobalVariables.FindById(id);
     }
 
     public IVariable Add(IVariable entity)
     {
-        context.GlobalVariables.Insert(entity);
-        NotifyChange(entity, RepositoryEventOperation.Add);
+        _context.GlobalVariables.Insert(entity);
+        NotifyChange(entity, RepositoryEventOperation.AddedOne);
         return entity;
+    }
+    
+    public IEnumerable<IVariable> Add(IEnumerable<IVariable> entity)
+    {
+        var enumerable = entity as IVariable[] ?? entity.ToArray();
+        _context.GlobalVariables.Insert(enumerable);
+        NotifyChange(RepositoryEventOperation.AddedMultiple);
+        return enumerable;
     }
 
     public IVariable Update(IVariable entity)
     {
-        context.GlobalVariables.Update(entity);
-        NotifyChange(entity, RepositoryEventOperation.Update);
+        _context.GlobalVariables.Update(entity);
+        NotifyChange(entity, RepositoryEventOperation.UpdatedOne);
         return entity;
     }
 
     public bool Remove(Guid id)
     {
-        bool res = context.GlobalVariables.Delete(id);
+        bool res = _context.GlobalVariables.Delete(id);
         if (!res) return false;
 
-        NotifyChange(new VariableBase{ Id = id }, RepositoryEventOperation.Remove);
+        NotifyChange(new VariableBase{ Id = id }, RepositoryEventOperation.RemovedOne);
         return true;
     }
 
     public int DeleteAll()
     {
-        int res = context.GlobalVariables.DeleteAll();
+        int res = _context.GlobalVariables.DeleteAll();
 
-        NotifyChange(new VariableBase{ Id = Guid.Empty }, RepositoryEventOperation.Remove);
+        NotifyChange(new VariableBase{ Id = Guid.Empty }, RepositoryEventOperation.RemovedOne);
         return res;
     }
 
     public IVariable Upsert(IVariable entity)
     {
-        context.GlobalVariables.Upsert(entity);
-        NotifyChange(entity, RepositoryEventOperation.Add);
+        _context.GlobalVariables.Upsert(entity);
+        NotifyChange(entity, RepositoryEventOperation.AddedOne);
         return entity;
     }
 
     private void NotifyChange(IVariable entity, RepositoryEventOperation operation)
     {
         RepositoryHasChanged?.Invoke(this, new RepositoryEventObject<IVariable>(entity, operation));
+    }
+
+    private void NotifyChange(RepositoryEventOperation operation)
+    {
+        RepositoryHasChanged?.Invoke(this, new RepositoryEventObject<IVariable>(operation));
     }
 }

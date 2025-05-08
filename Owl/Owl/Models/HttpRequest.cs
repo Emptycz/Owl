@@ -13,10 +13,11 @@ namespace Owl.Models;
 public class HttpRequest : RequestBase
 {
     public string? Url { get; set; }
-    public HttpRequestType Method { get; set; } = HttpRequestType.Get;
+    public HttpRequestMethod Method { get; set; } = HttpRequestMethod.Get;
+    // TODO: We will need to support more types of Body, such as FormData, GraphQL body, etc. This will need to be structured, not just a string
     public string? Body { get; set; }
-    public List<RequestHeader> Headers { get; set; } = [];
-    public List<RequestParameter> Parameters { get; set; } = [];
+    public IList<RequestHeader> Headers { get; set; } = [];
+    public IList<RequestParameter> Parameters { get; set; } = [];
 
     [BsonIgnore]
     public HttpResponseMessage? Response { get; set; }
@@ -56,7 +57,7 @@ public class HttpRequest : RequestBase
         Response = vm.Response;
     }
 
-    public void ResolveVariable(FoundVariable foundVariable, string resolvedVariableValue)
+    public void ReplaceVariable(FoundVariable foundVariable, string resolvedVariableValue)
     {
         switch (foundVariable.Location)
         {

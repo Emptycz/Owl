@@ -39,15 +39,23 @@ public class SettingsRepository : ISettingsRepository
     public Models.Settings Add(Models.Settings entity)
     {
         _context.Settings.Insert(entity);
-        NotifyChange(entity, RepositoryEventOperation.Add);
+        NotifyChange(entity, RepositoryEventOperation.AddedOne);
         Current = entity;
         return entity;
+    }
+
+    public IEnumerable<Models.Settings> Add(IEnumerable<Models.Settings> entity)
+    {
+        var settingsEnumerable = entity as Models.Settings[] ?? entity.ToArray();
+        _context.Settings.Insert(settingsEnumerable);
+        NotifyChange(RepositoryEventOperation.AddedMultiple);
+        return settingsEnumerable;
     }
 
     public Models.Settings Update(Models.Settings entity)
     {
         _context.Settings.Update(entity);
-        NotifyChange(entity, RepositoryEventOperation.Update);
+        NotifyChange(entity, RepositoryEventOperation.UpdatedOne);
         Current = entity;
         return entity;
     }
@@ -70,5 +78,10 @@ public class SettingsRepository : ISettingsRepository
     private void NotifyChange(Models.Settings model, RepositoryEventOperation operation)
     {
         RepositoryHasChanged?.Invoke(this, new RepositoryEventObject<Models.Settings>(model, operation));
+    }
+
+    private void NotifyChange(RepositoryEventOperation operation)
+    {
+        RepositoryHasChanged?.Invoke(this, new RepositoryEventObject<Models.Settings>(operation));
     }
 }

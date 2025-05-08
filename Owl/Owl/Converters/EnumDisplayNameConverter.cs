@@ -9,7 +9,7 @@ public class EnumDisplayNameConverter : IValueConverter
 {
 	public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
 	{
-		return value is not Enum enumValue ? null : enumValue.GetDisplayName();
+		return value is not Enum enumValue ? null : enumValue.GetStringValue();
 	}
 
 	public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

@@ -5,6 +5,7 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
+using Owl.Contexts;
 using Owl.Enums;
 using Owl.EventModels;
 using Owl.Factories;
@@ -24,143 +25,179 @@ namespace Owl.ViewModels.Components;
 
 public partial class RequestsSidebarViewModel : ViewModelBase
 {
-    [ObservableProperty] private string _search = string.Empty;
-    [ObservableProperty] private ObservableCollection<IRequestVm> _requests;
-    [ObservableProperty] private IRequestNodeState _state;
+	[ObservableProperty] private string _search = string.Empty;
+	[ObservableProperty] private ObservableCollection<IRequestVm> _requests;
+	[ObservableProperty] private IRequestNodeState _state;
 
-    [ObservableProperty] private ObservableCollection<Environment> _environments;
-    [ObservableProperty] private Environment? _selectedEnvironment;
+	[ObservableProperty] private ObservableCollection<Environment> _environments;
+	[ObservableProperty] private Environment? _selectedEnvironment;
 
-    private readonly IRequestNodeRepository _repository;
-    private readonly IEnvironmentRepository _environmentRepository;
+	[ObservableProperty] private ObservableCollection<string> _collections;
+	[ObservableProperty] private string _selectedCollection;
 
-    public RequestsSidebarViewModel(IServiceProvider provider)
-    {
-        _environmentRepository = provider.GetRequiredService<IEnvironmentRepository>();
-        var vars = _environmentRepository.GetAll().ToList();
-        if (vars.Count == 0)
-        {
-            vars.Add(_environmentRepository.Add(new Environment { Name = "Default" }));
-        }
+	private readonly IRequestNodeRepository _repository;
+	private readonly IEnvironmentRepository _environmentRepository;
+	private readonly IDbContext _dbContext;
 
-        _environments = new ObservableCollection<Environment>(vars);
-        _selectedEnvironment = _environments.FirstOrDefault();
+	public RequestsSidebarViewModel(IServiceProvider provider)
+	{
+		_environmentRepository = provider.GetRequiredService<IEnvironmentRepository>();
+		var vars = _environmentRepository.GetAll().ToList();
+		if (vars.Count == 0)
+		{
+			vars.Add(_environmentRepository.Add(new Environment { Name = "Default" }));
+		}
 
-        // _state = provider.GetRequiredService<IRequestNodeState>();
-        _state = RequestNodeState.Instance;
+		_environments = new ObservableCollection<Environment>(vars);
+		_selectedEnvironment = _environments.FirstOrDefault();
 
-        _repository = provider.GetRequiredService<IRequestNodeRepository>();
-        _requests = new ObservableCollection<IRequestVm>(_repository.GetAll().Select(RequestNodeVmFactory.GetRequestNodeVm));
+		// _state = provider.GetRequiredService<IRequestNodeState>();
+		_state = RequestNodeState.Instance;
 
-        _repository.RepositoryHasChanged += OnRepositoryHasChanged;
-    }
+		_repository = provider.GetRequiredService<IRequestNodeRepository>();
+		_requests = new ObservableCollection<IRequestVm>(_repository.GetAll()
+			.Select(RequestNodeVmFactory.GetRequestNodeVm));
 
-    [RelayCommand]
-    private void RefreshData(Guid requestNodeId)
-    {
-        var request = _repository.Get(requestNodeId);
-        State.Current = request is null ? null : RequestNodeVmFactory.GetRequestNodeVm(request);
-    }
+		_repository.RepositoryHasChanged += OnRepositoryHasChanged;
 
-    [RelayCommand]
-    private void RemoveRequest(IRequestVm node)
-    {
-        _repository.Remove(node.Id);
-        Requests.Remove(node);
-    }
+		_collections = new ObservableCollection<string>(CollectionManager.CollectionFiles);
+		_dbContext = provider.GetRequiredService<IDbContext>();
+	}
 
-    [RelayCommand]
-    private void AddNode()
-    {
-        var newNode = new HttpRequest
-        {
-            Name = "New Request",
-            Method = HttpRequestType.Get,
-            Body = string.Empty,
-        };
+	[RelayCommand]
+	private void RefreshData(Guid requestNodeId)
+	{
+		var request = _repository.Get(requestNodeId);
+		State.Current = request is null ? null : RequestNodeVmFactory.GetRequestNodeVm(request);
+	}
 
-       _repository.Add(newNode);
-    }
+	[RelayCommand]
+	private void RemoveRequest(IRequestVm node)
+	{
+		_repository.Remove(node.Id);
+		Requests.Remove(node);
+	}
 
-    [RelayCommand]
-    private void AddDirectory()
-    {
-        var newNode = new GroupRequest
-        {
-            Name = "New Directory",
-        };
+	[RelayCommand]
+	private void AddNode()
+	{
+		var newNode = new HttpRequest
+		{
+			Name = "New Request",
+			Method = HttpRequestMethod.Get,
+			Body = string.Empty,
+		};
 
-        _repository.Add(newNode);
-    }
+		_repository.Add(newNode);
+	}
 
-    [RelayCommand]
-    private void RemoveRequestNode(IRequestVm node)
-    {
-        _repository.Remove(node.Id);
-        Requests.Remove(node);
-    }
+	[RelayCommand]
+	private void AddDirectory()
+	{
+		var newNode = new GroupRequest
+		{
+			Name = "New Directory",
+		};
 
-    [RelayCommand]
-    // TODO: This needs to be generalized
-    private void DuplicateRequest(HttpRequestVm node)
-    {
-        var newNode = new HttpRequest
-        {
-            Name = node.Name,
-            Method = node.Method,
-            Body = node.Body,
-            Url = node.Url,
-            Headers = node.Headers,
-        };
-        _repository.Add(newNode);
-    }
+		_repository.Add(newNode);
+	}
 
-    partial void OnSelectedEnvironmentChanged(Environment? oldValue, Environment? newValue)
-    {
-        if (newValue is null) return;
-        if (oldValue == newValue) return;
+	[RelayCommand]
+	private void RemoveRequestNode(IRequestVm node)
+	{
+		_repository.Remove(node.Id);
+		Requests.Remove(node);
+	}
 
-        var vars = _environmentRepository.Get(newValue.Id)?.Variables;
-        if (vars is null) return;
-        VariablesManager.AddVariables(vars, newValue?.Name);
-    }
+	[RelayCommand]
+	// TODO: This needs to be generalized
+	private void DuplicateRequest(HttpRequestVm node)
+	{
+		var newNode = new HttpRequest
+		{
+			Name = node.Name,
+			Method = node.Method,
+			Body = node.Body,
+			Url = node.Url,
+			Headers = node.Headers,
+		};
+		_repository.Add(newNode);
+	}
 
-    partial void OnSearchChanging(string value)
-    {
-        Requests = new ObservableCollection<IRequestVm>(_repository.Find(x => x.Name.Contains(value))
-            .Select(RequestNodeVmFactory.GetRequestNodeVm));
-    }
+	partial void OnSelectedEnvironmentChanged(Environment? oldValue, Environment? newValue)
+	{
+		if (newValue is null) return;
+		if (oldValue == newValue) return;
 
-    private void OnRepositoryHasChanged(object? e, RepositoryEventObject<IRequest>? eventObject)
-    {
-        if (eventObject is null) return;
-        var nodeVm = RequestNodeVmFactory.GetRequestNodeVm(eventObject.NewValue);
+		var vars = _environmentRepository.Get(newValue.Id)?.Variables;
+		if (vars is null) return;
+		VariablesManager.AddVariables(vars, newValue?.Name);
+	}
 
-        switch (eventObject.Operation)
-        {
-            case RepositoryEventOperation.Add:
-                Requests.Add(nodeVm);
-                return;
-            case RepositoryEventOperation.Remove:
-                Requests.Remove(nodeVm);
-                break;
-            case RepositoryEventOperation.Update:
-            {
-                Log.Warning("TODO: Implement updating IRequests in RequestSideBarViewModel for OnRepositoryHasChanged!");
-                break;
-            }
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-    }
+	partial void OnSearchChanging(string value)
+	{
+		Requests = new ObservableCollection<IRequestVm>(_repository.Find(x => x.Name.Contains(value))
+			.Select(RequestNodeVmFactory.GetRequestNodeVm));
+	}
 
-    // TEST::
+	private void OnRepositoryHasChanged(object? e, RepositoryEventObject<IRequest>? eventObject)
+	{
+		if (eventObject is null) return;
+		var nodeVm = eventObject.NewValue is not null ? RequestNodeVmFactory.GetRequestNodeVm(eventObject.NewValue) : null;
 
-    [RelayCommand]
-    private void TestImport()
-    {
-        var content = File.ReadAllText("/home/theempty/Plocha/insomnia_export.json");
-        var importer = new InsomniaV4Importer();
-        importer.Parse(content);
-    }
+		switch (eventObject.Operation)
+		{
+			case RepositoryEventOperation.AddedOne:
+				Requests.Add(nodeVm);
+				return;
+			case RepositoryEventOperation.RemovedOne:
+				Requests.Remove(nodeVm);
+				break;
+			case RepositoryEventOperation.UpdatedOne:
+			{
+				Log.Warning(
+					"TODO: Implement updating IRequests in RequestSideBarViewModel for OnRepositoryHasChanged!");
+				break;
+			}
+			case RepositoryEventOperation.SourceChanged:
+			case RepositoryEventOperation.AddedMultiple:
+			default:
+				Log.Debug("Refreshing all requests in RequestSideBarViewModel for OnRepositoryHasChanged because of {Operation}",
+					eventObject.Operation);
+
+				Requests = new ObservableCollection<IRequestVm>(_repository.GetAll()
+					.Select(RequestNodeVmFactory.GetRequestNodeVm));
+				break;
+		}
+	}
+
+	partial void OnSelectedCollectionChanged(string value)
+	{
+		Log.Debug("Switching database to {Database}", value);
+		// FIXME: This needs to be way more resilient
+		_dbContext.SwitchDatabase(Directory.GetCurrentDirectory() + $"/{value}");
+	}
+
+	// TEST::
+
+	[RelayCommand]
+	private void TestImport()
+	{
+		var content = File.ReadAllText("insomnia-export.json");
+		var importer = new InsomniaV4Importer();
+		var parsedData = importer.Parse(content);
+		_dbContext.SwitchDatabase(Directory.GetCurrentDirectory() + "/Collections/insomnia-export.owl");
+		_repository.Add(parsedData.Requests);
+		// foreach (var request in parsedData.Requests)
+		// {
+		// 	if (request.Name == "invitation")
+		// 	{
+		// 		Console.WriteLine(JsonSerializer.Serialize(request as GroupRequest,
+		// 			new JsonSerializerOptions{ WriteIndented = true }));
+		// 	}
+		//
+		// 	Console.WriteLine("Adding request: " + request.Name);
+		// 	// _repository.Add(request);
+		// }
+	}
 }

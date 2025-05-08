@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Owl.Contexts;
 using Owl.Enums;
@@ -35,14 +36,22 @@ public class EnvironmentRepository : IEnvironmentRepository
     public Models.Environment Add(Models.Environment entity)
     {
         _context.Environments.Insert(entity);
-        NotifyChange(entity, RepositoryEventOperation.Add);
+        NotifyChange(entity, RepositoryEventOperation.AddedOne);
         return entity;
+    }
+
+    public IEnumerable<Models.Environment> Add(IEnumerable<Models.Environment> entity)
+    {
+        var environments = entity as Models.Environment[] ?? entity.ToArray();
+        _context.Environments.Insert(environments);
+        NotifyChange(RepositoryEventOperation.AddedMultiple);
+        return environments;
     }
 
     public Models.Environment Update(Models.Environment entity)
     {
         _context.Environments.Update(entity);
-        NotifyChange(entity, RepositoryEventOperation.Update);
+        NotifyChange(entity, RepositoryEventOperation.UpdatedOne);
         return entity;
     }
 
@@ -54,7 +63,7 @@ public class EnvironmentRepository : IEnvironmentRepository
             return false;
         }
         _context.Environments.Delete(id);
-        NotifyChange(entity, RepositoryEventOperation.Remove);
+        NotifyChange(entity, RepositoryEventOperation.RemovedOne);
         return true;
     }
 
@@ -72,5 +81,10 @@ public class EnvironmentRepository : IEnvironmentRepository
     private void NotifyChange(Models.Environment model, RepositoryEventOperation operation)
     {
         RepositoryHasChanged?.Invoke(this, new RepositoryEventObject<Models.Environment>(model, operation));
+    }
+
+    private void NotifyChange(RepositoryEventOperation operation)
+    {
+        RepositoryHasChanged?.Invoke(this, new RepositoryEventObject<Models.Environment>(operation));
     }
 }

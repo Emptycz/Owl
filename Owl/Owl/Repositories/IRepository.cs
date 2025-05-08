@@ -16,6 +16,7 @@ public interface IRepository<in TType, TResult>
     IEnumerable<TResult> Find(Expression<Func<TResult, bool>> predicate);
     TResult? Get(Guid id);
     TResult Add(TType entity);
+    IEnumerable<TResult> Add(IEnumerable<TType> entity);
     TResult Update(TType entity);
     bool Remove(Guid id);
     int DeleteAll();

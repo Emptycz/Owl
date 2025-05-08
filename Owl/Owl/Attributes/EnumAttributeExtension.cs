@@ -7,7 +7,7 @@ namespace Owl.Attributes;
 /// This attribute is used to represent a string value
 /// for a value in an enum.
 /// </summary>
-public class DisplayNameAttribute : Attribute {
+public class ValueAttribute : Attribute {
 
 	#region Properties
 
@@ -24,7 +24,7 @@ public class DisplayNameAttribute : Attribute {
 	/// Constructor used to init a StringValue Attribute
 	/// </summary>
 	/// <param name="value"></param>
-	public DisplayNameAttribute(string value) {
+	public ValueAttribute(string value) {
 		this.StringValue = value;
 	}
 

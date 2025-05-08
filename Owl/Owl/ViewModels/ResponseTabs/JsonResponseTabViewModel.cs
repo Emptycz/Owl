@@ -1,9 +1,11 @@
+using System.IO;
+using System.Text;
+using System.Text.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Owl.Models;
 using Owl.States;
 using Owl.ViewModels.Models;
+using Serilog;
 
 namespace Owl.ViewModels.ResponseTabs;
 
@@ -26,11 +28,21 @@ public partial class JsonResponseTabViewModel : ViewModelBase
         Response = ParseResponse(vm);
     }
 
+    /**
+     * Serializes the JSON content of the response.
+     */
     private static string ParseResponse(HttpRequest? node)
     {
         if (node is null || node.Response is null) return string.Empty;
-        string content = node.Response.Content.ReadAsStringAsync().Result;
 
-        return JToken.Parse(content).ToString(Formatting.Indented);
+        Log.Debug("Parsing JSON content");
+        using var contentStream = node.Response.Content.ReadAsStream();
+        using var jsonDocument = JsonDocument.Parse(contentStream);
+        using var outputStream = new MemoryStream();
+        using (var writer = new Utf8JsonWriter(outputStream, new JsonWriterOptions { Indented = true }))
+        {
+            jsonDocument.WriteTo(writer);
+        }
+        return Encoding.UTF8.GetString(outputStream.ToArray());
     }
 }

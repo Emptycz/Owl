@@ -31,13 +31,13 @@ public partial class RequestViewModel : ViewModelBase
 {
     [ObservableProperty] private ObservableCollection<IRequestVm> _requests = [];
 
-    [ObservableProperty] private HttpRequestType[] _methods =
+    [ObservableProperty] private HttpRequestMethod[] _methods =
     [
-        HttpRequestType.Get,
-        HttpRequestType.Post,
-        HttpRequestType.Put,
-        HttpRequestType.Update,
-        HttpRequestType.Delete,
+        HttpRequestMethod.Get,
+        HttpRequestMethod.Post,
+        HttpRequestMethod.Put,
+        HttpRequestMethod.Patch,
+        HttpRequestMethod.Delete,
     ];
 
     [ObservableProperty] private string _responseSize = string.Empty;
@@ -73,7 +73,8 @@ public partial class RequestViewModel : ViewModelBase
             _request = vm;
         }
 
-        Requests = new ObservableCollection<IRequestVm>(_nodeRepository.GetAll().Select(RequestNodeVmFactory.GetRequestNodeVm));
+        Requests = new ObservableCollection<IRequestVm>(_nodeRepository.GetAll()
+            .Select(RequestNodeVmFactory.GetRequestNodeVm));
         _requestState.Current = Requests.FirstOrDefault();
         _requestState.CurrentHasChanged += OnRequestHasChanged;
 
@@ -168,7 +169,7 @@ public partial class RequestViewModel : ViewModelBase
             // TODO: Do something when variable was not found (maybe throw or return and render error)
             if (resolvedVariableValue is null) continue;
 
-            httpRequest.ResolveVariable(foundVariable, resolvedVariableValue);
+            httpRequest.ReplaceVariable(foundVariable, resolvedVariableValue);
         }
 
         var stopwatch = new Stopwatch();
@@ -182,8 +183,8 @@ public partial class RequestViewModel : ViewModelBase
             stopwatch.Start();
             HttpResponseMessage responseMessage = Request.Method switch
             {
-                HttpRequestType.Get => await _httpClientService.GetAsync(httpRequest, _cancellationTokenSource.Token),
-                HttpRequestType.Post => await _httpClientService.PostAsync(httpRequest, _cancellationTokenSource.Token),
+                HttpRequestMethod.Get => await _httpClientService.GetAsync(httpRequest, _cancellationTokenSource.Token),
+                HttpRequestMethod.Post => await _httpClientService.PostAsync(httpRequest, _cancellationTokenSource.Token),
                 _ => throw new ArgumentOutOfRangeException(nameof(httpRequest.Method),
                     $"Unsupported method type: {httpRequest.Method}")
             };

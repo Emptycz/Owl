@@ -1,7 +1,7 @@
 using System;
 using System.IO;
-using System.Security.Cryptography;
 using LiteDB;
+using Owl.Enums;
 using Owl.Models;
 using Owl.Models.Requests;
 using Owl.Models.Variables;
@@ -11,12 +11,40 @@ namespace Owl.Contexts;
 
 public class LiteDbContext : IDbContext
 {
-    private readonly LiteDatabase _database;
+    private LiteDatabase Database { get; set; }
+
+    public ILiteCollection<IRequest> RequestNodes => Database.GetCollection<IRequest>("request_nodes");
+    public ILiteCollection<IVariable> GlobalVariables => Database.GetCollection<IVariable>("global_variables");
+    public ILiteCollection<Environment> Environments => Database.GetCollection<Environment>("environments");
+    public ILiteCollection<Settings> Settings => Database.GetCollection<Settings>("settings");
+    public event EventHandler<DbEventOperation>? DbContextHasChanged;
+
 
     public LiteDbContext(string? databasePath = null)
     {
-        string dbPath = databasePath ?? Directory.GetCurrentDirectory() + "/Owl.db";
-        _database = new LiteDatabase(dbPath, RegisterMappings());
+        string dbPath = databasePath ?? Directory.GetCurrentDirectory() + "/Collections/Owl.owl";
+        Database = new LiteDatabase(dbPath, RegisterMappings());
+    }
+
+    public void SwitchDatabase(string databasePath)
+    {
+        Database.Dispose();
+        Database = new LiteDatabase(databasePath, RegisterMappings());
+        DbContextHasChanged?.Invoke(this, DbEventOperation.SourceChanged);
+    }
+
+    public bool TrySwitchDatabase(string databasePath)
+    {
+        try
+        {
+            SwitchDatabase(databasePath);
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return false;
+        }
     }
 
     private static BsonMapper RegisterMappings()
@@ -64,9 +92,4 @@ public class LiteDbContext : IDbContext
 
         return mapper;
     }
-
-    public ILiteCollection<IRequest> RequestNodes => _database.GetCollection<IRequest>("request_nodes");
-    public ILiteCollection<IVariable> GlobalVariables => _database.GetCollection<IVariable>("global_variables");
-    public ILiteCollection<Environment> Environments => _database.GetCollection<Environment>("environments");
-    public ILiteCollection<Settings> Settings => _database.GetCollection<Settings>("settings");
 }
