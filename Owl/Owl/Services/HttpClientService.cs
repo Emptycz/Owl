@@ -1,8 +1,12 @@
 using System;
+using System.Linq;
 using System.Net.Http;
-using System.Text.Json;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Owl.Enums;
+using Owl.Models;
 
 namespace Owl.Services;
 
@@ -10,57 +14,24 @@ public class HttpClientService
 {
     private readonly HttpClient _httpClient = new();
 
-    public async Task<HttpResponseMessage> GetAsync(string url, CancellationToken cancellationToken = default)
+    public async Task<HttpResponseMessage> ProcessRequestAsync(HttpRequest node, CancellationToken cancellationToken)
     {
-        try
+        if (node.Auth is not null)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", "token");
-            
-            var res = await _httpClient.GetAsync(url, cancellationToken);
-            return res;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(node.Auth.Scheme, node.Auth.Token);
         }
-        catch (HttpRequestException ex)
-        {
-            Console.WriteLine(ex.Message);
-            throw;
-        }
-        catch (TaskCanceledException ex)
-        {
-            Console.WriteLine(ex.Message);
-            throw;
-        }
-        catch (UriFormatException ex)
-        {
-            Console.WriteLine(ex.Message);
-            throw;
-        }
-    }
 
-    public async Task<HttpResponseMessage> PostAsync(string url, HttpContent content, CancellationToken cancellationToken = default)
-    {
-        try
+        string url = node.Url + HttpClientParamsBuilder.BuildParams(node.Parameters.Where(p => p.IsEnabled));
+        var content = node.Body is not null ? new StringContent(node.Body, Encoding.UTF8, "application/json") : null;
+
+        return node.Method switch
         {
-            return await _httpClient.PostAsync(url, content, cancellationToken);
-        }
-        catch (HttpRequestException ex)
-        {
-            Console.WriteLine("[HttpRequestException]: {0}", ex.Message);
-            throw;
-        }
-        catch (TaskCanceledException ex)
-        {
-            Console.WriteLine(ex.Message);
-            throw;
-        }
-        catch (UriFormatException ex)
-        {
-            Console.WriteLine(ex.Message);
-            throw;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            throw;
-        }
+            HttpRequestMethod.Get => await _httpClient.GetAsync(url, cancellationToken),
+            HttpRequestMethod.Post => await _httpClient.PostAsync(url, content, cancellationToken),
+            HttpRequestMethod.Put => await _httpClient.PutAsync(url, content, cancellationToken),
+            HttpRequestMethod.Patch => await _httpClient.PatchAsync(url, content, cancellationToken),
+            HttpRequestMethod.Delete => await _httpClient.DeleteAsync(url, cancellationToken),
+            _ => throw new NotImplementedException($"HTTP method {node.Method} is not implemented.")
+        };
     }
 }

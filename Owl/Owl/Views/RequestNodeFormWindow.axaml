@@ -14,7 +14,7 @@
         <Grid ColumnDefinitions="*, 100" RowDefinitions="*, *" Margin="20">
             <DockPanel Grid.ColumnSpan="2" Margin="0 10">
                 <ColorPicker Width="100" Height="50" />
-                <TextBox Watermark="Name of the request" Text="{Binding CurrentNode.Name, Mode=TwoWay}" />
+                <TextBox Watermark="Name of the request" Text="{Binding Current.Name, Mode=TwoWay}" />
             </DockPanel>
             <Button Command="{Binding UpdateSubmitCommand}" Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"

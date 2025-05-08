@@ -1,21 +1,24 @@
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Owl.EventModels;
+using Owl.Models;
 
 namespace Owl.Repositories;
 
 public interface IRepository<in TType, TResult>
 {
-    IEnumerable<TResult> GetAll();
-    TResult Get(Guid id);
-    TResult Add(TType entity);
-    TResult Update(TType entity);
-    bool Delete(Guid id);
-    TResult Upsert(TType entity);
+    // TODO: Design this properly, maybe we should not pass the boolean (forceRefetch) but the changed entity instead
+    event EventHandler<RepositoryEventObject<TResult>> RepositoryHasChanged;
 
-    Task<IEnumerable<TResult>> GetAllAsync();
-    Task<TResult> GetAsync(Guid id);
-    Task<TResult> AddAsync(TType entity);
-    Task<TResult> UpdateAsync(TType entity);
-    Task<bool> DeleteAsync(Guid id);
+    IEnumerable<TResult> GetAll();
+    IEnumerable<TResult> Find(Expression<Func<TResult, bool>> predicate);
+    TResult? Get(Guid id);
+    TResult Add(TType entity);
+    IEnumerable<TResult> Add(IEnumerable<TType> entity);
+    TResult Update(TType entity);
+    bool Remove(Guid id);
+    int DeleteAll();
+    TResult Upsert(TType entity);
 }

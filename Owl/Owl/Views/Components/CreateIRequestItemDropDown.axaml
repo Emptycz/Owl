@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:components="clr-namespace:Owl.ViewModels.Components"
+             xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Owl.Views.Components.CreateIRequestItemDropDown"
+             x:DataType="components:CreateIRequestItemDropDownViewModel">
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Button Name="MainButton" Command="{Binding SetIsPopupOpenCommand}"
+                avalonia:Attached.Icon="fa-plus" />
+        <Popup Name="DropdownPopup" IsLightDismissEnabled="True" Closed="DropdownPopup_OnClosed" Placement="Bottom" IsOpen="{Binding IsPopupOpen}">
+            <StackPanel Orientation="Vertical" Background="OrangeRed">
+                <Button Command="{Binding AddHttpRequestCommand}" HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal">
+                        <avalonia:Icon Value="fa-plus" Margin="0 0 5 0" />
+                        <TextBlock> Http </TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding AddDirectoryCommand}" HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal">
+                        <avalonia:Icon Value="fa-folder" Margin="0 0 5 0" />
+                        <TextBlock> Directory </TextBlock>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Popup>
+    </StackPanel>
+</UserControl>

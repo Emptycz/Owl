@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Owl.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Owl.Views.Components.TabControlMenu"
+             x:DataType="viewModels:TabControlMenuViewModel">
+    <UserControl.DataContext>
+        <viewModels:TabControlMenuViewModel />
+    </UserControl.DataContext>
+    <StackPanel Orientation="Horizontal">
+        <ItemsControl ItemsSource="{Binding MenuItems}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button
+                        Click="SelectItemClick"
+                        CommandParameter="{Binding}"
+                        Background="Red" BorderThickness="0">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border Width="100" Height="35" CornerRadius="10" Margin="5 0"
+                                        Background="{TemplateBinding Background}">
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               Text="{Binding Text}" />
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Owl.iOS", "Owl\Owl.iOS\Owl.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Owl.Browser", "Owl\Owl.Browser\Owl.Browser.csproj", "{501BE28E-C747-4760-B409-A9ABFB2CF4AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{0BC7B45F-D500-45C8-90A1-CD8C4395928C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Owl.Generators", "Owl.Generators\Owl.Generators.csproj", "{F5084AD9-4F7F-4337-886A-F447502097F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,5 +44,13 @@ Global
 		{501BE28E-C747-4760-B409-A9ABFB2CF4AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{501BE28E-C747-4760-B409-A9ABFB2CF4AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{501BE28E-C747-4760-B409-A9ABFB2CF4AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BC7B45F-D500-45C8-90A1-CD8C4395928C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BC7B45F-D500-45C8-90A1-CD8C4395928C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BC7B45F-D500-45C8-90A1-CD8C4395928C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BC7B45F-D500-45C8-90A1-CD8C4395928C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5084AD9-4F7F-4337-886A-F447502097F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5084AD9-4F7F-4337-886A-F447502097F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5084AD9-4F7F-4337-886A-F447502097F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5084AD9-4F7F-4337-886A-F447502097F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

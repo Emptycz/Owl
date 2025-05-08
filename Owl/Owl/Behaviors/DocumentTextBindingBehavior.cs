@@ -24,7 +24,7 @@ public class DocumentTextBindingBehavior : Behavior<TextEditor>
         base.OnAttached();
 
         if (AssociatedObject is not { } textEditor) return;
-        
+
         _textEditor = textEditor;
         _textEditor.TextChanged += TextChanged;
         this.GetObservable(TextProperty).Subscribe(TextPropertyChanged);
@@ -33,7 +33,6 @@ public class DocumentTextBindingBehavior : Behavior<TextEditor>
     protected override void OnDetaching()
     {
         base.OnDetaching();
-
         if (_textEditor != null) _textEditor.TextChanged -= TextChanged;
     }
 
@@ -47,9 +46,9 @@ public class DocumentTextBindingBehavior : Behavior<TextEditor>
 
     private void TextPropertyChanged(string? text)
     {
-            if (_textEditor?.Document == null) return;
+        if (_textEditor?.Document == null) return;
         if (string.IsNullOrEmpty(text)) text = string.Empty;
-        
+
         int caretOffset = _textEditor.CaretOffset;
         _textEditor.Document.Text = text;
         _textEditor.CaretOffset = caretOffset;

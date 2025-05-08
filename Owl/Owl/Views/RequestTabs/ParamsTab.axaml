@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Owl.ViewModels.RequestTabs"
+             xmlns:models="using:Owl.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:ParamsTabViewModel"
+             x:Class="Owl.Views.RequestTabs.ParamsTab">
+    <Grid Margin="10" RowDefinitions="50, *">
+        <Grid Margin="0 5" ColumnDefinitions="*, 50">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Add +" Command="{Binding AddParameterCommand}" />
+                <Button Margin="5 0" Content="Enable all" Command="{Binding SetParamEnabledCommand}"
+                        CommandParameter="true" />
+                <Button Content="Disable all" Command="{Binding SetParamEnabledCommand}" CommandParameter="false" />
+            </StackPanel>
+        </Grid>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+            <ItemsRepeater Margin="0 0 15 0" ItemsSource="{Binding Parameters}">
+                <ItemsRepeater.Layout>
+                    <StackLayout Orientation="Vertical" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate DataType="models:RequestParameter">
+                        <Grid Margin="0 5" ColumnDefinitions="*, 5, *, 50">
+                            <TextBox TextChanged="ParamHasChanged" Text="{Binding Key, Mode=TwoWay}" Grid.Column="0"
+                                     Watermark="Param key" />
+                            <TextBox TextChanged="ParamHasChanged" Text="{Binding Value, Mode=TwoWay}" Grid.Column="2"
+                                     Watermark="Value" />
+                            <StackPanel Orientation="Horizontal" Grid.Column="3" Margin="10 0">
+                                <CheckBox ToolTip.Tip="Is param enabled" x:Name="IsEnabledCheckBox"
+                                          IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
+                                <Button Content="❌" Click="OnRemoveParameterClick" CommandParameter="{Binding }" />
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
