@@ -42,7 +42,7 @@ public class LiteDbVariableRepository : IVariableRepository
     public IVariable Add(IVariable entity)
     {
         _context.GlobalVariables.Insert(entity);
-        NotifyChange(entity, RepositoryEventOperation.AddedOne);
+        NotifyChange(entity, RepositoryEventOperation.AddedSingle);
         return entity;
     }
     
@@ -50,14 +50,14 @@ public class LiteDbVariableRepository : IVariableRepository
     {
         var enumerable = entity as IVariable[] ?? entity.ToArray();
         _context.GlobalVariables.Insert(enumerable);
-        NotifyChange(RepositoryEventOperation.AddedMultiple);
+        NotifyChange(RepositoryEventOperation.AddedMany);
         return enumerable;
     }
 
     public IVariable Update(IVariable entity)
     {
         _context.GlobalVariables.Update(entity);
-        NotifyChange(entity, RepositoryEventOperation.UpdatedOne);
+        NotifyChange(entity, RepositoryEventOperation.UpdatedSingle);
         return entity;
     }
 
@@ -66,7 +66,7 @@ public class LiteDbVariableRepository : IVariableRepository
         bool res = _context.GlobalVariables.Delete(id);
         if (!res) return false;
 
-        NotifyChange(new VariableBase{ Id = id }, RepositoryEventOperation.RemovedOne);
+        NotifyChange(new VariableBase{ Id = id }, RepositoryEventOperation.RemovedSingle);
         return true;
     }
 
@@ -74,14 +74,14 @@ public class LiteDbVariableRepository : IVariableRepository
     {
         int res = _context.GlobalVariables.DeleteAll();
 
-        NotifyChange(new VariableBase{ Id = Guid.Empty }, RepositoryEventOperation.RemovedOne);
+        NotifyChange(new VariableBase{ Id = Guid.Empty }, RepositoryEventOperation.RemovedSingle);
         return res;
     }
 
     public IVariable Upsert(IVariable entity)
     {
         _context.GlobalVariables.Upsert(entity);
-        NotifyChange(entity, RepositoryEventOperation.AddedOne);
+        NotifyChange(entity, RepositoryEventOperation.AddedSingle);
         return entity;
     }
 

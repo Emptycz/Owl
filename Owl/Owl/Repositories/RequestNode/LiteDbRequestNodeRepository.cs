@@ -42,7 +42,7 @@ public class LiteDbRequestNodeRepository : IRequestNodeRepository
     public IRequest Add(IRequest entity)
     {
         _context.RequestNodes.Insert(entity);
-        NotifyChange(entity, RepositoryEventOperation.AddedOne);
+        NotifyChange(entity, RepositoryEventOperation.AddedSingle);
         return entity;
     }
 
@@ -51,7 +51,7 @@ public class LiteDbRequestNodeRepository : IRequestNodeRepository
         var enumerable = entity as IRequest[] ?? entity.ToArray();
 
         _context.RequestNodes.Insert(enumerable);
-        NotifyChange(RepositoryEventOperation.AddedMultiple);
+        NotifyChange(RepositoryEventOperation.AddedMany);
         return enumerable;
     }
 
@@ -59,7 +59,7 @@ public class LiteDbRequestNodeRepository : IRequestNodeRepository
     {
         Log.Debug($"Updating entity: {JsonSerializer.Serialize(entity, typeof(object))}");
         _context.RequestNodes.Update(entity);
-        NotifyChange(entity, RepositoryEventOperation.UpdatedOne);
+        NotifyChange(entity, RepositoryEventOperation.UpdatedSingle);
         return entity;
     }
 
@@ -69,7 +69,7 @@ public class LiteDbRequestNodeRepository : IRequestNodeRepository
         bool res = _context.RequestNodes.Delete(id);
         if (!res) return false;
 
-        NotifyChange(oldValue, RepositoryEventOperation.RemovedOne);
+        NotifyChange(oldValue, RepositoryEventOperation.RemovedSingle);
         return true;
     }
 
@@ -77,14 +77,14 @@ public class LiteDbRequestNodeRepository : IRequestNodeRepository
     {
         int res = _context.RequestNodes.DeleteAll();
 
-        NotifyChange(new RequestBase { Id = Guid.Empty, Name = "Deleted All Nodes" }, RepositoryEventOperation.RemovedOne);
+        NotifyChange(new RequestBase { Id = Guid.Empty, Name = "Deleted All Nodes" }, RepositoryEventOperation.RemovedSingle);
         return res;
     }
 
     public IRequest Upsert(IRequest entity)
     {
         _context.RequestNodes.Upsert(entity);
-        NotifyChange(entity, RepositoryEventOperation.AddedOne);
+        NotifyChange(entity, RepositoryEventOperation.AddedSingle);
         return entity;
     }
 

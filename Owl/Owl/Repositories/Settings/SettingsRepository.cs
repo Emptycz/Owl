@@ -39,7 +39,7 @@ public class SettingsRepository : ISettingsRepository
     public Models.Settings Add(Models.Settings entity)
     {
         _context.Settings.Insert(entity);
-        NotifyChange(entity, RepositoryEventOperation.AddedOne);
+        NotifyChange(entity, RepositoryEventOperation.AddedSingle);
         Current = entity;
         return entity;
     }
@@ -48,14 +48,14 @@ public class SettingsRepository : ISettingsRepository
     {
         var settingsEnumerable = entity as Models.Settings[] ?? entity.ToArray();
         _context.Settings.Insert(settingsEnumerable);
-        NotifyChange(RepositoryEventOperation.AddedMultiple);
+        NotifyChange(RepositoryEventOperation.AddedMany);
         return settingsEnumerable;
     }
 
     public Models.Settings Update(Models.Settings entity)
     {
         _context.Settings.Update(entity);
-        NotifyChange(entity, RepositoryEventOperation.UpdatedOne);
+        NotifyChange(entity, RepositoryEventOperation.UpdatedSingle);
         Current = entity;
         return entity;
     }

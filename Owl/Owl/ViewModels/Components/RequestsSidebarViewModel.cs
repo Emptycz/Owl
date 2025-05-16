@@ -140,22 +140,24 @@ public partial class RequestsSidebarViewModel : ViewModelBase
 		if (eventObject is null) return;
 		var nodeVm = eventObject.NewValue is not null ? RequestNodeVmFactory.GetRequestNodeVm(eventObject.NewValue) : null;
 
+		if (nodeVm is null) return;
+
 		switch (eventObject.Operation)
 		{
-			case RepositoryEventOperation.AddedOne:
+			case RepositoryEventOperation.AddedSingle:
 				Requests.Add(nodeVm);
 				return;
-			case RepositoryEventOperation.RemovedOne:
+			case RepositoryEventOperation.RemovedSingle:
 				Requests.Remove(nodeVm);
 				break;
-			case RepositoryEventOperation.UpdatedOne:
+			case RepositoryEventOperation.UpdatedSingle:
 			{
 				Log.Warning(
 					"TODO: Implement updating IRequests in RequestSideBarViewModel for OnRepositoryHasChanged!");
 				break;
 			}
 			case RepositoryEventOperation.SourceChanged:
-			case RepositoryEventOperation.AddedMultiple:
+			case RepositoryEventOperation.AddedMany:
 			default:
 				Log.Debug("Refreshing all requests in RequestSideBarViewModel for OnRepositoryHasChanged because of {Operation}",
 					eventObject.Operation);

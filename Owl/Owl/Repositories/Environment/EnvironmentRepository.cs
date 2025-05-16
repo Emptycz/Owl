@@ -36,7 +36,7 @@ public class EnvironmentRepository : IEnvironmentRepository
     public Models.Environment Add(Models.Environment entity)
     {
         _context.Environments.Insert(entity);
-        NotifyChange(entity, RepositoryEventOperation.AddedOne);
+        NotifyChange(entity, RepositoryEventOperation.AddedSingle);
         return entity;
     }
 
@@ -44,14 +44,14 @@ public class EnvironmentRepository : IEnvironmentRepository
     {
         var environments = entity as Models.Environment[] ?? entity.ToArray();
         _context.Environments.Insert(environments);
-        NotifyChange(RepositoryEventOperation.AddedMultiple);
+        NotifyChange(RepositoryEventOperation.AddedMany);
         return environments;
     }
 
     public Models.Environment Update(Models.Environment entity)
     {
         _context.Environments.Update(entity);
-        NotifyChange(entity, RepositoryEventOperation.UpdatedOne);
+        NotifyChange(entity, RepositoryEventOperation.UpdatedSingle);
         return entity;
     }
 
@@ -63,7 +63,7 @@ public class EnvironmentRepository : IEnvironmentRepository
             return false;
         }
         _context.Environments.Delete(id);
-        NotifyChange(entity, RepositoryEventOperation.RemovedOne);
+        NotifyChange(entity, RepositoryEventOperation.RemovedSingle);
         return true;
     }
 
