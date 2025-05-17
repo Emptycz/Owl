@@ -14,7 +14,7 @@
         <KeyBinding Gesture="ctrl+j" Command="{Binding ToggleSpotlightCommand}" />
     </Window.KeyBindings>
     <Grid RowDefinitions="*" ColumnDefinitions="65, *">
-        <StackPanel Orientation="Vertical" Margin="0 20 0 0">
+        <StackPanel Orientation="Vertical" Margin="0 0 0 0">
             <components:ImageButton
                 IconTitle="Home"
                 Command="{Binding RouteCommand}"
