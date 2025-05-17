@@ -1,13 +1,11 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Controls;
 
 namespace Owl.Views.Pages;
 
 public partial class HomePageView : UserControl
 {
-	public HomePageView()
-	{
-		InitializeComponent();
-	}
+    public HomePageView()
+    {
+        InitializeComponent();
+    }
 }

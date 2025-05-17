@@ -1,13 +1,13 @@
 ﻿using System;
-using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Owl.Repositories.RequestNode;
 using Owl.Repositories.Spotlight;
+using Owl.Services.VariableResolvers;
+using Owl.States;
 using Owl.ViewModels.Components;
-using Owl.Views;
-using Owl.Views.Pages;
+using Owl.ViewModels.Pages;
 using Serilog;
 
 namespace Owl.ViewModels;
@@ -17,7 +17,7 @@ public partial class MainWindowViewModel : ViewModelBase
     public SpotlightViewModel SpotlightViewModel { get; }
 
     private readonly IServiceProvider _serviceProvider;
-    [ObservableProperty] private UserControl _currentView;
+    [ObservableProperty] private ViewModelBase _currentView;
 
     public MainWindowViewModel(IServiceProvider provider)
     {
@@ -27,7 +27,7 @@ public partial class MainWindowViewModel : ViewModelBase
         );
 
         _serviceProvider = provider;
-        _currentView = new HomePageView();
+        _currentView = new HomePageViewModel();
     }
 
     [RelayCommand]
@@ -39,11 +39,19 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             case "home":
                 Log.Debug("Navigating to home");
-                CurrentView = new HomePageView();
+                CurrentView = new HomePageViewModel();
                 break;
             case "request":
                 Log.Debug("Navigating to request");
-                CurrentView = new RequestView(_serviceProvider);
+                CurrentView = new RequestViewModel(
+                     _serviceProvider.GetRequiredService<IRequestNodeRepository>(),
+                     _serviceProvider.GetRequiredService<IVariableResolverFactory>(),
+                     _serviceProvider.GetRequiredService<IEnvironmentState>()
+                );
+                break;
+            case "collection":
+                Log.Debug("Navigating to collection");
+                CurrentView = new CollectionViewModel();
                 break;
             default:
                 throw new NotImplementedException($"Route '{route}' is not implemented.");

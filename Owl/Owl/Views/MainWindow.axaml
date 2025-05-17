@@ -3,6 +3,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:Owl.ViewModels"
+        xmlns:vmp="using:Owl.ViewModels.Pages"
+        xmlns:vp="using:Owl.Views.Pages"
+        xmlns:view="using:Owl.Views"
         xmlns:components="clr-namespace:Owl.Views.Components"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Owl.Views.MainWindow"
@@ -13,6 +16,17 @@
     <Window.KeyBindings>
         <KeyBinding Gesture="ctrl+j" Command="{Binding ToggleSpotlightCommand}" />
     </Window.KeyBindings>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vmp:HomePageViewModel}">
+            <vp:HomePageView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RequestViewModel}">
+            <view:RequestView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmp:CollectionViewModel}">
+            <vp:CollectionView />
+        </DataTemplate>
+    </Window.Resources>
     <Grid RowDefinitions="*" ColumnDefinitions="65, *">
         <StackPanel Orientation="Vertical" Margin="0 0 0 0">
             <components:ImageButton
@@ -25,6 +39,11 @@
                 Command="{Binding RouteCommand}"
                 CommandParameter="Request"
                 IconSource="fa-solid fa-bars-staggered" />
+            <components:IconButton
+                IconTitle="Collections"
+                IconSource="fa-solid fa-cubes"
+                Command="{Binding RouteCommand}"
+                CommandParameter="Collection" />
             <components:IconButton
                 IconTitle="Envs"
                 IconSource="fa-solid fa-layer-group" />
