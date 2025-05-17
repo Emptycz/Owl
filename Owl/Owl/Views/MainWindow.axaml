@@ -6,7 +6,7 @@
         xmlns:components="clr-namespace:Owl.Views.Components"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Owl.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/simple-bw-logo.png"
         Title="Owl"
         x:Name="MainWindowInstance"
         x:DataType="vm:MainWindowViewModel">
@@ -19,7 +19,7 @@
                 IconTitle="Home"
                 Command="{Binding RouteCommand}"
                 CommandParameter="Home"
-                IconSource="avares://Owl/Assets/avalonia-logo.ico" />
+                IconSource="avares://Owl/Assets/simple-bw-logo.png" />
             <components:IconButton
                 IconTitle="Requests"
                 Command="{Binding RouteCommand}"

@@ -8,7 +8,7 @@
         Width="600" Height="150"
         x:Class="Owl.Views.RequestNodeFormWindow"
         x:DataType="vm:RequestNodeFormWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/color-logo.ico"
         Title="Owl">
     <StackPanel Orientation="Vertical">
         <Grid ColumnDefinitions="*, 100" RowDefinitions="*, *" Margin="20">
