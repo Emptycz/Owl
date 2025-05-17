@@ -20,11 +20,11 @@
                 Command="{Binding RouteCommand}"
                 CommandParameter="Home"
                 IconSource="avares://Owl/Assets/avalonia-logo.ico" />
-            <components:ImageButton
+            <components:IconButton
                 IconTitle="Requests"
                 Command="{Binding RouteCommand}"
                 CommandParameter="Request"
-                IconSource="avares://Owl/Assets/avalonia-logo.ico" />
+                IconSource="fa-solid fa-bars-staggered" />
             <components:IconButton
                 IconTitle="Envs"
                 IconSource="fa-solid fa-layer-group" />

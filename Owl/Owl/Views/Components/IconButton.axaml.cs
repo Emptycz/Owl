@@ -1,9 +1,6 @@
-﻿using Avalonia;
+﻿using System.Windows.Input;
+using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
-using Avalonia.Media.Imaging;
-using Avalonia.Markup.Xaml;
-using FluentAvalonia.UI.Controls;
 
 namespace Owl.Views.Components;
 
@@ -15,6 +12,12 @@ public partial class IconButton : UserControl
 	public static readonly StyledProperty<string> IconTitleProperty =
 		AvaloniaProperty.Register<ImageButton, string>(nameof(IconTitle), string.Empty);
 
+	public static readonly StyledProperty<ICommand?> CommandProperty =
+		AvaloniaProperty.Register<ImageButton, ICommand?>(nameof(Command));
+
+	public static readonly StyledProperty<string?> CommandParameterProperty =
+		AvaloniaProperty.Register<ImageButton, string?>(nameof(CommandParameter));
+
 	public string? IconSource
 	{
 		get => GetValue(IconSourceProperty);
@@ -25,6 +28,18 @@ public partial class IconButton : UserControl
 	{
 		get => GetValue(IconTitleProperty);
 		set => SetValue(IconTitleProperty, value);
+	}
+
+	public ICommand? Command
+	{
+		get => GetValue(CommandProperty);
+		set => SetValue(CommandProperty, value);
+	}
+
+	public string? CommandParameter
+	{
+		get => GetValue(CommandParameterProperty);
+		set => SetValue(CommandParameterProperty, value);
 	}
 
 	public IconButton()
