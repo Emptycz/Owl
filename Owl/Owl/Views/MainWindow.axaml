@@ -21,8 +21,8 @@
                 CommandParameter="Home"
                 IconSource="avares://Owl/Assets/avalonia-logo.ico" />
             <components:ImageButton
-                Command="{Binding RouteCommand}"
                 IconTitle="Requests"
+                Command="{Binding RouteCommand}"
                 CommandParameter="Request"
                 IconSource="avares://Owl/Assets/avalonia-logo.ico" />
             <components:IconButton

@@ -27,7 +27,7 @@ public partial class MainWindowViewModel : ViewModelBase
         );
 
         _serviceProvider = provider;
-        _currentView = (RequestView)provider.GetRequiredService(typeof(RequestView));
+        _currentView = new HomePageView();
     }
 
     [RelayCommand]
@@ -53,6 +53,8 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private void ToggleSpotlight()
     {
+        Console.WriteLine("Spotlight toggled");
+        Log.Error("Spotlight toggled");
         SpotlightViewModel.IsOpen = !SpotlightViewModel.IsOpen;
     }
 }
