@@ -1,0 +1,20 @@
+﻿<UserControl
+    x:Class="Owl.Views.Components.IconButton"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
+    mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <Binding RelativeSource="{RelativeSource Self}" />
+    </UserControl.DataContext>
+
+    <Button Background="Transparent" BorderBrush="Transparent" Width="65" Height="65" Margin="0" Padding="0">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <avalonia:Icon FontSize="18" Value="{Binding IconSource}" Width="30" Height="30"/>
+            <TextBlock Text="{Binding IconTitle}" FontSize="12" HorizontalAlignment="Center"/>
+        </StackPanel>
+    </Button>
+</UserControl>

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Owl.ViewModels"
              xmlns:converters="using:Owl.Converters"
+             xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Owl.Views.RequestView"
              x:DataType="vm:RequestViewModel"
@@ -79,12 +80,11 @@
                      IsEnabled="{Binding !!Request}"
                      TextChanged="TextBox_UrlChanged"
                      Watermark="https://localhost" />
-            <Button Command="{Binding SendRequestCommand}" Grid.Row="0" Width="100" HorizontalContentAlignment="Center"
+            <Button Command="{Binding SendRequestCommand}" Grid.Row="0" Width="75" HorizontalContentAlignment="Center"
                     IsEnabled="{Binding !!Request}"
+                    avalonia:Attached.Icon="fa-solid fa-paper-plane"
                     VerticalContentAlignment="Center" Height="30" VerticalAlignment="Center" Margin="5 0"
-                    Grid.Column="2">
-                Send
-            </Button>
+                    Grid.Column="2" />
         </Grid>
         <!-- /RequestPanel -->
         <!-- RequestContent -->
