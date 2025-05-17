@@ -4,5 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Owl.Views.Pages.HomePageView">
-    Welcome to Avalonia!
+    <Grid RowDefinitions="2*, *">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+            <Image MaxWidth="300" MaxHeight="300" Source="avares://Owl/Assets/simple-bw-logo.png" />
+            <TextBlock Text="Welcome to the Owl Application!" FontSize="24" Margin="10"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Orientation="Vertical">
+            <TextBlock Text="This application is in heavy development."/>
+        </StackPanel>
+    </Grid>
 </UserControl>
