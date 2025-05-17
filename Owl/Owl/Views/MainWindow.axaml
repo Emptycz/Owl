@@ -13,16 +13,20 @@
     <Window.KeyBindings>
         <KeyBinding Gesture="ctrl+j" Command="{Binding ToggleSpotlightCommand}" />
     </Window.KeyBindings>
-    <Grid RowDefinitions="*">
+    <Grid RowDefinitions="*" ColumnDefinitions="55, *">
+        <Rectangle Fill="Red"/>
         <ContentControl
+            Grid.Column="1"
             x:Name="RequestViewHost"
             Focusable="{Binding !SpotlightViewModel.IsOpen}" />
         <Rectangle
+            Grid.Column="1"
             Fill="Black"
             Opacity="0.4"
             IsVisible="{Binding SpotlightViewModel.IsOpen}"
             PointerPressed="CloseSpotlightWindow" />
-        <components:Spotlight VerticalAlignment="Center"
+        <components:Spotlight Grid.Column="1"
+                              VerticalAlignment="Center"
                               HorizontalAlignment="Center"
                               VerticalContentAlignment="Center"
                               HorizontalContentAlignment="Center"
