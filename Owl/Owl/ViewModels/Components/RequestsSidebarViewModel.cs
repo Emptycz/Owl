@@ -137,10 +137,25 @@ public partial class RequestsSidebarViewModel : ViewModelBase
 
 	private void OnRepositoryHasChanged(object? e, RepositoryEventObject<IRequest>? eventObject)
 	{
-		if (eventObject is null) return;
+		if (eventObject is null)
+		{
+			Log.Debug("OnRepositoryHasChanged was called with null eventObject");
+			Requests = new ObservableCollection<IRequestVm>(_repository.GetAll()
+				.Select(RequestNodeVmFactory.GetRequestNodeVm));
+
+			return;
+		};
+
 		var nodeVm = eventObject.NewValue is not null ? RequestNodeVmFactory.GetRequestNodeVm(eventObject.NewValue) : null;
 
-		if (nodeVm is null) return;
+		if (nodeVm is null)
+		{
+			Log.Debug("OnRepositoryHasChanged was called with no new value, refreshing all requests");
+			Requests = new ObservableCollection<IRequestVm>(_repository.GetAll()
+				.Select(RequestNodeVmFactory.GetRequestNodeVm));
+
+			return;
+		}
 
 		switch (eventObject.Operation)
 		{
