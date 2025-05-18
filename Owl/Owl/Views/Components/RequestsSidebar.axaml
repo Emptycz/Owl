@@ -35,7 +35,6 @@
                 Command="{Binding RefreshDataCommand}"
                 CommandParameter="{Binding State.Current.Id}"
                 i:Attached.Icon="fa-rotate" />
-            <Button i:Attached.Icon="fa-gear" Click="OpenSettingsWindow" />
             <TextBox Height="30" Text="{Binding Search}" Watermark="Search..." />
         </DockPanel>
         <ListBox Grid.Row="2" Background="#27232E" ItemsSource="{Binding Requests}"
@@ -45,11 +44,9 @@
                 <DataTemplate>
                     <Border Background="Transparent">
                         <Border.ContextMenu>
-                            <!-- <contextMenus:IRequestItemContextMenu /> -->
                             <ContextMenu>
                                 <MenuItem
                                     Header="Edit"
-                                    Click="OpenRequestEditWindow"
                                     CommandParameter="{Binding}" />
                                 <MenuItem
                                     Header="Duplicate"

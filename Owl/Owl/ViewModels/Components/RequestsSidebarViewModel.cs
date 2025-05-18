@@ -17,7 +17,6 @@ using Owl.Repositories.Environment;
 using Owl.Repositories.RequestNode;
 using Owl.Services;
 using Owl.States;
-using Owl.ViewModels.Models;
 using Serilog;
 using Environment = Owl.Models.Environment;
 
@@ -48,20 +47,19 @@ public partial class RequestsSidebarViewModel : ViewModelBase
 			vars.Add(_environmentRepository.Add(new Environment { Name = "Default" }));
 		}
 
+		_dbContext = provider.GetRequiredService<IDbContext>();
 		_environments = new ObservableCollection<Environment>(vars);
 		_selectedEnvironment = _environments.FirstOrDefault();
 
-		// _state = provider.GetRequiredService<IRequestNodeState>();
 		_state = RequestNodeState.Instance;
 
 		_repository = provider.GetRequiredService<IRequestNodeRepository>();
+		_repository.RepositoryHasChanged += OnRepositoryHasChanged;
+
 		_requests = new ObservableCollection<IRequestVm>(_repository.GetAll()
 			.Select(RequestNodeVmFactory.GetRequestNodeVm));
 
-		_repository.RepositoryHasChanged += OnRepositoryHasChanged;
-
 		_collections = new ObservableCollection<string>(CollectionManager.CollectionFiles);
-		_dbContext = provider.GetRequiredService<IDbContext>();
 	}
 
 	[RelayCommand]

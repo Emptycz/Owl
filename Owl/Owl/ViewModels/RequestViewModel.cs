@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Owl.Enums;
 using Owl.Factories;
 using Owl.Interfaces;
@@ -19,6 +20,7 @@ using Owl.Repositories.RequestNode;
 using Owl.Services;
 using Owl.Services.VariableResolvers;
 using Owl.States;
+using Owl.ViewModels.Components;
 using Owl.ViewModels.Models;
 using Owl.Views.RequestTabs;
 using Owl.Views.ResponseTabs;
@@ -29,6 +31,7 @@ namespace Owl.ViewModels;
 
 public partial class RequestViewModel : ViewModelBase
 {
+    [ObservableProperty] private ViewModelBase _sidebarViewContent;
     [ObservableProperty] private ObservableCollection<IRequestVm> _requests = [];
 
     [ObservableProperty] private HttpRequestMethod[] _methods =
@@ -59,12 +62,11 @@ public partial class RequestViewModel : ViewModelBase
     private readonly IEnvironmentState _environmentState;
     private readonly IVariableResolverFactory _variableResolverFactory;
 
-    public RequestViewModel(IRequestNodeRepository nodeNodeRepository,
-        IVariableResolverFactory variableResolver, IEnvironmentState envState)
+    public RequestViewModel(IServiceProvider provider)
     {
-        _nodeRepository = nodeNodeRepository;
-        _variableResolverFactory = variableResolver;
-        _environmentState = envState;
+        _nodeRepository = provider.GetRequiredService<IRequestNodeRepository>();
+        _variableResolverFactory = provider.GetRequiredService<IVariableResolverFactory>();
+        _environmentState = provider.GetRequiredService<IEnvironmentState>();
         ResponseTime = "0 ms";
         _requestState = RequestNodeState.Instance;
 
@@ -73,6 +75,7 @@ public partial class RequestViewModel : ViewModelBase
             _request = vm;
         }
 
+        SidebarViewContent = new RequestsSidebarViewModel(provider);
         Requests = new ObservableCollection<IRequestVm>(_nodeRepository.GetAll()
             .Select(RequestNodeVmFactory.GetRequestNodeVm));
         _requestState.Current = Requests.FirstOrDefault();

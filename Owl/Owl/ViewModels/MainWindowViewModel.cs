@@ -43,11 +43,7 @@ public partial class MainWindowViewModel : ViewModelBase
                 break;
             case "request":
                 Log.Debug("Navigating to request");
-                CurrentView = new RequestViewModel(
-                     _serviceProvider.GetRequiredService<IRequestNodeRepository>(),
-                     _serviceProvider.GetRequiredService<IVariableResolverFactory>(),
-                     _serviceProvider.GetRequiredService<IEnvironmentState>()
-                );
+                CurrentView = new RequestViewModel(_serviceProvider);
                 break;
             case "collection":
                 Log.Debug("Navigating to collection");

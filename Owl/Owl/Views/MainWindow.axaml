@@ -16,17 +16,17 @@
     <Window.KeyBindings>
         <KeyBinding Gesture="ctrl+j" Command="{Binding ToggleSpotlightCommand}" />
     </Window.KeyBindings>
-    <Window.Resources>
-        <DataTemplate DataType="{x:Type vmp:HomePageViewModel}">
+    <Window.DataTemplates>
+        <DataTemplate DataType="vmp:HomePageViewModel">
             <vp:HomePageView />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:RequestViewModel}">
+        <DataTemplate DataType="vm:RequestViewModel">
             <view:RequestView />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vmp:CollectionViewModel}">
+        <DataTemplate DataType="vmp:CollectionViewModel">
             <vp:CollectionView />
         </DataTemplate>
-    </Window.Resources>
+    </Window.DataTemplates>
     <Grid RowDefinitions="*" ColumnDefinitions="65, *">
         <StackPanel Orientation="Vertical" Margin="0 0 0 0">
             <components:ImageButton
