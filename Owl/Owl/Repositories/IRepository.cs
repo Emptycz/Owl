@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Owl.EventModels;
-using Owl.Models;
 
 namespace Owl.Repositories;
 

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using Avalonia;
@@ -44,15 +45,15 @@ public partial class App : Application
         var collection = new ServiceCollection();
         collection.AddCommonServices();
 
-        // Creates a ServiceProvider containing services from the provided IServiceCollection
-        var services = collection.BuildServiceProvider();
+        // Creates a ServiceProvider containing services from the provided IServiceCollection 
+        Services = collection.BuildServiceProvider();
 
         CollectionManager.LoadCollections(Directory.GetCurrentDirectory() + "/Collections");
         // Register the default variables
-        RegisterGlobalVariables(services.GetRequiredService<IVariableRepository>());
+        RegisterGlobalVariables(Services.GetRequiredService<IVariableRepository>());
 
         // Check if there are any settings in the database, if not, create a new one
-        var settingsRepository = services.GetRequiredService<ISettingsRepository>();
+        var settingsRepository = Services.GetRequiredService<ISettingsRepository>();
         if (!settingsRepository.GetAll().Any())
         {
             settingsRepository.Add(new Settings
@@ -66,7 +67,7 @@ public partial class App : Application
         }
 
         // Create an instance of MainWindow, passing in the resolved RequestViewModel
-        var mainWindow = new MainWindow(services);
+        var mainWindow = new MainWindow();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -84,6 +85,13 @@ public partial class App : Application
     {
         // VariablesManager.AddVariables(variableRepository.GetAll());
     }
+
+    public new static App? Current => Application.Current as App;
+
+    /// <summary>
+    /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
+    /// </summary>
+    public IServiceProvider? Services { get; private set; }
 }
 
 public static class ServiceCollectionExtensions

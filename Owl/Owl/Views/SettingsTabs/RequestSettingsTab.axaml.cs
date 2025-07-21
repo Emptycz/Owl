@@ -1,18 +1,17 @@
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Media;
-using Owl.Repositories.Settings;
 using Owl.ViewModels.SettingsTabs;
 
 namespace Owl.Views.SettingsTabs;
 
 public partial class RequestSettingsTab : UserControl
 {
-    public RequestSettingsTab(ISettingsRepository settingsRepository)
+    public RequestSettingsTab()
     {
         InitializeComponent();
         InitFontComboBox();
-        DataContext = new RequestSettingsTabViewModel(settingsRepository);
+        DataContext = new RequestSettingsTabViewModel();
     }
 
     private void InitFontComboBox()

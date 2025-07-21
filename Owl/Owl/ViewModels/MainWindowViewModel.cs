@@ -2,9 +2,6 @@
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
-using Owl.Repositories.RequestNode;
-using Owl.Repositories.Spotlight;
 using Owl.ViewModels.Components;
 using Owl.Views;
 using Owl.Views.Pages;
@@ -16,17 +13,11 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     public SpotlightViewModel SpotlightViewModel { get; }
 
-    private readonly IServiceProvider _serviceProvider;
     [ObservableProperty] private UserControl _currentView;
 
-    public MainWindowViewModel(IServiceProvider provider)
+    public MainWindowViewModel()
     {
-        SpotlightViewModel = new SpotlightViewModel(
-            provider.GetRequiredService<ISpotlightRepository>(),
-            provider.GetRequiredService<IRequestNodeRepository>()
-        );
-
-        _serviceProvider = provider;
+        SpotlightViewModel = new SpotlightViewModel();
         _currentView = new HomePageView();
     }
 
@@ -35,6 +26,7 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         if (string.IsNullOrEmpty(route)) return;
 
+        // TODO: We should to init and pass ViewModels instead of Views
         switch (route.ToLower())
         {
             case "home":
@@ -43,7 +35,11 @@ public partial class MainWindowViewModel : ViewModelBase
                 break;
             case "request":
                 Log.Debug("Navigating to request");
-                CurrentView = new RequestView(_serviceProvider);
+                CurrentView = new RequestView();
+                break;
+            case "settings":
+                Log.Debug("Navigating to settings");
+                CurrentView = new SettingsPageView();
                 break;
             default:
                 throw new NotImplementedException($"Route '{route}' is not implemented.");

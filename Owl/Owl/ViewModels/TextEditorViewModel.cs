@@ -9,14 +9,14 @@ public partial class TextEditorViewModel : ViewModelBase
 {
     [ObservableProperty]
     private ObservableCollection<int> _lineNumbers = [1];
-    
+
     [ObservableProperty]
     private string _textContent = string.Empty;
-    
+
     [ObservableProperty]
     private int _selectedLineNumber = 1;
 
-    [ObservableProperty] 
+    [ObservableProperty]
     private int _caretIndex = 1;
 
     private RelayCommand UpdateCaretIndexCommand { get; }
@@ -30,7 +30,7 @@ public partial class TextEditorViewModel : ViewModelBase
     {
         UpdateCaretIndexCommand.Execute(value);
     }
-    
+
 
     private void UpdateCaretIndex()
     {
@@ -49,11 +49,11 @@ public partial class TextEditorViewModel : ViewModelBase
 
         CaretIndex = charIndex;
     }
-    
+
     partial void OnTextContentChanged(string value)
     {
-        LineNumbers.Clear();            
-        
+        LineNumbers.Clear();
+
         string[] lines = TextContent.Split(Environment.NewLine);
         for (int i = 1; i <= lines.Length; i++)
         {

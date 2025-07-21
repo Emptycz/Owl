@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Owl.Enums;
 using Owl.Factories;
 using Owl.Interfaces;
@@ -31,7 +32,8 @@ public partial class RequestViewModel : ViewModelBase
 {
     [ObservableProperty] private ObservableCollection<IRequestVm> _requests = [];
 
-    [ObservableProperty] private HttpRequestMethod[] _methods =
+    [ObservableProperty]
+    private HttpRequestMethod[] _methods =
     [
         HttpRequestMethod.Get,
         HttpRequestMethod.Post,
@@ -59,12 +61,19 @@ public partial class RequestViewModel : ViewModelBase
     private readonly IEnvironmentState _environmentState;
     private readonly IVariableResolverFactory _variableResolverFactory;
 
-    public RequestViewModel(IRequestNodeRepository nodeNodeRepository,
-        IVariableResolverFactory variableResolver, IEnvironmentState envState)
+    public RequestViewModel()
     {
-        _nodeRepository = nodeNodeRepository;
-        _variableResolverFactory = variableResolver;
-        _environmentState = envState;
+        _nodeRepository = App.Current?.Services?.GetRequiredService<IRequestNodeRepository>() ?? throw new InvalidOperationException(
+            "RequestNodeRepository is not registered in the service provider.");
+        _nodeRepository = App.Current?.Services?.GetRequiredService<IRequestNodeRepository>() ??
+                          throw new InvalidOperationException(
+                              "RequestNodeRepository is not registered in the service provider.");
+        _variableResolverFactory = App.Current?.Services?.GetRequiredService<IVariableResolverFactory>() ??
+                                   throw new InvalidOperationException(
+                                       "VariableResolverFactory is not registered in the service provider.");
+        _environmentState = App.Current?.Services?.GetRequiredService<IEnvironmentState>() ??
+                            throw new InvalidOperationException(
+                                "EnvironmentState is not registered in the service provider.");
         ResponseTime = "0 ms";
         _requestState = RequestNodeState.Instance;
 
@@ -209,6 +218,12 @@ public partial class RequestViewModel : ViewModelBase
             ResponseStatus = HttpStatusCode.InternalServerError;
             ResponseContent = new ErrorResponseTab(ex.Message);
         }
+    }
+
+    [RelayCommand]
+    private void OnVariableClick(string variableName)
+    {
+        Log.Debug($"Clicking variable: {variableName}");
     }
 
     private void SetResponse(HttpResponseMessage response)

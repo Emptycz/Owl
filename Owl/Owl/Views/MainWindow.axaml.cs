@@ -1,4 +1,3 @@
-using System;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Owl.ViewModels;
@@ -7,11 +6,11 @@ namespace Owl.Views;
 
 public partial class MainWindow : Window
 {
-    public MainWindow(IServiceProvider serviceProvider)
+    public MainWindow()
     {
         InitializeComponent();
 
-        DataContext = new MainWindowViewModel(serviceProvider);
+        DataContext = new MainWindowViewModel();
     }
 
     private void CloseSpotlightWindow(object? sender, PointerPressedEventArgs e)

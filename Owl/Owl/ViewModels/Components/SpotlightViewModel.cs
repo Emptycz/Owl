@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Owl.Enums;
+using Microsoft.Extensions.DependencyInjection;
 using Owl.Factories;
 using Owl.Models;
 using Owl.Repositories.RequestNode;
@@ -24,13 +24,13 @@ public partial class SpotlightViewModel : ViewModelBase
 
     public event EventHandler<bool>? IsOpenChanged;
 
-    public SpotlightViewModel(
-        ISpotlightRepository spotlightRepository,
-        IRequestNodeRepository nodeRepository)
+    public SpotlightViewModel()
     {
-        _spotlightRepository = spotlightRepository;
+        _spotlightRepository = App.Current?.Services?.GetRequiredService<ISpotlightRepository>()
+            ?? throw new InvalidOperationException("SpotlightRepository is not registered in the service provider.");
         _nodeState = RequestNodeState.Instance;
-        _nodeRepository = nodeRepository;
+        _nodeRepository = App.Current?.Services?.GetRequiredService<IRequestNodeRepository>()
+            ?? throw new InvalidOperationException("RequestNodeRepository is not registered in the service provider.");
     }
 
     [RelayCommand]

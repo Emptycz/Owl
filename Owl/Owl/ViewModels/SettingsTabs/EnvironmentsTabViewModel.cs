@@ -1,21 +1,22 @@
+using System;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Owl.Models;
+using Microsoft.Extensions.DependencyInjection;
 using Owl.Repositories.Environment;
 
 namespace Owl.ViewModels.SettingsTabs;
 
 public partial class EnvironmentsTabViewModel : ViewModelBase
 {
-    [ObservableProperty] private ObservableCollection<Environment> _environments;
-    [ObservableProperty] private Environment? _selectedEnvironment;
+    [ObservableProperty] private ObservableCollection<Owl.Models.Environment> _environments;
+    [ObservableProperty] private Owl.Models.Environment? _selectedEnvironment;
 
     private readonly IEnvironmentRepository _environmentRepository;
-    public EnvironmentsTabViewModel(IEnvironmentRepository environmentRepository)
+    public EnvironmentsTabViewModel()
     {
-        _environmentRepository = environmentRepository;
-        _environments = new ObservableCollection<Environment>(_environmentRepository.GetAll());
+        _environmentRepository = App.Current?.Services?.GetRequiredService<IEnvironmentRepository>() ?? throw new InvalidOperationException("Environment repository is not registered in the service collection.");
+        _environments = new ObservableCollection<Owl.Models.Environment>(_environmentRepository.GetAll());
     }
 
     [RelayCommand]

@@ -47,6 +47,10 @@
         <DependentUpon>ErrorResponseTab.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Views\Pages\SettingsPageView.axaml.cs">
+        <DependentUpon>SettingsWindow.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\Utils\Utils.csproj" />
@@ -54,5 +58,11 @@
 
     <ItemGroup>
       <UpToDateCheckInput Remove="Views\Icons\SyncCircleIcon.axaml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Update="Views\Components\VariableTextDisplay.axaml">
+        <DependentUpon>VariableTextDisplay.axaml</DependentUpon>
+      </AdditionalFiles>
     </ItemGroup>
 </Project>

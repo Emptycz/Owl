@@ -30,7 +30,9 @@
                 IconSource="fa-solid fa-layer-group" />
             <components:IconButton
                 IconTitle="Settings"
-                IconSource="fa-solid fa-cog" />
+                IconSource="fa-solid fa-cog"
+                Command="{Binding RouteCommand}"
+                CommandParameter="Settings" />
         </StackPanel>
         <ContentControl
             Grid.Column="1"

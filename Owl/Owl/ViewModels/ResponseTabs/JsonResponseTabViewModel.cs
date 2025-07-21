@@ -35,6 +35,8 @@ public partial class JsonResponseTabViewModel : ViewModelBase
     {
         if (node is null || node.Response is null) return string.Empty;
 
+        Log.Warning("Parsing JSON response content: {0}", node.Response.Headers);
+
         Log.Debug("Parsing JSON content");
         using var contentStream = node.Response.Content.ReadAsStream();
         using var jsonDocument = JsonDocument.Parse(contentStream);
@@ -43,6 +45,7 @@ public partial class JsonResponseTabViewModel : ViewModelBase
         {
             jsonDocument.WriteTo(writer);
         }
+
         return Encoding.UTF8.GetString(outputStream.ToArray());
     }
 }

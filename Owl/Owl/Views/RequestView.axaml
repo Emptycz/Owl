@@ -5,6 +5,7 @@
              xmlns:vm="using:Owl.ViewModels"
              xmlns:converters="using:Owl.Converters"
              xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
+             xmlns:components="clr-namespace:Owl.Views.Components"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Owl.Views.RequestView"
              x:DataType="vm:RequestViewModel"
@@ -80,6 +81,11 @@
                      IsEnabled="{Binding !!Request}"
                      TextChanged="TextBox_UrlChanged"
                      Watermark="https://localhost" />
+            <components:VariableTextDisplay
+                TemplateText="test/1"
+                VerticalAlignment="Center"
+                VariableClickCommand="{Binding VariableClickCommand}"
+                Grid.Column="1" />
             <Button Command="{Binding SendRequestCommand}" Grid.Row="0" Width="75" HorizontalContentAlignment="Center"
                     IsEnabled="{Binding !!Request}"
                     avalonia:Attached.Icon="fa-solid fa-paper-plane"

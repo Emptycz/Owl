@@ -1,0 +1,8 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="Owl.Views.Components.VariableTextDisplay">
+    <Border Background="Transparent" Padding="4">
+        <StackPanel x:Name="PART_Container" Orientation="Horizontal"/>
+    </Border>
+</UserControl>

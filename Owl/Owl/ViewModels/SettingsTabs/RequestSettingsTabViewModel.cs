@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.DependencyInjection;
 using Owl.Models;
 using Owl.Repositories.Settings;
 
@@ -20,10 +21,10 @@ public partial class RequestSettingsTabViewModel : ViewModelBase
 
     private readonly ISettingsRepository _settingsRepository;
 
-    public RequestSettingsTabViewModel(ISettingsRepository settingsRepository)
+    public RequestSettingsTabViewModel()
     {
         Console.WriteLine("Init RequestSettingsTabViewModel");
-        _settingsRepository = settingsRepository;
+        _settingsRepository = App.Current?.Services?.GetRequiredService<ISettingsRepository>() ?? throw new InvalidOperationException("Settings repository is not registered in the service collection.");
         Console.WriteLine("2.");
         _settingsRepository.RepositoryHasChanged += (_, settings) => Settings = settings.NewValue;
         Console.WriteLine("3.");
